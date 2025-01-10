@@ -1,14 +1,16 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import serviceAccount from "../serviceAccountKey.json";
-
 import * as admin from "firebase-admin";
+
 dotenv.config();
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+  databaseURL: "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/",
 });
-const db = admin.firestore();
+
+const db = admin.database();
 
 const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
@@ -56,7 +58,7 @@ async function summarizeLegislation(legislationUrl: string) {
           {
             role: "system",
             content:
-              "Begin the summary with `This law is about...`. You are an assistant that explains the legal texts concisely in a summary, and in laymons terms.",
+              "Begin the summary with `This law is about...`. You are an assistant that explains the legal texts concisely in a summary, and in layman's terms.",
           },
           {
             role: "user",
@@ -103,15 +105,18 @@ async function summarizeLegislation(legislationUrl: string) {
     const summary2 = results[1].data.choices[0].message.content.trim();
 
     // Use the title of the legislation as the document name
-    const documentName = legislationTitle.replace(/\s+/g, "-").toLowerCase();
+    const documentName = legislationTitle
+      .replace(/\W+/g, "-")
+      .toLowerCase();
 
-    // Store summary in Firestore with the title as the document name
-    await db.collection("legislationSummaries").doc(documentName).set({
+    // Store summary in Realtime Database
+    await db.ref(`legislationSummaries/${documentName}`).set({
       title: legislationTitle,
       summary1,
       summary2,
-      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      timestamp: admin.database.ServerValue.TIMESTAMP,
     });
+
     console.log("Stored summary:", summary1, summary2);
   } catch (error) {
     console.error("Error processing legislation:", error);

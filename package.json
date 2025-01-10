@@ -10,6 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "firebase-admin": "^13.0.2"
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "firebase-admin": "^13.0.2",
+    "openai": "^4.78.0"
   }
 }
