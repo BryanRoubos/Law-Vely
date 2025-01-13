@@ -7,8 +7,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "outDir": "./dist",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,  // Allow importing JSON modules
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "firebase.ts"], 
+  "include": ["**/*.ts", "firebase.ts"],
   "exclude": ["node_modules"]
 }
