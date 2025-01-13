@@ -1,7 +1,14 @@
 {
-    "compilerOptions": {
-      "resolveJsonModule": true,
-      "esModuleInterop": true,
-      "moduleResolution": "node"
-    }
-  }
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "target": "ES2020",
+    "module": "commonjs",
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "."
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

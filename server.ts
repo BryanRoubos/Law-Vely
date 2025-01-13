@@ -1,8 +1,11 @@
 import dotenv from "dotenv";
 import * as admin from "firebase-admin";
+import express, { Request, Response } from "express";
+import cors from "cors";
 import axios from "axios";
 import serviceAccount from "./serviceAccountKey.json";
 
+// Initialize environment variables and Firebase Admin SDK
 dotenv.config();
 
 admin.initializeApp({
@@ -12,15 +15,13 @@ admin.initializeApp({
 });
 
 const db = admin.database();
+const app = express();
+const PORT = process.env.PORT || 3000;
 const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
-// URLs to process
-const legislationUrls = [
-  "https://www.legislation.gov.uk/ukpga/Geo6/14-15/35/contents",
-  "https://www.legislation.gov.uk/ukpga/2019/4/contents",
-  "https://www.legislation.gov.uk/uksi/1992/3013/made/data.xht?view=snippet&wrap=true",
-  "https://www.legislation.gov.uk/ukpga/2018/21/data.xht?view=snippet&wrap=true",
-];
+// Middleware
+app.use(cors());
+app.use(express.json());
 
 // Function to create a slug from a title
 const createSlug = (title: string) =>
@@ -29,13 +30,13 @@ const createSlug = (title: string) =>
 // Function to summarize legislation
 const summarizeLegislation = async (url: string) => {
   try {
-    // Fetch the legislation text
+    // Step 1: Fetch the legislation text
     const legislationResponse = await axios.get(url, {
       headers: { "Content-Type": "text/plain" },
     });
     const legislationText = legislationResponse.data;
 
-    // Extract the title
+    // Step 2: Extract the title
     const titleResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -58,7 +59,7 @@ const summarizeLegislation = async (url: string) => {
     );
     const title = titleResponse.data.choices[0].message.content.trim();
 
-    // Generate summaries
+    // Step 3: Generate summaries
     const summaryResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -82,9 +83,10 @@ const summarizeLegislation = async (url: string) => {
     );
     const summary = summaryResponse.data.choices[0].message.content.trim();
 
-    // Generate a unique identifier
+    // Step 4: Generate a unique identifier
     const slug = createSlug(title);
 
+    // Return the structured data
     return {
       id: slug,
       title,
@@ -97,26 +99,59 @@ const summarizeLegislation = async (url: string) => {
   }
 };
 
-// Seed the database
-const seedDatabase = async () => {
+// API Endpoints
+app.get("/summaries", async (req: Request, res: Response) => {
   try {
-    const results = await Promise.all(
-      legislationUrls.map((url) => summarizeLegislation(url))
-    );
-
-    const validResults = results.filter((result) => result !== null);
-
-    for (const legislation of validResults) {
-      await db.ref(`legislationSummaries/${legislation.id}`).set(legislation);
-      console.log(`Stored legislation: ${legislation.title}`);
-    }
-
-    console.log("Database seeding complete.");
+    const snapshot = await db.ref("legislationSummaries").once("value");
+    const summaries = snapshot.val();
+    res.status(200).json(summaries);
   } catch (error) {
-    console.error("Error seeding database:", error.message);
-  } finally {
-    process.exit();
+    console.error("Error fetching summaries:", error.message);
+    res.status(500).json({ error: "Failed to fetch summaries." });
   }
-};
+});
 
-seedDatabase();
+app.get("/summaries/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    const snapshot = await db.ref(`legislationSummaries/${id}`).once("value");
+    const summary = snapshot.val();
+    if (summary) {
+      res.status(200).json(summary);
+    } else {
+      res.status(404).json({ message: "Summary not found." });
+    }
+  } catch (error) {
+    console.error(`Error fetching summary with ID ${id}:`, error.message);
+    res.status(500).json({ error: "Failed to fetch summary." });
+  }
+});
+
+app.post("/summaries", async (req: Request, res: Response) => {
+  const { url } = req.body;
+
+  if (!url) {
+    return res.status(400).json({ error: "Legislation URL is required." });
+  }
+
+  try {
+    const summary = await summarizeLegislation(url);
+    if (summary) {
+      await db.ref(`legislationSummaries/${summary.id}`).set(summary);
+      res
+        .status(201)
+        .json({ message: "Summary created successfully.", summary });
+    } else {
+      res.status(500).json({ error: "Failed to generate summary." });
+    }
+  } catch (error) {
+    console.error("Error creating summary:", error.message);
+    res.status(500).json({ error: "Failed to create summary." });
+  }
+});
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
