@@ -7,7 +7,8 @@ dotenv.config();
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-  databaseURL: "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/",
+  databaseURL:
+    "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/",
 });
 
 const db = admin.database();
@@ -16,13 +17,11 @@ const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
 async function summarizeLegislation(legislationUrl: string) {
   try {
-    // Fetch the legislation text from the provided URL
     const legislationResponse = await axios.get(legislationUrl, {
       headers: { "Content-Type": "text/plain" },
     });
     const legislationText = legislationResponse.data;
 
-    // Step 1: Ask AI to extract the title
     const titleResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -51,7 +50,6 @@ async function summarizeLegislation(legislationUrl: string) {
     const legislationTitle =
       titleResponse.data.choices[0].message.content.trim();
 
-    // Step 2: Ask AI to summarize the legislation text
     const payloads = [
       {
         messages: [
@@ -104,12 +102,8 @@ async function summarizeLegislation(legislationUrl: string) {
     const summary1 = results[0].data.choices[0].message.content.trim();
     const summary2 = results[1].data.choices[0].message.content.trim();
 
-    // Use the title of the legislation as the document name
-    const documentName = legislationTitle
-      .replace(/\W+/g, "-")
-      .toLowerCase();
+    const documentName = legislationTitle.replace(/\W+/g, "-").toLowerCase();
 
-    // Store summary in Realtime Database
     await db.ref(`legislationSummaries/${documentName}`).set({
       title: legislationTitle,
       summary1,
@@ -125,11 +119,9 @@ async function summarizeLegislation(legislationUrl: string) {
 
 const legislationUrlAnimals =
   "https://www.legislation.gov.uk/ukpga/Geo6/14-15/35/contents";
-// summarizeLegislation(legislationUrlAnimals);
 
 const legislationUrlTenants =
   "https://www.legislation.gov.uk/ukpga/2019/4/contents";
-// summarizeLegislation(legislationUrlTenants);
 
 const legislationUrlRoadTraffic =
   "https://www.legislation.gov.uk/uksi/1992/3013/made/data.xht?view=snippet&wrap=true";
