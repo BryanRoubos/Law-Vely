@@ -2,8 +2,11 @@ import dotenv from "dotenv";
 import * as admin from "firebase-admin";
 import axios from "axios";
 import serviceAccount from "./serviceAccountKey.json";
+import * as cheerio from "cheerio";
 
 dotenv.config();
+
+// console.log("Environment Variables Loaded:", process.env);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
@@ -16,10 +19,12 @@ const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
 // URLs to process
 const legislationUrls = [
-  "https://www.legislation.gov.uk/ukpga/Geo6/14-15/35/contents",
-  "https://www.legislation.gov.uk/ukpga/2019/4/contents",
+  "https://www.legislation.gov.uk/ukpga/Geo6/14-15/35/data.xht?view=snippet&wrap=true",
   "https://www.legislation.gov.uk/uksi/1992/3013/made/data.xht?view=snippet&wrap=true",
   "https://www.legislation.gov.uk/ukpga/2018/21/data.xht?view=snippet&wrap=true",
+  "https://www.legislation.gov.uk/ukpga/2024/25/enacted/data.xht?view=snippet&wrap=true",
+  "https://www.legislation.gov.uk/ukpga/2024/24/data.xht?view=snippet&wrap=true",
+  "https://www.legislation.gov.uk/ukpga/2024/20/data.xht?view=snippet&wrap=true",
 ];
 
 // Function to create a slug from a title
@@ -33,7 +38,20 @@ const summarizeLegislation = async (url: string) => {
     const legislationResponse = await axios.get(url, {
       headers: { "Content-Type": "text/plain" },
     });
+
+    // Parse HTML and extract the text content using Cheerio
+    const $ = cheerio.load(legislationResponse.data);
+    const textContent = $(".LegRHS.LegP1Text").text().trim(); // Extracting the text from the relevant element
+
+    // console.log("Extracted Text:", textContent);
+
+    // console.log("Legislation text:", legislationResponse.data);
     const legislationText = legislationResponse.data;
+
+    if (!legislationText) {
+      console.error("No legislation text found at URL:", url);
+      return null;
+    }
 
     // Extract the title
     const titleResponse = await axios.post(
@@ -58,29 +76,65 @@ const summarizeLegislation = async (url: string) => {
     );
     const title = titleResponse.data.choices[0].message.content.trim();
 
-    // Generate summaries
-    const summaryResponse = await axios.post(
-      "https://api.openai.com/v1/chat/completions",
+    // Step 2: Ask AI to summarize the legislation text
+    const summaryPayloads = [
       {
-        model: "gpt-3.5-turbo",
         messages: [
           {
             role: "system",
             content:
-              "Summarize the following legal text concisely in layman's terms.",
+              "Begin the summary with `This law is about...`. You are an assistant that explains the legal texts concisely in a summary, and in layman's terms.",
           },
-          { role: "user", content: legislationText },
+          {
+            role: "user",
+            content: `Summarize and explain the following legal text concisely:\n\n${legislationText}`,
+          },
         ],
-        max_tokens: 400,
       },
       {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-        },
-      }
+        messages: [
+          {
+            role: "system",
+            content:
+              "Explain each sub-section of the act in a step-by-step manner, starting with `This law is about...`. Make it simple and easy to understand.",
+          },
+          {
+            role: "user",
+            content: `Summarize and explain the following legal text concisely:\n\n${legislationText}`,
+          },
+        ],
+      },
+    ];
+
+    // Generate summaries
+    const summaryResponse = await Promise.all(
+      summaryPayloads.map((payload) =>
+        axios.post(
+          "https://api.openai.com/v1/chat/completions",
+          {
+            model: "gpt-3.5-turbo",
+            messages: payload.messages,
+            max_tokens: 400,
+            temperature: 0.7,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${OPENAI_API_KEY}`,
+            },
+          }
+        )
+      )
     );
-    const summary = summaryResponse.data.choices[0].message.content.trim();
+
+    // console.log("Summary Response:", summaryResponse.data);
+    const summaryOfLegislation =
+      summaryResponse[0].data.choices[0].message.content.trim();
+    const summaryOfSubSections =
+      summaryResponse[1].data.choices[0].message.content.trim();
+
+    console.log("summary 1 response:", summaryOfLegislation);
+    console.log("summary 2 response:", summaryOfSubSections);
 
     // Generate a unique identifier
     const slug = createSlug(title);
@@ -88,7 +142,8 @@ const summarizeLegislation = async (url: string) => {
     return {
       id: slug,
       title,
-      summary,
+      summaryOfLegislation,
+      summaryOfSubSections,
       timestamp: admin.database.ServerValue.TIMESTAMP,
     };
   } catch (error) {
@@ -119,4 +174,12 @@ const seedDatabase = async () => {
   }
 };
 
-seedDatabase();
+const dodgyUrl =
+  "https://www.legislation.gov.uk/ukpga/2018/21/data.xht?view=snippet&wrap=true";
+
+const zooUrl =
+  "https://www.legislation.gov.uk/ukpga/2024/20/data.xht?view=snippet&wrap=true";
+
+// summarizeLegislation(zooUrl);
+
+seedDatabase().catch(console.error);
