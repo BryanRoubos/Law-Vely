@@ -1,6 +1,6 @@
-const db = require("./firebase");
+const { db } = require("./firebase");
 
-const seed = ( userData ) => {
+const seed = (userData: { username: string, name: string, avatar_url?: string | null }[]) => {
 
   const usersRef = db.ref('users');
 
@@ -19,7 +19,7 @@ const seed = ( userData ) => {
     .then(() => {
       console.log("Users seeded!");
     })
-    .catch((err) => {
+    .catch((err: Error) => { 
       console.error("error seeding users", err);
     });
 };

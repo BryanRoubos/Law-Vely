@@ -1,6 +1,6 @@
 import axios from "axios";
 import dotenv from "dotenv";
-import serviceAccount from "../../../serviceAccountKey.json";
+import serviceAccount from "../../serviceAccountKey.json";
 import * as admin from "firebase-admin";
 
 dotenv.config();
