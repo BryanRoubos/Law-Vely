@@ -1,5 +1,4 @@
 import express from "express";
-import { Request } from "express";
 import legislationRoutes from "./routes/legislationRoutes";
 import cors from "cors";
 
