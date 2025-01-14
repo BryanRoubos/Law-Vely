@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "ts-node app.ts",
-    "dev": "nodemon app.ts"
+    "dev": "nodemon app.ts",
+    "seed": "ts-node scripts/seedDatabase.ts"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@types/cors": "^2.8.17",
     "@types/supertest": "^6.0.2",
     "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

@@ -14,9 +14,10 @@ const serviceAccount = JSON.parse(serviceAccountKey);
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/",
+    databaseURL:
+      "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/",
   });
 }
 
-const db = admin.database();
-export { admin, db };
+export const db = admin.database();
+export { admin };
