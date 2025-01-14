@@ -74,4 +74,33 @@ describe("Legislation API Tests", () => {
       })
       .catch((err) => done(err));
   });
+
+  test("GET /api/legislationSummaries/search?query=cars", (done) => {
+    mockOnce.mockResolvedValueOnce({
+      exists: () => true,
+      val: () => ({
+        "vehicle-laws-2021": {
+          title: "Vehicle Laws 2021",
+          summary1: "This law covers cars and other vehicles.",
+          summary2: "Regulations for car usage and maintenance.",
+          timestamp: 1736524657763,
+        },
+        "environment-protection-act": {
+          title: "Environment Protection Act",
+          summary1: "Regulates activities affecting the environment.",
+          summary2: "Does not specifically mention cars.",
+          timestamp: 1736524657763,
+        },
+      }),
+    });
+  request(app)
+  .get("/api/legislationSummaries/search?query=cars")
+  .expect(200)
+  .then((res) => {
+    expect(res.body).toHaveProperty("vehicle-laws-2021");
+    expect(res.body["vehicle-laws-2021"]).toHaveProperty("title", "Vehicle Laws 2021");
+    done();
+  })
+  .catch((err) => done(err));
+  })
 });

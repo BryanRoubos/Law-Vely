@@ -11,7 +11,7 @@
     "resolveJsonModule": true,  // Allow importing JSON modules
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
-    "types": ["node"]
+    "types": ["node", "jest", "express"]
   },
   "include": ["firebase.ts"],
   "exclude": ["node_modules"]
