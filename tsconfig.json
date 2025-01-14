@@ -1,14 +1,18 @@
 {
   "compilerOptions": {
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "target": "ES2020",
+    "target": "ES2019",
     "module": "commonjs",
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "."
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./built",
+    "allowJs": true,
+    "resolveJsonModule": true,  // Allow importing JSON modules
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node"]
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "firebase.ts"],
   "exclude": ["node_modules"]
 }
