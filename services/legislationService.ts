@@ -1,7 +1,7 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import * as admin from "firebase-admin";
-import db from "../config/firebase";
+import { db } from "../firebase";
 import { extractTitle, generateSummaries } from "./aiService";
 import { createSlug } from "../utils/slug";
 
@@ -11,9 +11,10 @@ export const processLegislation = async (url: string) => {
       headers: { "Content-Type": "text/plain" },
     });
 
+    // console.log("Response data:", response.data);
     // Parse HTML and extract the text content using Cheerio
     const $ = cheerio.load(response.data);
-    const textContent = $(".LegRHS.LegP1Text").text().trim();
+    const textContent = $("body").text().trim();
 
     if (!textContent) throw new Error("No legislation text found.");
 
@@ -31,7 +32,7 @@ export const processLegislation = async (url: string) => {
       timestamp: admin.database.ServerValue.TIMESTAMP,
     };
   } catch (error) {
-    console.error("Error saving to database:", error.message);
+    console.error("Error saving to database:", error);
   }
 };
 
@@ -40,6 +41,6 @@ export const saveToDatabase = async (legislation: any) => {
     await db.ref(`legislationSummaries/${legislation.id}`).set(legislation);
     console.log(`Saved legislation: ${legislation.title}`);
   } catch (error) {
-    console.error("Error saving to database:", error.message);
+    console.error("Error saving to database:", error);
   }
 };
