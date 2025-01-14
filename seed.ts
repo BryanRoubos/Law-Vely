@@ -17,7 +17,6 @@ admin.initializeApp({
 const db = admin.database();
 const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
-// URLs to process
 const legislationUrls = [
   "https://www.legislation.gov.uk/ukpga/Geo6/14-15/35/data.xht?view=snippet&wrap=true",
   "https://www.legislation.gov.uk/uksi/1992/3013/made/data.xht?view=snippet&wrap=true",
@@ -27,14 +26,8 @@ const legislationUrls = [
   "https://www.legislation.gov.uk/ukpga/2024/20/data.xht?view=snippet&wrap=true",
 ];
 
-// Function to create a slug from a title
-const createSlug = (title: string) =>
-  title.toLowerCase().replace(/\W+/g, "-").replace(/^-|-$/g, "");
-
-// Function to summarize legislation
 const summarizeLegislation = async (url: string) => {
   try {
-    // Fetch the legislation text
     const legislationResponse = await axios.get(url, {
       headers: { "Content-Type": "text/plain" },
     });
@@ -45,15 +38,14 @@ const summarizeLegislation = async (url: string) => {
 
     // console.log("Extracted Text:", textContent);
 
-    // console.log("Legislation text:", legislationResponse.data);
     const legislationText = legislationResponse.data;
+    // console.log("Legislation text:", legislationResponse.data);
 
     if (!legislationText) {
       console.error("No legislation text found at URL:", url);
       return null;
     }
 
-    // Extract the title
     const titleResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -76,7 +68,6 @@ const summarizeLegislation = async (url: string) => {
     );
     const title = titleResponse.data.choices[0].message.content.trim();
 
-    // Step 2: Ask AI to summarize the legislation text
     const summaryPayloads = [
       {
         messages: [
@@ -106,7 +97,6 @@ const summarizeLegislation = async (url: string) => {
       },
     ];
 
-    // Generate summaries
     const summaryResponse = await Promise.all(
       summaryPayloads.map((payload) =>
         axios.post(
@@ -136,7 +126,9 @@ const summarizeLegislation = async (url: string) => {
     console.log("summary 1 response:", summaryOfLegislation);
     console.log("summary 2 response:", summaryOfSubSections);
 
-    // Generate a unique identifier
+    const createSlug = (title: string) =>
+      title.toLowerCase().replace(/\W+/g, "-").replace(/^-|-$/g, "");
+
     const slug = createSlug(title);
 
     return {
@@ -152,7 +144,6 @@ const summarizeLegislation = async (url: string) => {
   }
 };
 
-// Seed the database
 const seedDatabase = async () => {
   try {
     const results = await Promise.all(
