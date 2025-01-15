@@ -1,6 +1,7 @@
 import LegislationCard from "./LegislationCard";
 import { Link } from "react-router-dom";
 
+// Define the Legislation type
 interface Legislation {
   id: string;
   summaryOfLegislation: string;
@@ -18,27 +19,14 @@ function LegislationList({ legislation }: LegislationListProps) {
     <div>
       {legislation.map((leg, index) => (
         <Link to={`/legislations/${leg.id}`}>
-          <LegislationCard
-            key={leg.id}
-            title={leg.title}
-            date={leg.timestamp}
-            summaryOfLegislation={leg.summaryOfLegislation}
-          />
+          <LegislationCard key={index} title={leg.title} date={leg.timestamp} />
         </Link>
       ))}
     </div>
   );
 }
 
-export default LegislationList
-
-
-
-
-
-
-
-
+export default LegislationList;
 
 // import LegislationCard from "./LegislationCard";
 // import { Link } from "react-router-dom";
