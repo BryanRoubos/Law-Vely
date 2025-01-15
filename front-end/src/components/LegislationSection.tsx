@@ -53,18 +53,11 @@ function LegislationSection() {
   );
 
   return (
-    <div>
-      <h1>Legislation Section</h1>
+    <div className='flex-1 p-4 space-y-4'>
+      <h1 className='text-center font-bold text-5xl pt-6'>Latest Legislation</h1>
       <LegislationList legislation={legislationArray} />
     </div>
   );
 }
 
 export default LegislationSection;
-
-//  return (
-//   <main className="flex-1 p-4 space-y-4">
-//   <h1>Latest Legislations</h1>
-//   <LegislationList legislation={legislationArray} />
-// </main>
-// );

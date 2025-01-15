@@ -8,9 +8,9 @@ import SingleLegislation from './components/SingleLegislation';
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-blue-100">
+    <div className="bg-blue-100">
     <Header />
-    <div className="flex flex-1 flex-col md:flex-row">
+    <div className="flex flex-1 flex-col md:flex-row ">
       <NavBar />
       <Routes>
         <Route path="/" element={<LegislationSection />} />

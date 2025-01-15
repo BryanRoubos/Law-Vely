@@ -20,16 +20,16 @@ function Header() {
     }
 
     return (
-        <header className="flex items-center justify-around w-full h-16 bg-purple-700 px-4 flex-wrap text-white p-4"> 
+        <header className="flex items-center justify-between h-16 bg-purple-700 px-4   text-white p-4"> 
             <div className="flex-shrink-0 justify-left">
                 <Logo /> 
             </div>
             <Link to='/' className="home-btn">
-                    <FontAwesomeIcon icon={faHome} className="text-2xl md:text-3xl" />
+                    <FontAwesomeIcon icon={faHome} className="sm:text-xs md:text-xl" />
                 </Link>
             <div className="flex items-center space-x-10"> 
                 
-                <div className="flex-grow relative w-full"> 
+                <div className="flex relative  max-w-xl"> 
                     <SearchBar 
                         value={searchInput} 
                         placeholder={'Search...'} 
@@ -37,10 +37,11 @@ function Header() {
                         searchBtnHandler={handleSearchBtnClick} 
                         isSearchBtnClicked={isSearchBtnClicked} 
                     /> 
+                      <FontAwesomeIcon icon={faUser} className="user-icon sm:text-xs md:text-xl pl-6 pt-1" /> 
                 </div> 
-                <FontAwesomeIcon icon={faUser} className="user-icon text-2xl md:text-3xl" /> 
+              
             </div> 
-        </header> )
+                    </header> )
 }
 
 export default Header;
