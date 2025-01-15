@@ -20,21 +20,17 @@ function Header() {
     }
 
     return (
-        <header className="bg-purple-400 text-white p-4 flex items-center justify-between">
-            <div className="flex items-center w-full h-16 bg-purple-700 px-4">
-                <Logo />
-                <Link to='/' className="home-btn"><FontAwesomeIcon icon={faHome} /></Link>
-                <SearchBar 
-                    value={searchInput}
-                    placeholder={'Search...'}
-                    searchHandler={handleSearch}
-                    searchBtnHandler={handleSearchBtnClick}
-                    isSearchBtnClicked={isSearchBtnClicked}
-                />
-                <FontAwesomeIcon icon={faUser} className="user-icon"/>
-            </div>
-        </header>
-    )
+        <header className="flex items-center justify-between w-full h-16 bg-purple-700 px-4 flex-wrap text-white p-4"> 
+            <Logo /> 
+            <div className="flex items-center space-x-4"> {/* Home Button */} <Link to='/' className="home-btn">
+            <FontAwesomeIcon icon={faHome} className="text-2xl md:text-3xl" />
+            </Link> {/* Search Bar */} 
+            <div className="relative flex items-center w-full max-w-md"> 
+            <SearchBar value={searchInput} placeholder={'Search...'} searchHandler={handleSearch} searchBtnHandler={handleSearchBtnClick} isSearchBtnClicked={isSearchBtnClicked} /> 
+            </div> {/* User Icon */} <FontAwesomeIcon icon={faUser} className="user-icon text-2xl md:text-3xl" /> 
+                    </div> 
+        </header> )
 }
 
 export default Header;
+
