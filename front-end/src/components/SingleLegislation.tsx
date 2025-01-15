@@ -40,21 +40,3 @@ function SingleLegislation() {
 }
 
 export default SingleLegislation;
-
-//   return (
-//     <div className='flex flex-col items-center p-6 bg-white shadow-lg rounded-lg max-w-4xl mx-auto mt-6'>
-//       {legislation ? (
-//         <>
-//         <SingleLegislationCard
-//             title={legislation.title}
-//             summary={legislation.summaryOfLegislation}
-//             subsections={legislation.summaryOfSubSections}
-//             date={legislation.timestamp}
-//         />
-//         </>
-//       ) : (
-//         <p className='text-center text-gray-500'>No legislation found.</p>
-//       )}
-//     </div>
-//   );
-// }
