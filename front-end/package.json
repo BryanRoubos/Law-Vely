@@ -17,6 +17,10 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    "cors": "^2.8.5",
+>>>>>>> Stashed changes
 =======
     "cors": "^2.8.5",
 >>>>>>> Stashed changes
