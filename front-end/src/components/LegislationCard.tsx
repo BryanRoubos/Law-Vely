@@ -3,23 +3,16 @@ import { manipulateDateAndTime } from "../utils/utils";
 interface LegislationCardProps {
   title: string;
   date: number;
-  summaryOfLegislation: string;
 }
 
-function LegislationCard({
-  title,
-  date,
-}: LegislationCardProps) {
+function LegislationCard({ title, date }: LegislationCardProps) {
   return (
-    <>
-      <h2 className="text-lg font-bold">{title}</h2>
-      <p className="text-sm">
+    <div className="legislation-card">
+      <h2>{title}</h2>
+      <p>
         <strong>Date:</strong> {manipulateDateAndTime(date)}
       </p>
-      {/* <p>
-        <strong>Summary:</strong> {summary}
-      </p> */}
-    </>
+    </div>
   );
 }
 
