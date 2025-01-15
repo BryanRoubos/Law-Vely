@@ -69,6 +69,8 @@ export const generateSummaries = async (
       },
     ];
 
+    
+
     const summaryResponse = await Promise.all(
       summaryPayloads.map((payload) =>
         axios.post(
@@ -101,5 +103,41 @@ export const generateSummaries = async (
   } catch (error: any) {
     console.error("Error generating summaries:", error.message);
     throw new Error("Failed to generate summaries for legislation text.");
+  }
+};
+
+export const generateCategories = async (summary: string): Promise<string[]> => {
+  try {
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: "You are a helpful assistant that classifies texts into categories.",
+          },
+          {
+            role: "user",
+            content: `Based on the following text, suggest the most relevant categories:\n\n${summary}`,
+          },
+        ],
+        max_tokens: 50,
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    const categoriesString = response.data.choices[0].message.content.trim();
+    const categories = categoriesString.split(",").map((category: string) => category.trim());
+    return categories;
+  } catch (error: any) {
+    console.error("Error generating categories:", error);
+    throw new Error("Failed to generate categories for the summary.");
   }
 };

@@ -12,10 +12,11 @@ const testLegislationService = async () => {
       const result = await processLegislation(url);
 
       if (result) {
-        const { id, title } = result;
+        const { id, title, categories } = result;
         console.log(`Processed Legislation for URL: ${url}`, {
           id,
           title,
+          categories, 
           url,
         });
       }
