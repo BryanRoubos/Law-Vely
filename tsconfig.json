@@ -6,10 +6,13 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist",
+    "outDir": "./built",
+    "allowJs": true,
     "resolveJsonModule": true,  // Allow importing JSON modules
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["node_modules/@types"],
+    "types": ["node", "jest", "express"]
   },
-  "include": ["**/*.ts", "firebase.ts"],
+  "include": ["firebase.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,5 +1,6 @@
 import {Request, Response } from "express";
 import {admin} from "../../firebase";
+import { LegislationSummaries } from "../../global";
 
 const db = admin.database();
 
@@ -41,3 +42,39 @@ export const getLegislationSummaryById = (req: Request, res: Response) => {
       res.status(500).json({ error: "Failed to fetch data" });
     });
 };
+
+export const searchLegislationSummaries = (req: Request, res: Response): void => {
+  const query = req.query.query as string | undefined;
+
+  if (!query || typeof query !== "string") {
+    res.status(400).json({ error: "invalid or missing search query" });
+    return;
+  }
+
+  const normalizedQuery = query.trim().toLowerCase()
+
+  db.ref("legislationSummaries")
+  .once("value")
+  .then((snapshot) => {
+    if (snapshot.exists()) {
+      const data = snapshot.val() as LegislationSummaries;
+      const searchResults = Object.entries(data).filter(([id, summary]) => {
+        const content = `${summary.title} ${summary.summaryOfLegislation} ${summary.summaryOfSubSections}`.toLocaleLowerCase()
+        return content.includes(normalizedQuery);
+      })
+
+      if (searchResults.length > 0) {
+        const formattedResults = Object.fromEntries(searchResults);
+        res.status(200).json(formattedResults)
+      } else {
+        res.status(404).json({msg: "no legislation found"})
+      }
+    } else {
+      res.status(404).json({msg: "no legislation found"})
+    }
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+    res.status(500).json({error: "failed to fetch data."})
+  })
+}

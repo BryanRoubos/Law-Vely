@@ -1,13 +1,23 @@
 import * as admin from "firebase-admin";
-const serviceAccount = require("./serviceAccountKey.json");
+import * as dotenv from "dotenv";
 
+dotenv.config(); // Load environment variables from .env file
+
+const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
+
+if (!serviceAccountKey) {
+  throw new Error("FIREBASE_SERVICE_ACCOUNT_KEY is missing.");
+}
+
+const serviceAccount = JSON.parse(serviceAccountKey);
 
 if (!admin.apps.length) {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-      databaseURL: "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/", // Replace with your actual database URL
-    });
-  }
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL:
+      "https://law-vely-default-rtdb.europe-west1.firebasedatabase.app/",
+  });
+}
 
-const db = admin.database();
-export { admin, db };
+export const db = admin.database();
+export { admin };
