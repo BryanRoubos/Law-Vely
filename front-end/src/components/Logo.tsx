@@ -1,35 +1,14 @@
-const Logo: React.FC = () => {
-    return (
-      <div className="logo-container">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 200 200"
-          className="logo-svg"
-        >
-          <circle
-            className="circle"
-            cx="100"
-            cy="100"
-            r="90"
-            stroke="#4CAF50"
-            strokeWidth="5"
-            fill="none"
-          />
-          <text
-            x="50%"
-            y="50%"
-            textAnchor="middle"
-            fill="#4CAF50"
-            fontSize="20"
-            fontFamily="Arial, sans-serif"
-            dy=".3em"
-          >
-            Law-Vely
-          </text>
-        </svg>
-        <p className="tagline">Simplifying Legislation</p>
-      </div>
-    );
-  };
+import logo from '../assets/law-vely-logo.png';
+
+function Logo() {
+   return (
+   <div className="w-1/6 h-full flex items-center justify-center bg-purple-700">
+      <img 
+         src={logo} 
+         alt="Law-Vely Logo" 
+         className="h-10"/>
+   </div>
+   )
+}
 
 export default Logo;
