@@ -31,3 +31,5 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
 }
 
 export default SingleLegislationCard;
+
+///comments
