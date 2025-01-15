@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
-const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
+const OPENAI_API_KEY = process.env.EMILYS_OPENAI_API_KEY;
 
 export const extractTitle = async (
   legislationTextRaw: string
@@ -38,19 +38,20 @@ export const extractTitle = async (
 
 export const generateSummaries = async (
   legislationTextRaw: string
-): Promise<{ summaryOfLegislation: string; summaryOfSubSections: string }> => {
+): Promise<{ summaryOfLegislation: string; summaryOfSubSections: string; extractTitle: string}> => {
   try {
+    const title = await extractTitle(legislationTextRaw);
     const summaryPayloads = [
       {
         messages: [
           {
             role: "system",
             content:
-              "Begin the summary with `This law is about...`. You are an assistant that explains the legal texts concisely in a summary, and in layman's terms.",
+              `Begin the summary with "The ${title} relates to..." You are an assistant that explains the legal texts concisely in a summary, and in layman's terms. Ensure the text is shorter than the original text from the url.`,
           },
           {
             role: "user",
-            content: `Summarize and explain the following legal text concisely:\n\n${legislationTextRaw}`,
+            content: `Summarize and explain the following legal text concisely, and in laymans terms:\n\n${legislationTextRaw}`,
           },
         ],
       },
@@ -59,11 +60,11 @@ export const generateSummaries = async (
           {
             role: "system",
             content:
-              "Explain each sub-section of the act in a step-by-step manner, starting with `This law is about...`. Make it simple and easy to understand.",
+              `Explain each sub-section of the act in a step-by-step manner, starting with "The subsections of ${title} cover...". Make it simple and easy to understand.`,
           },
           {
             role: "user",
-            content: `Summarize and explain the following legal text concisely:\n\n${legislationTextRaw}`,
+            content: `Summarize and explain the following legal text concisely and in laymans terms:\n\n${legislationTextRaw}`,
           },
         ],
       },
@@ -97,7 +98,7 @@ export const generateSummaries = async (
     // console.log("summary 1 response:", summaryOfLegislation);
     // console.log("summary 2 response:", summaryOfSubSections);
 
-    return { summaryOfLegislation, summaryOfSubSections };
+    return { summaryOfLegislation, summaryOfSubSections, extractTitle: title };
   } catch (error: any) {
     console.error("Error generating summaries:", error.message);
     throw new Error("Failed to generate summaries for legislation text.");
