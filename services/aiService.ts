@@ -4,6 +4,19 @@ import dotenv from "dotenv";
 dotenv.config();
 const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
+const topics = [
+  "Finance",
+  "Housing",
+  "Transportation",
+  "Health",
+  "Environment",
+  "Energy",
+  "Education",
+  "Justice",
+  "Trade",
+  "Consumer",
+];
+
 export const extractTitle = async (
   legislationTextRaw: string
 ): Promise<string> => {
@@ -106,7 +119,7 @@ export const generateSummaries = async (
   }
 };
 
-export const generateCategories = async (summary: string): Promise<string[]> => {
+export const generateCategories = async (title: string): Promise<string[]> => {
   try {
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
@@ -115,14 +128,16 @@ export const generateCategories = async (summary: string): Promise<string[]> => 
         messages: [
           {
             role: "system",
-            content: "You are a helpful assistant that classifies texts into categories.",
+            content: `You are a helpful assistant that classifies texts into specific categories. The available categories are: ${topics.join(
+              ", "
+            )}. Assign one or more of these categories to the text. Make sure all legislation goes into at least one legislation`,
           },
           {
             role: "user",
-            content: `Based on the following text, suggest the most relevant categories:\n\n${summary}`,
+            content: `Based on the following text, assign the most relevant categories:\n\n${title}`,
           },
         ],
-        max_tokens: 50,
+        max_tokens: 100,
         temperature: 0.7,
       },
       {
@@ -134,7 +149,11 @@ export const generateCategories = async (summary: string): Promise<string[]> => 
     );
 
     const categoriesString = response.data.choices[0].message.content.trim();
-    const categories = categoriesString.split(",").map((category: string) => category.trim());
+    const categories = categoriesString
+      .split(",")
+      .map((category: string) => category.trim())
+      .filter((category: string) => topics.includes(category)); // Ensure the categories match the predefined topics
+
     return categories;
   } catch (error: any) {
     console.error("Error generating categories:", error);
