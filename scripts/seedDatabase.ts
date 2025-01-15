@@ -4,9 +4,9 @@ import {
 } from "../services/legislationService";
 
 const legislationUrls = [
-  //   "https://www.legislation.gov.uk/uksi/2025/8/made/data.xht?view=snippet&wrap=true",
-  //   "https://www.legislation.gov.uk/ukpga/2018/21/data.xht?view=snippet&wrap=true",
   "https://www.legislation.gov.uk/ukpga/2024/14/data.xht?view=snippet&wrap=true",
+  "https://www.legislation.gov.uk/ukpga/2023/22/data.xht?view=snippet&wrap=true",
+  "https://www.legislation.gov.uk/ukpga/2023/11/data.xht?view=snippet&wrap=true",
   // Add more URLs here
 ];
 

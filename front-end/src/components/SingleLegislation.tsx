@@ -12,7 +12,7 @@ interface Legislation {
 }
 
 function SingleLegislation() {
-  const [legislation, setLegislation] = useState<Legislation>({});
+  const [legislation, setLegislation] = useState<Legislation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<string | null>(null);
 
@@ -34,18 +34,18 @@ function SingleLegislation() {
 
   if (isLoading) return <p>Loading...</p>;
   if (hasError) return <p>Error: {hasError}</p>;
+  if (!legislation) return <p>No legislation found.</p>;
 
   return <SingleLegislationCard legislation={legislation} />;
 }
 
 export default SingleLegislation;
 
-
 //   return (
 //     <div className='flex flex-col items-center p-6 bg-white shadow-lg rounded-lg max-w-4xl mx-auto mt-6'>
 //       {legislation ? (
 //         <>
-//         <SingleLegislationCard 
+//         <SingleLegislationCard
 //             title={legislation.title}
 //             summary={legislation.summaryOfLegislation}
 //             subsections={legislation.summaryOfSubSections}
@@ -58,4 +58,3 @@ export default SingleLegislation;
 //     </div>
 //   );
 // }
-
