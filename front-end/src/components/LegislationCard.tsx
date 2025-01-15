@@ -1,20 +1,26 @@
-interface Legislation {
-    legislationTitle: string;
-    legislationSummary: string;
-    legislationCategory: string;
-}
+import { manipulateDateAndTime } from "../utils/utils";
 
 interface LegislationCardProps {
-    legislation: Legislation;
+  title: string;
+  date: number;
+  summaryOfLegislation: string;
 }
 
-function LegislationCard({ legislation }: LegislationCardProps): JSX.Element {
-    return (
-      <div className="legislation-card">
-        <h2 className="legislation-title">{legislation.legislationTitle}</h2>
-        <p className="legislation-summary">Summary: {legislation.legislationSummary}</p>
-        <p>Category: {legislation.legislationCategory}</p>
-      </div>
-    );
+function LegislationCard({
+  title,
+  date,
+}: LegislationCardProps) {
+  return (
+    <>
+      <h2 className="text-lg font-bold">{title}</h2>
+      <p className="text-sm">
+        <strong>Date:</strong> {manipulateDateAndTime(date)}
+      </p>
+      {/* <p>
+        <strong>Summary:</strong> {summary}
+      </p> */}
+    </>
+  );
 }
+
 export default LegislationCard;

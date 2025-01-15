@@ -1,35 +1,73 @@
-import LegislationCard from './LegislationCard';
+import LegislationCard from "./LegislationCard";
+import { Link } from "react-router-dom";
 
-const legislationData = [
-    {
-      legislationTitle: 'Legislation 1',
-      legislationSummary: 'Legislation Summary 1',
-      legislationCategory: 'Transport',
-    },
-    {
-      legislationTitle: 'Legislation 2',
-      legislationSummary: 'Legislation Summary 2',
-      legislationCategory: 'Education',
-    },
-    {
-      legislationTitle: 'Legislation 3',
-      legislationSummary: 'Legislation Summary 3',
-      legislationCategory: 'Policing',
-    },
-  ];
+interface Legislation {
+  id: string;
+  summaryOfLegislation: string;
+  summaryOfSubSections: string;
+  timestamp: number;
+  title: string;
+}
 
-function LegislationList() {
-    return (
-      <ul className="legislation-list">
-        {legislationData.map((legislation) => {
-          return (
-            <li key={legislation.legislationTitle}>
-              <LegislationCard legislation={legislation} />
-            </li>
-          );
-        })}
-      </ul>
-    );
-  }
+interface LegislationListProps {
+  legislation: Legislation[];
+}
+
+function LegislationList({ legislation }: LegislationListProps) {
+  return (
+    <div>
+      {legislation.map((leg, index) => (
+        <Link to={`/legislations/${leg.id}`}>
+          <LegislationCard
+            key={leg.id}
+            title={leg.title}
+            date={leg.timestamp}
+            summaryOfLegislation={leg.summaryOfLegislation}
+          />
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 export default LegislationList;
+
+
+
+
+
+
+
+
+
+// import LegislationCard from "./LegislationCard";
+// import { Link } from "react-router-dom";
+
+// interface Legislation {
+//   id: string;
+//   summaryOfLegislation: string;
+//   timestamp: number;
+//   title: string;
+// }
+
+// interface LegislationListProps {
+//   legislation: Legislation[];
+// }
+
+// function LegislationList({ legislation }: LegislationListProps) {
+//   return (
+//     <div className="bg-green-200 p-4 rounded-md shadow-md">
+//       {legislation.map((leg, index) => (
+//         <Link to={`/legislations/${leg.id}`} key={index}>
+//           <LegislationCard
+//             title={leg.title}
+//             date={leg.timestamp}
+//             summary={leg.summaryOfLegislation}
+//           />
+//         </Link>
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default LegislationList;
