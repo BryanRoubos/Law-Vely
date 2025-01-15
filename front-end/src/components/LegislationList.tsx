@@ -30,7 +30,7 @@ function LegislationList({ legislation }: LegislationListProps) {
   );
 }
 
-export default LegislationList;
+export default LegislationList
 
 
 
