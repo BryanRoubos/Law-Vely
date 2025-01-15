@@ -94,8 +94,8 @@ export const generateSummaries = async (
     const summaryOfSubSections =
       summaryResponse[1].data.choices[0].message.content.trim();
 
-    console.log("summary 1 response:", summaryOfLegislation);
-    console.log("summary 2 response:", summaryOfSubSections);
+    // console.log("summary 1 response:", summaryOfLegislation);
+    // console.log("summary 2 response:", summaryOfSubSections);
 
     return { summaryOfLegislation, summaryOfSubSections };
   } catch (error: any) {

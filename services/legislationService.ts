@@ -27,6 +27,7 @@ export const processLegislation = async (url: string) => {
     return {
       id,
       title,
+      url,
       summaryOfLegislation,
       summaryOfSubSections,
       timestamp: admin.database.ServerValue.TIMESTAMP,
