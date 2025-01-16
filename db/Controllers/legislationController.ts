@@ -90,15 +90,14 @@ interface LegislationSummary {
   url: string;
   summaryOfLegislation: string;
   summaryOfSubSections: string;
-  categories?: string[]; // optional, in case no category is assigned
-  timestamp: any; // using `any` to account for Firebase's server timestamp
+  categories?: string[];
+  timestamp: any;
 }
-// Controller: Get legislation summaries by category
+
 export const getLegislationSummariesByCategory: RequestHandler = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  // Ensuring the return type is Promise<void>
   const { category } = req.params;
 
   try {
@@ -106,12 +105,10 @@ export const getLegislationSummariesByCategory: RequestHandler = async (
     const summaries = snapshot.val();
 
     if (!summaries) {
-      // Send a response without returning the response object
       res.status(404).json({ msg: "No legislation found" });
-      return; // Just use return to end the function
+      return;
     }
 
-    // Filter summaries by category
     const filteredSummaries = Object.entries(summaries).reduce(
       (acc: Record<string, LegislationSummary>, [id, summary]) => {
         const typedSummary = summary as LegislationSummary;
@@ -126,13 +123,11 @@ export const getLegislationSummariesByCategory: RequestHandler = async (
       {}
     );
 
-    // If no summaries match the category, return a 404
     if (Object.keys(filteredSummaries).length === 0) {
       res.status(404).json({ msg: "No legislation found for this category" });
       return; // Use return here to end the function early
     }
 
-    // Send filtered summaries as JSON response
     res.status(200).json(filteredSummaries);
   } catch (error) {
     console.error("Error fetching legislation summaries by category:", error);
