@@ -22,7 +22,7 @@ function SearchBar({ placeholder, onSearchClick }: SearchBarProps) {
   };
 
   return (
-    <div className="flex items-center rounded-md w-full sm:w-64 max-w-full mx-auto px-2">
+    <div className="flex items-center rounded-md w-full sm:w-64 max-w-full mx-auto px-2"> {/* sm:w-64 for small screens */}
       <input
         type="search"
         className="flex-grow text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"

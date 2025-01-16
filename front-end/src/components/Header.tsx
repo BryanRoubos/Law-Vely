@@ -56,8 +56,7 @@ function Header() {
     
 
             <div className="w-full px-2 flex items-center">
-                <SearchBar placeholder="Search..."          
-                onSearchClick={handleSearchBtnClick} />
+            <SearchBar placeholder="Search..."          onSearchClick={handleSearchBtnClick} />
             </div>
 
             <button
@@ -67,11 +66,12 @@ function Header() {
             </button>
         </div>
 )}
-
+        {/* Search Bar for Larger Screens */}
         <div className="hidden sm:block">
           <SearchBar placeholder="Search..." onSearchClick={handleSearchBtnClick} />
         </div>
 
+        {/* User Icon */}
         <FontAwesomeIcon
           icon={faUser}
           className="text-xl cursor-pointer hover:text-purple-300 ml-4"

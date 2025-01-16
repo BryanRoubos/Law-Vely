@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchLegislationData } from "../api";
-import { useSearchParams } from "react-router-dom";
 import LegislationList from "./LegislationList";
+import { useSearchParams } from "react-router-dom";
 
 interface Legislation {
   id: string;
