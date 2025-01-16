@@ -27,8 +27,8 @@ function Header() {
   };
 
   return (
-    <header className="relative flex items-center justify-between h-16 bg-purple-700 px-4 text-white">
-      <div className="flex-shrink-0">
+    <header id="Header-1" className="relative flex items-center justify-between h-16 bg-purple-700 px-4 text-white">
+      <div id="Header-2" className="flex-shrink-0">
         <Logo />
       </div>
 
@@ -36,7 +36,7 @@ function Header() {
         <FontAwesomeIcon icon={faHome} className="text-xl" />
       </Link>
 
-      <div className="flex items-center">
+      <div id="Header-3" className="flex items-center">
         <button
           onClick={toggleSearchBar}
           className="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-600 sm:hidden"
@@ -45,23 +45,25 @@ function Header() {
         </button>
 
         {isSearchVisible && (
-            <div className="absolute inset-0 top-0 bg-purple-700 pt-4 sm:hidden items-center flex justify-between ml-3">
+            <div id="Header-4" className="absolute inset-0 top-0 bg-purple-700 pt-4 sm:hidden items-center flex justify-between ml-3">
 
             <button
-            onClick={toggleSearchBar}
-            className="text-white text-2xl mr-2"
+                onClick={toggleSearchBar}
+                className="text-white text-2xl mr-2"
             >
-            <FontAwesomeIcon icon={faArrowLeftLong} />
+                <FontAwesomeIcon icon={faArrowLeftLong} />
             </button>
     
 
-            <div className="w-full px-2 flex items-center">
-            <SearchBar placeholder="Search..."          onSearchClick={handleSearchBtnClick} />
+            <div id="Header-5" className="w-full px-2 flex items-center">
+            <SearchBar 
+                placeholder="Search..."
+                onSearchClick={handleSearchBtnClick} />
             </div>
 
             <button
-            onClick={toggleSearchBar}
-            className="absolute top-4 right-4 text-white text-2xl"
+                onClick={toggleSearchBar}
+                className="absolute top-4 right-4 text-white text-2xl"
             >
             </button>
         </div>

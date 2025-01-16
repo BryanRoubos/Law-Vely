@@ -36,7 +36,7 @@ function SingleLegislation() {
   if (hasError) return <p>Error: {hasError}</p>;
   if (!legislation) return <p>No legislation found.</p>;
 
-  return (<div className='flex flex-col items-center p-6 bg-green-200 shadow-lg rounded-lg max-w-4xl mx-auto mt-6'>
+  return (<div id="SL-1" className='flex flex-col items-center p-6 bg-green-200 shadow-lg rounded-lg m-10 mt-6'>
     <SingleLegislationCard legislation={legislation} />
     </div>  );
 }

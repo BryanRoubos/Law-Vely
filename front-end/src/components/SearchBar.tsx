@@ -22,15 +22,17 @@ function SearchBar({ placeholder, onSearchClick }: SearchBarProps) {
   };
 
   return (
-    <div className="flex items-center rounded-md w-full sm:w-64 max-w-full mx-auto px-2"> {/* sm:w-64 for small screens */}
+    <div id="Search-1" className="flex items-center rounded-md w-full sm:w-64 max-w-full mx-auto px-2"> {/* sm:w-64 for small screens */}
       <input
         type="search"
+        id="Search-2"
         className="flex-grow text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"
         placeholder={placeholder}
         value={searchQuery}
         onChange={handleInputChange}
       />
       <button
+        id="Search-3"
         className="ml-2 text-white rounded-md hover:bg-purple-600 px-4"
         onClick={onSearchClick}
       >
