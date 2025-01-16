@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchLegislationData } from "../api";
-import LegislationList from "./LegislationList";
 import { useSearchParams } from "react-router-dom";
+import LegislationList from "./LegislationList";
 
 interface Legislation {
   id: string;
@@ -53,20 +53,23 @@ function LegislationSection() {
     })
   );
 
-  const filteredLegislation = legislationArray.filter(
-    (leg) =>
-      leg.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      leg.summaryOfLegislation
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase()) ||
-      leg.summaryOfSubSections.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredLegislation = legislationArray.filter((leg) => {
+    const title = leg.title || ""; // Fallback to empty string if undefined
+    const summaryOfLegislation = leg.summaryOfLegislation || "";
+    const summaryOfSubSections = leg.summaryOfSubSections || "";
+
+    return (
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      summaryOfLegislation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      summaryOfSubSections.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   return (
-    <div className="flex-1 p-4 space-y-4">
-      <h1 className="text-center font-bold md:text-5xl pt-6 text-sm">
-        Latest Legislations
-      </h1>
+    <div id="LS-1" className="flex-1 p-4 space-y-4">
+      {/* <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
+        Latest Legislation
+      </h1> */}
 
       {searchQuery && filteredLegislation.length === 0 ? (
         <p>No legislations match your search for "{searchQuery}".</p>
