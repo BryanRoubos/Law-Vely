@@ -1,5 +1,6 @@
 import * as admin from "firebase-admin";
 import * as dotenv from "dotenv";
+import { initializeApp } from "firebase-admin/app";
 
 dotenv.config(); // Load environment variables from .env file
 

@@ -1,22 +1,46 @@
 import React from "react";
-import { auth, googleProvider } from "../firebaseConfig";
+import { auth, googleProvider, db } from "../firebaseConfig";
 import { signInWithPopup, UserCredential } from "firebase/auth";
+import {ref, set} from "firebase/database"
+import './css/LoginPage.css'
+
 
 const SignIn: React.FC = () => {
-  const handleGoogleSignIn = async () => {
+  
+  const handleGoogleSignIn = async (event: React.MouseEvent<HTMLButtonElement>) => {
     try {
+      event.preventDefault();
       const result: UserCredential = await signInWithPopup(auth, googleProvider);
-      const idToken: string = await result.user.getIdToken();
+      const user = result.user;
+      const idToken: string = await user.getIdToken(); 
+      console.log("Generated ID Token:", idToken);
 
-
-      const response = await fetch("/api/auth/verify-token", {
+   
+      const response = await fetch("http://localhost:3001/api/auth/verify-token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
       });
 
+
+      //Make an API URL for when front end is hosted
+      //localhost should NOT be an finalized endpoint when it's hosted.
+      //For testing purposes this work.
+
+
       if (response.ok) {
         console.log("User authenticated successfully");
+
+ 
+        const userRef = ref(db, `users/${user.uid}`);
+        await set(userRef, {
+          uid: user.uid,
+          displayName: user.displayName || "Anonymous",
+          email: user.email || "No Email",
+          photoURL: user.photoURL || "",
+        });
+
+        console.log("User data saved in database.");
       } else {
         console.error("Authentication failed");
       }
@@ -26,8 +50,33 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div>
-      <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+    <div className="container">
+      <div className="card">
+        <div className="left-panel">
+          <h1>Welcome!</h1>
+          <p>Sign In To Your Account</p>
+        </div>
+        <div className="right-panel">
+          <h2>Hello!</h2>
+          <form>
+            <label>Email Address</label>
+            <input type="email" placeholder="Enter your email"/>
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password"/>
+            <button onClick={handleGoogleSignIn}>Sign in with Google</button>
+            <div className="extra-options">
+              <label>
+                <input type="checkbox"/> Remember
+              </label>
+              <a href="/">Forgot Password?</a>
+            </div>
+            <button type="button">Submit</button>
+          </form>
+          <p>
+            <a href="/">Create Account</a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
