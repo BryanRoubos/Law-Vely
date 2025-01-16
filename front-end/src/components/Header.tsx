@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faUser, faSearch, faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
-import { SearchContext } from "../contexts/SearchContexts";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
+import { SearchContext } from "../contexts/SearchContexts";
 
 function Header() {
   const searchContext = useContext(SearchContext);
