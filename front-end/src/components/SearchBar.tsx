@@ -1,31 +1,43 @@
-import { ChangeEventHandler } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { useContext } from "react";
+import { SearchContext } from "../contexts/SearchContexts";
 
-interface SearchTermProps {
-    value: string,
-    searchHandler: ChangeEventHandler<HTMLInputElement>,
-    placeholder: string,
-    searchBtnHandler: () => void,
-    isSearchBtnClicked: boolean
+interface SearchBarProps {
+  placeholder: string;
+  onSearchClick: () => void;
 }
 
-function SearchBar(props: SearchTermProps) {
-    return (
-        <div className="flex items-center rounded-md shadow-md  max-w-lg">
-            <input className="flex text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                type="search"
-               
-                placeholder={props.placeholder}
-                value={props.value}
-                onChange={props.searchHandler}
-                
-  />
-                    <button onClick={props.searchBtnHandler} className="ml-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400">
-                <FontAwesomeIcon icon={faSearch}/>
-            </button>
-        </div>
-    )
+function SearchBar({ placeholder, onSearchClick }: SearchBarProps) {
+  const searchContext = useContext(SearchContext);
+
+  if (!searchContext) {
+    throw new Error("SearchBar must be used within a SearchProvider");
+  }
+
+  const { searchQuery, setSearchQuery } = searchContext;
+
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  return (
+    <div className="flex items-center rounded-md w-full sm:w-64 max-w-full mx-auto px-2">
+      <input
+        type="search"
+        className="flex-grow text-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 w-full"
+        placeholder={placeholder}
+        value={searchQuery}
+        onChange={handleInputChange}
+      />
+      <button
+        className="ml-2 text-white rounded-md hover:bg-purple-600 px-4"
+        onClick={onSearchClick}
+      >
+        <FontAwesomeIcon icon={faSearch} />
+      </button>
+    </div>
+  );
 }
 
 export default SearchBar;
