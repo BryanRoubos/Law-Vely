@@ -5,16 +5,41 @@ import { LegislationSummaries } from "../../global";
 const db = admin.database();
 
 export const getLegislationSummaries = (req: Request, res: Response) => {
-  admin
-    .database()
-    .ref("legislationSummaries")
+  const category = req.query.category as string | undefined;
+
+  db.ref("legislationSummaries")
     .once("value")
     .then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
-        res.status(200).json(data);
+
+        let filteredData = data;
+
+        if (category) {
+          filteredData = Object.entries(data).reduce(
+            (acc: Record<string, LegislationSummary>, [id, summary]) => {
+              const typedSummary = summary as LegislationSummary; // Type assertion
+              if (
+                typedSummary.categories &&
+                typedSummary.categories.includes(category)
+              ) {
+                acc[id] = typedSummary;
+              }
+              return acc;
+            },
+            {}
+          );
+        }
+
+        if (Object.keys(filteredData).length > 0) {
+          res.status(200).json(filteredData);
+        } else {
+          res
+            .status(404)
+            .json({ msg: "No legislation found for the given category" });
+        }
       } else {
-        res.status(404).json({ msg: "no legislation found" });
+        res.status(404).json({ msg: "No legislation found" });
       }
     })
     .catch((error) => {
@@ -44,44 +69,45 @@ export const getLegislationSummaryById = (req: Request, res: Response) => {
     });
 };
 
-export const searchLegislationSummaries = (
+export const searchLegislationSummaries: RequestHandler = async (
   req: Request,
   res: Response
-): void => {
-  const query = req.query.query as string | undefined;
+): Promise<void> => {
+  const search = req.query.search as string | undefined;
 
-  if (!query || typeof query !== "string") {
-    res.status(400).json({ error: "invalid or missing search query" });
+  if (!search || typeof search !== "string") {
+    res.status(400).json({ error: "Invalid or missing search query" });
     return;
   }
 
-  const normalizedQuery = query.trim().toLowerCase();
+  const normalizedQuery = search.trim().toLowerCase();
 
-  db.ref("legislationSummaries")
-    .once("value")
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val() as LegislationSummaries;
-        const searchResults = Object.entries(data).filter(([id, summary]) => {
-          const content =
-            `${summary.title} ${summary.summaryOfLegislation} ${summary.summaryOfSubSections}`.toLocaleLowerCase();
-          return content.includes(normalizedQuery);
-        });
+  try {
+    const snapshot = await db.ref("legislationSummaries").once("value");
+    if (snapshot.exists()) {
+      const data = snapshot.val() as LegislationSummaries;
 
-        if (searchResults.length > 0) {
-          const formattedResults = Object.fromEntries(searchResults);
-          res.status(200).json(formattedResults);
-        } else {
-          res.status(404).json({ msg: "no legislation found" });
-        }
+      const searchResults = Object.entries(data).filter(([id, summary]) => {
+        const content =
+          `${summary.title} ${summary.summaryOfLegislation} ${summary.summaryOfSubSections}`.toLowerCase();
+        return content.includes(normalizedQuery);
+      });
+
+      if (searchResults.length > 0) {
+        const formattedResults = Object.fromEntries(searchResults);
+        res.status(200).json(formattedResults);
       } else {
-        res.status(404).json({ msg: "no legislation found" });
+        res
+          .status(404)
+          .json({ msg: "No legislation found for the search term" });
       }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      res.status(500).json({ error: "failed to fetch data." });
-    });
+    } else {
+      res.status(404).json({ msg: "No legislation found" });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
 };
 
 interface LegislationSummary {
