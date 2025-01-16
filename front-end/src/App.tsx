@@ -9,27 +9,6 @@ import SingleLegislation from './components/SingleLegislation';
 import SignIn from "./SignIn";
 import SignUp from './SignUp';
 
-// function App() {
-//   return (
-//     <div className="min-h-screen flex flex-col bg-blue-100">
-//     <Header />
-//     <div className="flex flex-1 flex-col md:flex-row">
-//       <NavBar />
-//       <Routes>
-//         <Route path="/" element={<LegislationSection />} />
-//         <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
-//       </Routes>
-//     </div>
-
-//     <Footer />
-//   </div>
-//   )
-// }
-
-
-//DO NOT FORGET TO UNCOMMENT AND LEAVE INSTRUCTIONS AS TO HOW FRONT END SHOULD IMPLEMENT THIS!!!!
-
-
 function App() {
   return (
     <div className="min-h-screen flex flex-col bg-blue-100">
@@ -37,10 +16,10 @@ function App() {
     <div className="flex flex-1 flex-col md:flex-row">
       <NavBar />
       <Routes>
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<LegislationSection />} />
         <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </div>
 

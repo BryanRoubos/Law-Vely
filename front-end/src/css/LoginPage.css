@@ -16,7 +16,7 @@
     height: 100vh;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #7f00ff, #e100ff);
+    background: linear-gradient(135deg, #aa6be9c0, #80ffb1b4);
     padding: 20px; 
     box-shadow: 5px 10px;
 }
@@ -36,7 +36,7 @@
 .left-panel {
     display: none; 
     flex: 1;
-    background: linear-gradient(135deg, #7f00ff, #e100ff);
+    background: #b960df;
     color: white;
     justify-content: center;
     align-items: center;
@@ -85,7 +85,7 @@
 }
 
 .right-panel form button {
-    background: linear-gradient(135deg, #7f00ff, #e100ff);
+    background: linear-gradient(135deg, #7f00ff, #6f00ff);
     color: white;
     border: none;
     padding: 10px;
