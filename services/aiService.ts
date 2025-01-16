@@ -4,6 +4,19 @@ import dotenv from "dotenv";
 dotenv.config();
 const OPENAI_API_KEY = process.env.EMILYS_OPENAI_API_KEY;
 
+const topics = [
+  "Finance",
+  "Housing",
+  "Transportation",
+  "Health",
+  "Environment",
+  "Energy",
+  "Education",
+  "Justice",
+  "Trade",
+  "Consumer",
+];
+
 export const extractTitle = async (
   legislationTextRaw: string
 ): Promise<string> => {
@@ -70,6 +83,8 @@ export const generateSummaries = async (
       },
     ];
 
+    
+
     const summaryResponse = await Promise.all(
       summaryPayloads.map((payload) =>
         axios.post(
@@ -102,5 +117,47 @@ export const generateSummaries = async (
   } catch (error: any) {
     console.error("Error generating summaries:", error.message);
     throw new Error("Failed to generate summaries for legislation text.");
+  }
+};
+
+export const generateCategories = async (title: string): Promise<string[]> => {
+  try {
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: `You are a helpful assistant that classifies texts into specific categories. The available categories are: ${topics.join(
+              ", "
+            )}. Assign one or more of these categories to the text. Make sure all legislation goes into at least one legislation`,
+          },
+          {
+            role: "user",
+            content: `Based on the following text, assign the most relevant categories:\n\n${title}`,
+          },
+        ],
+        max_tokens: 100,
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    const categoriesString = response.data.choices[0].message.content.trim();
+    const categories = categoriesString
+      .split(",")
+      .map((category: string) => category.trim())
+      .filter((category: string) => topics.includes(category)); // Ensure the categories match the predefined topics
+
+    return categories;
+  } catch (error: any) {
+    console.error("Error generating categories:", error);
+    throw new Error("Failed to generate categories for the summary.");
   }
 };
