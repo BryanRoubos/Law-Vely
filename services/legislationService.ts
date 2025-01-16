@@ -2,7 +2,7 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 import * as admin from "firebase-admin";
 import { db } from "../firebase";
-import { extractTitle, generateSummaries } from "./aiService";
+import { extractTitle, generateSummaries, generateCategories  } from "./aiService";
 import { createSlug } from "../utils/slug";
 
 export const processLegislation = async (url: string) => {
@@ -21,6 +21,7 @@ export const processLegislation = async (url: string) => {
     const title = await extractTitle(textContent);
     const { summaryOfLegislation, summaryOfSubSections } =
       await generateSummaries(textContent);
+      const categories = await generateCategories(summaryOfLegislation);
 
     const id = createSlug(title);
 
@@ -30,6 +31,7 @@ export const processLegislation = async (url: string) => {
       url,
       summaryOfLegislation,
       summaryOfSubSections,
+      categories, 
       timestamp: admin.database.ServerValue.TIMESTAMP,
     };
   } catch (error) {
