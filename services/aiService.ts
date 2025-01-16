@@ -2,7 +2,7 @@ import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
-const OPENAI_API_KEY = process.env.EMILYS_OPENAI_API_KEY;
+const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
 
 const topics = [
   "Finance",
@@ -120,8 +120,9 @@ export const generateSummaries = async (
   }
 };
 
-export const generateCategories = async (title: string): Promise<string[]> => {
+export const generateCategories = async (summaryOfSubSections: string, title: string): Promise<string[]> => {
   try {
+    const combinedText = `Title: ${title}\nSummaryOfSubsections: ${summaryOfSubSections}`;
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
@@ -135,7 +136,7 @@ export const generateCategories = async (title: string): Promise<string[]> => {
           },
           {
             role: "user",
-            content: `Based on the following text, assign the most relevant categories:\n\n${title}`,
+            content: `Based on the following text, assign the most relevant categories:\n\n${combinedText}`,
           },
         ],
         max_tokens: 100,
