@@ -11,6 +11,6 @@ const router = express.Router();
 router.get("/", getLegislationSummaries);
 router.get("/search", searchLegislationSummaries);
 router.get("/:id", getLegislationSummaryById);
-router.get("/category/:category", getLegislationSummariesByCategory);
+router.get("/category", getLegislationSummariesByCategory);
 
 export default router;
