@@ -125,7 +125,7 @@ export const getLegislationSummariesByCategory: RequestHandler = async (
 
     if (Object.keys(filteredSummaries).length === 0) {
       res.status(404).json({ msg: "No legislation found for this category" });
-      return; // Use return here to end the function early
+      return;
     }
 
     res.status(200).json(filteredSummaries);
