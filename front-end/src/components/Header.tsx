@@ -66,6 +66,8 @@ function Header() {
             </button>
         </div>
 )}
+
+
         {/* Search Bar for Larger Screens */}
         <div className="hidden sm:block">
           <SearchBar placeholder="Search..." onSearchClick={handleSearchBtnClick} />
