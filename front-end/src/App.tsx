@@ -6,18 +6,22 @@ import NavBar from './components/NavBar';
 import LegislationSection from './components/LegislationSection';
 import SingleLegislation from './components/SingleLegislation';
 
+import SignIn from "./SignIn";
+import SignUp from './SignUp';
+
 function App() {
   return (
     <div id="App-1" className="bg-blue-100">
     <Header />
     <div id="App-2" className="flex justify-between items-stretch flex-col md:flex-row">
       <NavBar />
-        <div id="App-3" className="m-1 flex w-full">
-          <Routes>
-            <Route path="/" element={<LegislationSection />} />
-            <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
-          </Routes>
-        </div>
+      <div id="App-3" className="m-1 flex w-full">
+      <Routes>
+        <Route path="/" element={<LegislationSection />} />
+        <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </div>
 
     <Footer />
