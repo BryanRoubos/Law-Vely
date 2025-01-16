@@ -1,12 +1,13 @@
 import '../src/css/App.css';
-// import { Routes, Route } from 'react-router-dom';
-// import Footer from './components/Footer';
-// import Header from './components/Header'
-// import NavBar from './components/NavBar';
-// import LegislationSection from './components/LegislationSection';
-// import SingleLegislation from './components/SingleLegislation';
+import { Routes, Route } from 'react-router-dom';
+import Footer from './components/Footer';
+import Header from './components/Header'
+import NavBar from './components/NavBar';
+import LegislationSection from './components/LegislationSection';
+import SingleLegislation from './components/SingleLegislation';
 
 import SignIn from "./SignIn";
+import SignUp from './SignUp';
 
 // function App() {
 //   return (
@@ -29,12 +30,23 @@ import SignIn from "./SignIn";
 //DO NOT FORGET TO UNCOMMENT AND LEAVE INSTRUCTIONS AS TO HOW FRONT END SHOULD IMPLEMENT THIS!!!!
 
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <SignIn />
+    <div className="min-h-screen flex flex-col bg-blue-100">
+    <Header />
+    <div className="flex flex-1 flex-col md:flex-row">
+      <NavBar />
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<LegislationSection />} />
+        <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
+      </Routes>
     </div>
-  );
-};
+
+    <Footer />
+  </div>
+  )
+}
 
 export default App;
