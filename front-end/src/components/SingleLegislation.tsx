@@ -36,25 +36,9 @@ function SingleLegislation() {
   if (hasError) return <p>Error: {hasError}</p>;
   if (!legislation) return <p>No legislation found.</p>;
 
-  return <SingleLegislationCard legislation={legislation} />;
+  return (<div id="SL-1" className='flex flex-col items-center p-6 bg-green-200 shadow-lg rounded-lg m-10 mt-6'>
+    <SingleLegislationCard legislation={legislation} />
+    </div>  );
 }
 
 export default SingleLegislation;
-
-//   return (
-//     <div className='flex flex-col items-center p-6 bg-white shadow-lg rounded-lg max-w-4xl mx-auto mt-6'>
-//       {legislation ? (
-//         <>
-//         <SingleLegislationCard
-//             title={legislation.title}
-//             summary={legislation.summaryOfLegislation}
-//             subsections={legislation.summaryOfSubSections}
-//             date={legislation.timestamp}
-//         />
-//         </>
-//       ) : (
-//         <p className='text-center text-gray-500'>No legislation found.</p>
-//       )}
-//     </div>
-//   );
-// }

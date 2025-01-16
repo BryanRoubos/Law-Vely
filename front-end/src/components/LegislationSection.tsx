@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { fetchLegislationData } from '../api';
-import LegislationList from './LegislationList';
+import { useEffect, useState } from "react";
+import { fetchLegislationData } from "../api";
+import { useSearchParams } from "react-router-dom";
+import LegislationList from "./LegislationList";
 
-// Define the Legislation type
 interface Legislation {
   id: string;
   summaryOfLegislation: string;
@@ -11,9 +11,8 @@ interface Legislation {
   title: string;
 }
 
-// LegislationResponse represents the structure of the fetched API data
 interface LegislationResponse {
-  [key: string]: Legislation; // Each key is the legislation ID, and the value is the legislation data
+  [key: string]: Legislation;
 }
 
 function LegislationSection() {
@@ -22,29 +21,31 @@ function LegislationSection() {
   );
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [isError, setIsError] = useState<string | null>(null);
-  
+
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") || "";
+
   useEffect(() => {
-    setIsLoading('Legislations are loading...');
+    setIsLoading("Legislations are loading...");
     fetchLegislationData()
       .then((legislations) => {
         setLegislationData(legislations);
         setIsLoading(null);
       })
       .catch(() => {
-        setIsError('Failed to load legislations. Please try again later!');
+        setIsError("Failed to load legislations. Please try again later!");
         setIsLoading(null);
       });
   }, []);
-  
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  
+
   if (isError) {
     return <div>{isError}</div>;
   }
-  
-  // Convert the object (legislationData) to an array of legislation items
+
   const legislationArray = Object.entries(legislationData).map(
     ([id, legislation]) => ({
       id,
@@ -52,19 +53,31 @@ function LegislationSection() {
     })
   );
 
+  const filteredLegislation = legislationArray.filter((leg) => {
+    const title = leg.title || ""; // Fallback to empty string if undefined
+    const summaryOfLegislation = leg.summaryOfLegislation || "";
+    const summaryOfSubSections = leg.summaryOfSubSections || "";
+
+    return (
+      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      summaryOfLegislation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      summaryOfSubSections.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
+
   return (
-    <div>
-      <h1>Legislation Section</h1>
-      <LegislationList legislation={legislationArray} />
+    <div id="LS-1" className="flex-1 p-4 space-y-4">
+      {/* <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
+        Latest Legislation
+      </h1> */}
+
+      {searchQuery && filteredLegislation.length === 0 ? (
+        <p>No legislations match your search for "{searchQuery}".</p>
+      ) : (
+        <LegislationList legislation={filteredLegislation} />
+      )}
     </div>
   );
 }
 
 export default LegislationSection;
-
-//  return (
-//   <main className="flex-1 p-4 space-y-4">
-//   <h1>Latest Legislations</h1>
-//   <LegislationList legislation={legislationArray} />
-// </main>
-// );

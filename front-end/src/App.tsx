@@ -11,10 +11,11 @@ import SignUp from './SignUp';
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-blue-100">
+    <div id="App-1" className="bg-blue-100">
     <Header />
-    <div className="flex flex-1 flex-col md:flex-row">
+    <div id="App-2" className="flex justify-between items-stretch flex-col md:flex-row">
       <NavBar />
+      <div id="App-3" className="m-1 flex w-full">
       <Routes>
         <Route path="/" element={<LegislationSection />} />
         <Route path="legislations/:legislation_id" element={<SingleLegislation />} />

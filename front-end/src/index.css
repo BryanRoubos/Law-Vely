@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#report-btn {
+    background-color: #9049A4 !important;
+}
+
+#track-btn {
+    background-color: #9049A4  !important;
+}

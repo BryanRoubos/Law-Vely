@@ -1,47 +1,87 @@
-import { useState } from "react";
-import SearchBar from "./SearchBar";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faUser, faSearch, faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./Logo";
+import SearchBar from "./SearchBar";
+import { SearchContext } from "../contexts/SearchContexts";
 
 function Header() {
-    const [ searchInput, setSearchInput ] = useState('');
-    const [ isSearchBtnClicked, setIsSearchBtnClicked ] = useState(false);
+  const searchContext = useContext(SearchContext);
+  const navigate = useNavigate();
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  if (!searchContext) {
+    throw new Error("Header must be used within a SearchProvider");
+  }
+
+  const { searchQuery, setSearchQuery } = searchContext;
+
+  const handleSearchBtnClick = () => {
+    navigate(`/?search=${searchQuery}`);
+    setSearchQuery("");
+  };
+
+  const toggleSearchBar = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
+
+  return (
+    <header id="Header-1" className="relative flex items-center justify-between h-16 bg-purple-700 px-4 text-white">
+      <div id="Header-2" className="flex-shrink-0">
+        <Logo />
+      </div>
+
+      <Link to="/" className="hidden sm:block">
+        <FontAwesomeIcon icon={faHome} className="text-xl" />
+      </Link>
+
+      <div id="Header-3" className="flex items-center">
+        <button
+          onClick={toggleSearchBar}
+          className="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-600 sm:hidden"
+        >
+          <FontAwesomeIcon icon={faSearch} />
+        </button>
+
+        {isSearchVisible && (
+            <div id="Header-4" className="absolute inset-0 top-0 bg-purple-700 pt-4 sm:hidden items-center flex justify-between ml-3">
+
+            <button
+                onClick={toggleSearchBar}
+                className="text-white text-2xl mr-2"
+            >
+                <FontAwesomeIcon icon={faArrowLeftLong} />
+            </button>
     
-    const handleSearch: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setSearchInput(e.target.value);
-        setIsSearchBtnClicked(false);
-    }
 
-    const handleSearchBtnClick = () => {
-        setSearchInput('');
-        setIsSearchBtnClicked(true);
-    }
-
-    return (
-        <header className="flex items-center justify-around w-full h-16 bg-purple-700 px-4 flex-wrap text-white p-4"> 
-            <div className="flex-shrink-0 justify-left">
-                <Logo /> 
+            <div id="Header-5" className="w-full px-2 flex items-center">
+            <SearchBar 
+                placeholder="Search..."
+                onSearchClick={handleSearchBtnClick} />
             </div>
-            <Link to='/' className="home-btn">
-                    <FontAwesomeIcon icon={faHome} className="text-2xl md:text-3xl" />
-                </Link>
-            <div className="flex items-center space-x-10"> 
-                
-                <div className="flex-grow relative w-full"> 
-                    <SearchBar 
-                        value={searchInput} 
-                        placeholder={'Search...'} 
-                        searchHandler={handleSearch} 
-                        searchBtnHandler={handleSearchBtnClick} 
-                        isSearchBtnClicked={isSearchBtnClicked} 
-                    /> 
-                </div> 
-                <FontAwesomeIcon icon={faUser} className="user-icon text-2xl md:text-3xl" /> 
-            </div> 
-        </header> )
+
+            <button
+                onClick={toggleSearchBar}
+                className="absolute top-4 right-4 text-white text-2xl"
+            >
+            </button>
+        </div>
+)}
+
+        {/* Search Bar for Larger Screens */}
+        <div className="hidden sm:block">
+          <SearchBar placeholder="Search..." onSearchClick={handleSearchBtnClick} />
+        </div>
+
+        {/* User Icon */}
+        <FontAwesomeIcon
+          icon={faUser}
+          className="text-xl cursor-pointer hover:text-purple-300 ml-4"
+        />
+      </div>
+    </header>
+  );
 }
 
 export default Header;
-
