@@ -29,3 +29,17 @@ function ProfilePage() {
 };
 
 export default ProfilePage;
+
+
+
+
+// import {useEffect, useState} from "react";
+// import {ref, get} from "firebase/database";
+// import {db} from "../../firebaseConfig"
+
+// interface Legislation {
+//     id: string;
+//     title: string;
+//     summaryOfLegislation: string;
+//     timestamp: number
+// }

@@ -9,6 +9,7 @@ interface Legislation {
   summaryOfSubSections: string;
   timestamp: number;
   title: string;
+  url: string;
 }
 
 function SingleLegislation() {
