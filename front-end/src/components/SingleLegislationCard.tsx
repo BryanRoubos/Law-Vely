@@ -24,7 +24,7 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
 
   return (
     <div id="SLC-1" className="md:mx-8">
-      <h1 id="SLC-2" className="text-2xl font-bold text-gray-800 mb-4">
+      <h1 id="SLC-2" className="lg:text-2xl text-xl font-bold text-gray-800 mb-4">
         {legislation.title}
       </h1>
       <h2>
