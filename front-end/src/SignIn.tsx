@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import { auth, googleProvider, db } from "../firebaseConfig";
 import {
   signInWithEmailAndPassword,
@@ -12,6 +13,7 @@ const SignIn: React.FC = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
+  const navigate = useNavigate()
 
   const handleEmailSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -24,6 +26,10 @@ const SignIn: React.FC = () => {
       );
       const user = userCredential.user;
       console.log("User signed in with email and password:", user.uid);
+
+      localStorage.setItem("userUID", user.uid)
+
+      navigate("/")
     } catch (error) {
       console.error("Error signing in with email and password:", error);
     }
@@ -67,6 +73,13 @@ const SignIn: React.FC = () => {
         });
 
         console.log("User data saved in database.");
+
+        localStorage.setItem("userUID", user.uid)
+        
+
+        navigate("/")
+
+
       } else {
         console.error("Authentication failed");
       }
