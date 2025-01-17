@@ -5,6 +5,7 @@ import { faHome, faUser, faSearch, faArrowLeftLong } from "@fortawesome/free-sol
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import { SearchContext } from "../contexts/SearchContexts";
+import SignInButton from "./SignInButton";
 
 function Header() {
   const searchContext = useContext(SearchContext);
@@ -27,61 +28,53 @@ function Header() {
   };
 
   return (
-    <header id="Header-1" className="relative flex items-center justify-between h-16 bg-purple-700 px-4 text-white">
-      <div id="Header-2" className="flex-shrink-0">
+    <header className="flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
+      {/* left  logo and home icon*/}
+      <div className="flex items-center gap-4 flex-shrink-0">
         <Logo />
+        <Link to="/">
+          <FontAwesomeIcon icon={faHome} className="text-xl hover:text-purple-300" />
+        </Link>
       </div>
 
-      <Link to="/" className="hidden sm:block">
-        <FontAwesomeIcon icon={faHome} className="text-xl" />
-      </Link>
+      {/* center section larger search bar*/}
+      <div className="flex-grow mx-4">
+        <div className="hidden sm:flex justify-center">
+          <SearchBar
+            placeholder="Search..."
+            onSearchClick={handleSearchBtnClick}
+            
+          />
+        </div>
 
-      <div id="Header-3" className="flex items-center">
-        <button
-          onClick={toggleSearchBar}
-          className="bg-purple-500 text-white p-2 rounded-md hover:bg-purple-600 sm:hidden"
-        >
+        {/* mobile toggle bar */}
+        {isSearchVisible && (
+          <div className="absolute inset-0 top-0 bg-purple-700 flex items-center px-4 z-10">
+            <button onClick={toggleSearchBar} className="text-white text-2xl mr-4">
+              <FontAwesomeIcon icon={faArrowLeftLong} />
+            </button>
+            <SearchBar
+              placeholder="Search..."
+              onSearchClick={handleSearchBtnClick}
+              
+            />
+          </div>
+        )}
+        <button onClick={toggleSearchBar} className="sm:hidden text-xl">
           <FontAwesomeIcon icon={faSearch} />
         </button>
+      </div>
 
-        {isSearchVisible && (
-            <div id="Header-4" className="absolute inset-0 top-0 bg-purple-700 pt-4 sm:hidden items-center flex justify-between ml-3">
-
-            <button
-                onClick={toggleSearchBar}
-                className="text-white text-2xl mr-2"
-            >
-                <FontAwesomeIcon icon={faArrowLeftLong} />
-            </button>
-    
-
-            <div id="Header-5" className="w-full px-2 flex items-center">
-            <SearchBar 
-                placeholder="Search..."
-                onSearchClick={handleSearchBtnClick} />
-            </div>
-
-            <button
-                onClick={toggleSearchBar}
-                className="absolute top-4 right-4 text-white text-2xl"
-            >
-            </button>
-        </div>
-)}
-
-        {/* Search Bar for Larger Screens */}
-        <div className="hidden sm:block">
-          <SearchBar placeholder="Search..." onSearchClick={handleSearchBtnClick} />
-        </div>
-
-        {/* User Icon */}
-        <FontAwesomeIcon
-          icon={faUser}
-          className="text-xl cursor-pointer hover:text-purple-300 ml-4"
-        />
+      {/* right section user and sign in button */}
+      <div className="flex items-center gap-4">
+        <Link to="/account">
+          <FontAwesomeIcon icon={faUser} className="text-xl hover:text-purple-300" />
+        </Link>
+        <SignInButton />
       </div>
     </header>
   );
 }
 
 export default Header;
+
