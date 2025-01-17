@@ -37,4 +37,4 @@ const zooUrl =
 const petAnimalsAct =
   "https://www.legislation.gov.uk/ukpga/Geo6/14-15/35/data.xht?view=snippet&wrap=true";
 
-seedDatabase();
+// seedDatabase();

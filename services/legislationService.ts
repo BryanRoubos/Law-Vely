@@ -11,6 +11,7 @@ import { createSlug } from "../utils/slug";
 
 export const processLegislation = async (url: string) => {
   try {
+    console.log("Fetching URL:", url); // Log the URL
     const response = await axios.get(url, {
       headers: { "Content-Type": "text/plain" },
     });
@@ -41,6 +42,7 @@ export const processLegislation = async (url: string) => {
 
     await saveToDatabase(legislationData);
     console.log(`Processed and saved legislation: ${title}`);
+    console.log("legislation id --->", id);
     return legislationData;
   } catch (error) {
     console.error("Error processing legislation:", error);
@@ -50,6 +52,10 @@ export const processLegislation = async (url: string) => {
 export const saveToDatabase = async (legislation: any) => {
   try {
     const { id, title, categories } = legislation;
+    if (!legislation || !legislation.id) {
+      console.error("Invalid legislation data:", legislation);
+      return; // Skip saving this record
+    }
 
     if (!categories || categories.length === 0) {
       await db.ref(`categories/${id}`).set(legislation);
