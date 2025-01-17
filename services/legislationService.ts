@@ -58,9 +58,11 @@ export const saveToDatabase = async (legislation: any) => {
     }
 
     if (!categories || categories.length === 0) {
+      console.log(`Saving to categories/${id}`);
       await db.ref(`categories/${id}`).set(legislation);
       console.log(`Legislation added to categories for review: ${title}`);
     } else {
+      console.log(`Saving to legislationSummaries/${id}`);
       await db.ref(`legislationSummaries/${id}`).set(legislation);
       console.log(`Saved legislation: ${title}`);
     }
