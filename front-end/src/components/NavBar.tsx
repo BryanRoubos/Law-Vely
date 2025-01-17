@@ -12,8 +12,8 @@ function NavBar() {
   
     return (
       <div>
-        <div id="Nav-1" className="flex items-center justify-between bg-purple-700 text-white p-4 md:hidden">
-          <h3 id="Nav-2" className="text-lg font-bold">Civil Law</h3>
+        <div id="Nav-1" className="flex items-center justify-between bg-purple-700 text-white p-3 md:hidden mb-10">
+          <h3 id="Nav-2" className="text-base font-bold">Topics</h3>
           <button onClick={toggleMenu} id="Nav-3" className="text-xl">
             {isMenuOpen ? (
               <FontAwesomeIcon icon={faTimes} />
@@ -24,13 +24,13 @@ function NavBar() {
         </div>
   
         {isMenuOpen && (
-          <div id="Nav-3" className="bg-purple-500 text-white p-4 md:hidden">
+          <div id="Nav-3" className="bg-purple-500 text-white p-4 md:hidden rounded-">
             <CategoriesList />
           </div>
         )}
   
         <div id="Nav-4" className="hidden md:block">
-          <h3 id="Nav-5" className="text-xl font-bold text-purple-700 px-4 mb-2">Civil Law</h3>
+          {/* <h3 id="Nav-5" className="text-xl font-bold text-purple-700 px-4 mb-2">Civil Law</h3> */}
           <CategoriesList />
         </div>
       </div>

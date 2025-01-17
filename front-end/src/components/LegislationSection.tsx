@@ -21,7 +21,6 @@ function LegislationSection() {
   );
   const [isLoading, setIsLoading] = useState<string | null>(null);
   const [isError, setIsError] = useState<string | null>(null);
-
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
 
@@ -54,7 +53,7 @@ function LegislationSection() {
   );
 
   const filteredLegislation = legislationArray.filter((leg) => {
-    const title = leg.title || ""; // Fallback to empty string if undefined
+    const title = leg.title || "";
     const summaryOfLegislation = leg.summaryOfLegislation || "";
     const summaryOfSubSections = leg.summaryOfSubSections || "";
 
@@ -66,7 +65,7 @@ function LegislationSection() {
   });
 
   return (
-    <div id="LS-1" className="flex-1 p-4 space-y-4">
+    <div id="LS-1" className="flex-1 p-4 space-y-3">
       {/* <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
         Latest Legislation
       </h1> */}
