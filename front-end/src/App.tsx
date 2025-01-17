@@ -5,7 +5,6 @@ import Header from './components/Header'
 import NavBar from './components/NavBar';
 import LegislationSection from './components/LegislationSection';
 import SingleLegislation from './components/SingleLegislation';
-
 import SignIn from "./SignIn";
 import SignUp from './SignUp';
 
@@ -16,14 +15,15 @@ function App() {
     <div id="App-2" className="flex justify-between items-stretch flex-col md:flex-row">
       <NavBar />
       <div id="App-3" className="m-1 flex w-full">
-      <Routes>
-        <Route path="/" element={<LegislationSection />} />
-        <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<LegislationSection />} />
+          <Route path="legislations/:legislation_id" element={<SingleLegislation />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </div>
     </div>
-
+    
     <Footer />
   </div>
   )
