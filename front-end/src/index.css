@@ -9,3 +9,13 @@
 #track-btn {
     background-color: #9049A4  !important;
 }
+
+/* #subsect-btn {
+    color: black;
+} */
+
+#subsect-btn {
+    background-color: #909090  !important;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
