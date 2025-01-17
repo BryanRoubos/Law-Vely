@@ -75,7 +75,6 @@ const SignIn: React.FC = () => {
         console.log("User data saved in database.");
 
         localStorage.setItem("userUID", user.uid)
-        
 
         navigate("/")
 
