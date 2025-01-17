@@ -2,15 +2,19 @@ import express from "express";
 import {
   getLegislationSummaries,
   getLegislationSummaryById,
-  searchLegislationSummaries,
   getLegislationSummariesByCategory,
 } from "../db/Controllers/legislationController";
 
 const router = express.Router();
+router.get("/", (req, res, next) => {
+  if (req.query.category) {
+    next();
+  } else {
+    getLegislationSummaries(req, res);
+  }
+});
 
-router.get("/", getLegislationSummaries);
-router.get("/search", searchLegislationSummaries);
 router.get("/:id", getLegislationSummaryById);
-router.get("/category", getLegislationSummariesByCategory);
+router.get("/", getLegislationSummariesByCategory);
 
 export default router;
