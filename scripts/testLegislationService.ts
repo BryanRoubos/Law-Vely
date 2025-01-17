@@ -13,8 +13,6 @@ const testLegislationService = async () => {
    "https://www.legislation.gov.uk/asc/2024/1/data.xht?view=snippet&wrap=true"
   ];
 
-  //to do with traffic
-
   for (const url of testUrls) {
     try {
       const result = await processLegislation(url);

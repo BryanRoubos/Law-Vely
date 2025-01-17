@@ -9,13 +9,25 @@ import {
 } from "./aiService";
 import { createSlug } from "../utils/slug";
 
-export const processLegislation = async (url: string) => {
+export const saveToDatabase = async (legislation: any) => {
   try {
-    const response = await axios.get(url, {
-      headers: { "Content-Type": "text/plain" },
-    });
+    const { id, title, categories } = legislation;
 
-    const $ = cheerio.load(response.data);
+    if (!categories || categories.length === 0) {
+      await db.ref(`categories/${id}`).set(legislation);
+      console.log(`Legislation added to categories for review: ${title}`);
+    } else {
+      await db.ref(`legislationSummaries/${id}`).set(legislation);
+      console.log(`Saved legislation: ${title}`);
+    }
+  } catch (error) {
+    console.error("Error saving to database:", error);
+  }
+};
+
+export const processLegislation = async (htmlContent: string) => {
+  try {
+    const $ = cheerio.load(htmlContent);
     const textContent = $("body").text().trim();
 
     if (!textContent) throw new Error("No legislation text found.");
@@ -31,7 +43,6 @@ export const processLegislation = async (url: string) => {
     const legislationData = {
       id,
       title,
-      url,
       summary: summaryOfLegislation,
       summaryOfSubSections,
       categories: categories || [],
@@ -44,21 +55,5 @@ export const processLegislation = async (url: string) => {
     return legislationData;
   } catch (error) {
     console.error("Error processing legislation:", error);
-  }
-};
-
-export const saveToDatabase = async (legislation: any) => {
-  try {
-    const { id, title, categories } = legislation;
-
-    if (!categories || categories.length === 0) {
-      await db.ref(`categories/${id}`).set(legislation);
-      console.log(`Legislation added to categories for review: ${title}`);
-    } else {
-      await db.ref(`legislationSummaries/${id}`).set(legislation);
-      console.log(`Saved legislation: ${title}`);
-    }
-  } catch (error) {
-    console.error("Error saving to database:", error);
   }
 };
