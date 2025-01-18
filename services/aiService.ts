@@ -15,6 +15,7 @@ const topics = [
   "Justice",
   "Trade",
   "Consumer",
+  "Governance"
 ];
 
 export const extractTitle = async (
