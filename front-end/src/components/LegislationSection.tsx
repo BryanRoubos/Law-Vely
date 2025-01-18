@@ -1,7 +1,90 @@
+// import { useEffect, useState } from "react";
+// import { fetchLegislationData } from "../api";
+// import { useSearchParams } from "react-router-dom";
+// import LegislationList from "./LegislationList";
+
+// interface Legislation {
+//   id: string;
+//   summaryOfLegislation: string;
+//   summaryOfSubSections: string;
+//   timestamp: number;
+//   title: string;
+// }
+
+// interface LegislationResponse {
+//   [key: string]: Legislation;
+// }
+
+// function LegislationSection() {
+//   const [legislationData, setLegislationData] = useState<LegislationResponse>(
+//     {}
+//   );
+//   const [isLoading, setIsLoading] = useState<string | null>(null);
+//   const [isError, setIsError] = useState<string | null>(null);
+//   const [searchParams] = useSearchParams();
+//   const searchQuery = searchParams.get("search") || "";
+
+//   useEffect(() => {
+//     setIsLoading("Legislations are loading...");
+//     fetchLegislationData()
+//       .then((legislations) => {
+//         setLegislationData(legislations);
+//         setIsLoading(null);
+//       })
+//       .catch(() => {
+//         setIsError("Failed to load legislations. Please try again later!");
+//         setIsLoading(null);
+//       });
+//   }, []);
+
+//   if (isLoading) {
+//     return <p>Loading...</p>;
+//   }
+
+//   if (isError) {
+//     return <div>{isError}</div>;
+//   }
+
+//   const legislationArray = Object.entries(legislationData).map(
+//     ([id, legislation]) => ({
+//       id,
+//       ...legislation,
+//     })
+//   );
+
+//   const filteredLegislation = legislationArray.filter((leg) => {
+//     const title = leg.title || "";
+//     const summaryOfLegislation = leg.summaryOfLegislation || "";
+//     const summaryOfSubSections = leg.summaryOfSubSections || "";
+
+//     return (
+//       title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+//       summaryOfLegislation.toLowerCase().includes(searchQuery.toLowerCase()) ||
+//       summaryOfSubSections.toLowerCase().includes(searchQuery.toLowerCase())
+//     );
+//   });
+
+//   return (
+//     <div id="LS-1" className="flex-1 p-4 space-y-3">
+//       {/* <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
+//         Latest Legislation
+//       </h1> */}
+
+//       {searchQuery && filteredLegislation.length === 0 ? (
+//         <p>No legislations match your search for "{searchQuery}".</p>
+//       ) : (
+//         <LegislationList legislation={filteredLegislation} />
+//       )}
+//     </div>
+//   );
+// }
+
+// export default LegislationSection;
+
 import { useEffect, useState } from "react";
 import { fetchLegislationData } from "../api";
-import { useSearchParams } from "react-router-dom";
 import LegislationList from "./LegislationList";
+import { useSearchParams } from "react-router-dom";
 
 interface Legislation {
   id: string;
@@ -9,6 +92,8 @@ interface Legislation {
   summaryOfSubSections: string;
   timestamp: number;
   title: string;
+  categories: string[];
+  url: string;
 }
 
 interface LegislationResponse {
@@ -23,19 +108,27 @@ function LegislationSection() {
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
+  const categoryQuery = searchParams.get("category") || "";
 
   useEffect(() => {
     setIsLoading("Legislations are loading...");
-    fetchLegislationData()
+    setIsError(null);
+    fetchLegislationData(categoryQuery, searchQuery)
       .then((legislations) => {
         setLegislationData(legislations);
         setIsLoading(null);
       })
       .catch(() => {
-        setIsError("Failed to load legislations. Please try again later!");
+        setIsError(
+          searchQuery
+            ? `No legislations found for the search: ${searchQuery}`
+            : categoryQuery
+            ? `No legislations found for the category: ${categoryQuery}`
+            : "Failed to load legislations. Please try again later!"
+        );
         setIsLoading(null);
       });
-  }, []);
+  }, [categoryQuery, searchQuery]);
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -52,29 +145,22 @@ function LegislationSection() {
     })
   );
 
-  const filteredLegislation = legislationArray.filter((leg) => {
-    const title = leg.title || "";
-    const summaryOfLegislation = leg.summaryOfLegislation || "";
-    const summaryOfSubSections = leg.summaryOfSubSections || "";
-
-    return (
-      title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      summaryOfLegislation.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      summaryOfSubSections.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
-
   return (
     <div id="LS-1" className="flex-1 p-4 space-y-3">
-      {/* <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
-        Latest Legislation
-      </h1> */}
+      <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
+        Legislations for{" "}
+        {categoryQuery
+          ? categoryQuery
+          : searchQuery
+          ? searchQuery
+          : "All Categories"}
+      </h1>
 
-      {searchQuery && filteredLegislation.length === 0 ? (
-        <p>No legislations match your search for "{searchQuery}".</p>
-      ) : (
-        <LegislationList legislation={filteredLegislation} />
+      {categoryQuery && legislationArray.length === 0 && (
+        <p>No legislations found for this category.</p>
       )}
+
+      <LegislationList legislation={legislationArray} />
     </div>
   );
 }
