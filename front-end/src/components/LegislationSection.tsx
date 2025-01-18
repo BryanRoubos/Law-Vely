@@ -85,6 +85,7 @@ import { useEffect, useState } from "react";
 import { fetchLegislationData } from "../api";
 import LegislationList from "./LegislationList";
 import { useSearchParams } from "react-router-dom";
+import Pagination from "./Pagination";
 
 interface Legislation {
   id: string;
@@ -159,8 +160,15 @@ function LegislationSection() {
       {categoryQuery && legislationArray.length === 0 && (
         <p>No legislations found for this category.</p>
       )}
-
-      <LegislationList legislation={legislationArray} />
+      <Pagination
+        legislations={legislationArray}
+        legislationsPerPage={10}
+        renderLegislations={(currentLegislations) => (
+          <div>
+            <LegislationList legislation={currentLegislations} />
+          </div>
+        )}
+      />
     </div>
   );
 }
