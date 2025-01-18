@@ -20,7 +20,7 @@
     "@mui/material": "^6.4.0",
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
-    "firebase": "^11.1.0",
+    "firebase": "^11.2.0",
     "font-awesome": "^4.7.0",
     "postcss": "^8.5.1",
     "react": "^18.3.1",

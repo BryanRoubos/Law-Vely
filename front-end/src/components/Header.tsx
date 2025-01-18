@@ -97,7 +97,7 @@ function Header() {
     setIsSearchVisible(!isSearchVisible);
   };
   return (
-    <header className="flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
+    <header id="header" className="flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
       {/* left  logo and home icon*/}
       <div className="flex items-center gap-4 flex-shrink-0">
         <Logo />
@@ -105,6 +105,7 @@ function Header() {
           <FontAwesomeIcon
             icon={faHome}
             className="text-xl hover:text-purple-300"
+            id="icon"
           />
         </Link>
       </div>
