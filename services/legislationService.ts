@@ -37,7 +37,7 @@ export const processLegislation = async (url: string) => {
       summaryOfSubSections,
       categories: categories || [],
       status: categories.length > 0 ? "completed" : "pending",
-      createdAt: Date.now(),
+      timestamp: Date.now(),
     };
 
     await saveToDatabase(legislationData);

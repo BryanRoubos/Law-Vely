@@ -81,10 +81,10 @@ const seedDatabase = async (
 };
 
 // Example usage:
-const START_YEAR = 1980;
-const END_YEAR = 1990;
+const START_YEAR = 1970;
+const END_YEAR = 2000;
 const START_CHAPTER = 1;
-const END_CHAPTER = 99;
+const END_CHAPTER = 10;
 const SEED_LIMIT = 1;
 
 seedDatabase(START_YEAR, END_YEAR, START_CHAPTER, END_CHAPTER, SEED_LIMIT);
