@@ -33,7 +33,7 @@ export const processLegislation = async (url: string) => {
       id,
       title,
       url,
-      summary: summaryOfLegislation,
+      summaryOfLegislation,
       summaryOfSubSections,
       categories: categories || [],
       status: categories.length > 0 ? "completed" : "pending",
@@ -45,7 +45,7 @@ export const processLegislation = async (url: string) => {
     console.log("legislation id --->", id);
     return legislationData;
   } catch (error) {
-    console.error("Error processing legislation:", error);
+    console.error("Error processing legislation: in SaveToDatabase function");
   }
 };
 
