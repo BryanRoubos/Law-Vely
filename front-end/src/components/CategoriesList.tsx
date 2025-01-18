@@ -30,6 +30,7 @@ const categories: string[] = [
   "Justice",
   "Trade",
   "Consumer",
+  "Governance",
 ];
 
 const NavBar: React.FC = () => {
