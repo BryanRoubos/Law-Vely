@@ -10,6 +10,10 @@ function NavBar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleCategoryClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <div>
       <div
@@ -33,18 +37,15 @@ function NavBar() {
           id="Nav-3"
           className="bg-purple-500 text-white p-4 md:hidden rounded-"
         >
-          <CategoriesList />
+          <CategoriesList handleCategoryClick={handleCategoryClick} />
         </div>
       )}
 
       <div id="Nav-4" className="hidden md:block">
-        {/* <h3 id="Nav-5" className="text-xl font-bold text-purple-700 px-4 mb-2">Civil Law</h3> */}
-        <CategoriesList />
+        <CategoriesList handleCategoryClick={handleCategoryClick} />
       </div>
     </div>
   );
 }
 
 export default NavBar;
-
-import { useNavigate } from "react-router-dom";
