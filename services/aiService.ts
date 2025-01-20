@@ -1,6 +1,7 @@
 import axios from "axios";
 import dotenv from "dotenv"; // Needed if using ES6 modules
 import natural from "natural";
+import stringSimilarity from "string-similarity";
 
 dotenv.config();
 const OPENAI_API_KEY = process.env.BENS_OPENAI_API_KEY;
@@ -16,6 +17,8 @@ const topics = [
   "Justice",
   "Trade",
   "Consumer",
+  "Governance",
+  "Technology",
 ];
 
 export const extractTitle = async (
@@ -172,23 +175,43 @@ export const generateCategories = async (
     console.warn(
       "No valid categories assigned by OpenAI. Falling back to NLP-based categorization."
     );
-    // Fallback: Assign the closest relevant topic using natural language processing
+    // Tokenize the combined text
     const tokenizer = new natural.WordTokenizer();
     const textTokens = tokenizer.tokenize(combinedText.toLowerCase());
-    const topicScores = topics.map((topic) => {
-      const topicTokens = tokenizer.tokenize(topic.toLowerCase());
-      const intersection = topicTokens.filter((token) =>
-        textTokens.includes(token)
-      );
-      return { topic, score: intersection.length };
+
+    // Create a frequency map of tokens in the combined text
+    const tokenFreq: { [key: string]: number } = {};
+    textTokens.forEach((token) => {
+      tokenFreq[token] = (tokenFreq[token] || 0) + 1;
     });
 
-    // Select the topic with the highest score
-    const bestMatch = topicScores.reduce((max, current) =>
-      current.score > max.score ? current : max
-    );
+    // Calculate a score for each category by comparing token frequency with topic tokens
+    const topicScores = topics.map((topic) => {
+      const topicTokens = tokenizer.tokenize(topic.toLowerCase());
+      let score = 0;
 
-    return [bestMatch.topic]; // Ensure at least one category is returned
+      // For each topic, accumulate the score based on frequency of matching tokens
+      topicTokens.forEach((topicToken) => {
+        if (tokenFreq[topicToken]) {
+          score += tokenFreq[topicToken]; // Weight by frequency of matching tokens
+        }
+      });
+
+      return { topic, score };
+    });
+
+    // Sort the topics by score in descending order
+    const bestMatch = topicScores.sort((a, b) => b.score - a.score)[0];
+
+    // If best match has zero score, use fuzzy matching as a fallback
+    if (bestMatch.score === 0) {
+      const fuzzyMatch = stringSimilarity.findBestMatch(combinedText, topics);
+      console.log("Fuzzy Match Results:", fuzzyMatch.ratings);
+      return [fuzzyMatch.bestMatch.target];
+    }
+
+    console.log("Selected category based on token frequency:", bestMatch.topic);
+    return [bestMatch.topic];
   } catch (error: any) {
     console.error("Error generating categories:", error.message);
     throw new Error("Failed to generate categories for legislation text.");

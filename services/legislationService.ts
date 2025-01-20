@@ -43,6 +43,7 @@ export const processLegislation = async (url: string) => {
     await saveToDatabase(legislationData);
     console.log(`Processed and saved legislation: ${title}`);
     console.log("legislation id --->", id);
+
     return legislationData;
   } catch (error) {
     console.error("Error processing legislation: in SaveToDatabase function");
