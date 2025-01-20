@@ -45,9 +45,26 @@ interface LegislationListProps {
   legislation: Legislation[];
 }
 
+// function LegislationList({ legislation }: LegislationListProps) {
+//   return (
+//     <div>
+//       {legislation.map((leg) => (
+//         <Link key={leg.id} to={`/legislations/${leg.id}`}>
+//           <LegislationCard title={leg.title} date={leg.timestamp} />
+//         </Link>
+//       ))}
+//     </div>
+//   );
+// }
+
+// export default LegislationList;
+
 function LegislationList({ legislation }: LegislationListProps) {
   return (
-    <div>
+    <div
+      id="LegList-Container"
+      className="grid grid-cols-1 gap-10 md:grid-cols-2 p-4"
+    >
       {legislation.map((leg) => (
         <Link key={leg.id} to={`/legislations/${leg.id}`}>
           <LegislationCard title={leg.title} date={leg.timestamp} />
