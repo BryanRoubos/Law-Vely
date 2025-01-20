@@ -41,18 +41,19 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
 
   return (
     <Card
-      sx={{
-        minWidth: 275,
-        height: 250,
-        backgroundColor: "rgb(248, 201, 221)",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: 1,
-        boxShadow: 3,
-        overflow: "hidden", // Ensure content doesn't spill out
-      }}
+    sx={{
+      minWidth: 200,
+      height: 250,
+      background: "white",
+      borderRadius: "8px",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: 1,
+      boxShadow: 3,
+      overflow: "hidden", // Ensure content doesn't spill out
+    }}
     >
       <CardContent sx={{ textAlign: "center", padding: 1 }}>
         <Typography
@@ -65,12 +66,12 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
               sm: "1.2rem", // Font size for small devices (e.g., tablets)
               md: "1.5rem", // Font size for medium and larger devices
             },
-            color: "white",
+            color: "black",
             textShadow: "1px 1px 2px rgba(0,0,0,0.3)",
             mb: 2,
             overflow: "hidden",
             textOverflow: "ellipsis", // Adds "..." for overflowing text
-            fontFamily: "'Montserrat', sans-serif", // Explicitly set the font
+            fontFamily: "'Open Sans', serif", // Explicitly set the font
           }}
         >
           {title}
@@ -78,7 +79,7 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
 
         <Typography
           sx={{
-            color: "rgb(236, 23, 99)",
+            color: "black",
             fontSize: {
               xs: "0.9rem", // Font size for extra-small devices (e.g., phones)
               sm: "0.9rem", // Font size for small devices (e.g., tablets)
@@ -109,7 +110,7 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
             overflow: "hidden",
             textOverflow: "ellipsis",
             fontStyle: "italic",
-            fontFamily: "'Montserrat', sans-serif", // Explicitly set the font
+            fontFamily: "'Open Sans', serif", // Explicitly set the font
           }}
         >
           <strong>Date:</strong> {manipulateDateAndTime(date)}
@@ -125,6 +126,7 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
             sx={{
               fontWeight: "bold",
               fontSize: "0.9rem",
+              fontFamily: "'Open Sans', serif", 
               backgroundColor: "white",
               color: "black",
               "&:hover": {

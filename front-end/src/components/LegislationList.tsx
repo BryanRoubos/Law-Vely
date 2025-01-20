@@ -49,7 +49,7 @@ function LegislationList({ legislation }: LegislationListProps) {
   return (
     <div
       id="LegList-Container"
-      className="grid grid-cols-1 gap-8 md:grid-cols-2 p-4"
+      className="grid grid-cols-1 gap-10 md:grid-cols-2 p-4"
     >
       {legislation.map((leg) => (
         <Link key={leg.id} to={`/legislations/${leg.id}`}>
