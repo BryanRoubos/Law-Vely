@@ -9,8 +9,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark as regularBookmark } from "@fortawesome/free-regular-svg-icons";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-import { Link } from "@mui/material";
+import { useState, useEffect } from "react";
+import { ref, get, set, remove } from "firebase/database";
+import { db } from "../../firebaseConfig"; // Ensure Firebase is configured
+
 
 interface SingleLegislation {
   id: string;
@@ -26,8 +28,52 @@ interface SingleLegislationCardProps {
 }
 
 function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
-  const [isTrackedClicked, setIsTrackedClicked] = useState(false);
+  const [isTracked, setIsTracked] = useState(false);
   const [showSubSections, setShowSubSections] = useState(false);
+
+  // Mock user UID; replace this with your actual authentication
+  const userUID = localStorage.getItem("userUID") || "test-user";
+
+  // Check if the legislation is already tracked
+  useEffect(() => {
+    if (!userUID) return;
+
+    const checkTrackedStatus = async () => {
+      const trackRef = ref(db, `users/${userUID}/savedLegislations/${legislation.id}`);
+      const snapshot = await get(trackRef);
+      setIsTracked(snapshot.exists());
+    };
+
+    checkTrackedStatus();
+  }, [userUID, legislation.id]);
+
+  // Handle track/untrack action
+  const handleTrackLegislation = async () => {
+    if (!userUID) {
+      alert("You must be logged in to track legislation.");
+      return;
+    }
+
+    const trackRef = ref(db, `users/${userUID}/savedLegislations/${legislation.id}`);
+
+    try {
+      if (isTracked) {
+        // Remove legislation from tracked list
+        await remove(trackRef);
+        setIsTracked(false);
+      } else {
+        // Add legislation to tracked list
+        await set(trackRef, {
+          title: legislation.title,
+          timestamp: Date.now(), // Optional: Add timestamp for tracking
+        });
+        setIsTracked(true);
+      }
+    } catch (error) {
+      console.error("Error updating tracked status:", error);
+      alert("Failed to update tracked status. Please try again.");
+    }
+  };
 
   return (
     <div id="SLC-1" className="md:mx-8">
@@ -99,14 +145,14 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           id="track-btn"
           variant="contained"
           type="button"
-          onClick={() => setIsTrackedClicked(!isTrackedClicked)}
+          onClick={handleTrackLegislation}
           className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
         >
           <FontAwesomeIcon
-            icon={isTrackedClicked ? solidBookmark : regularBookmark}
+            icon={isTracked ? solidBookmark : regularBookmark}
             className="mr-2"
           />
-          {isTrackedClicked ? `Tracked` : `Track`}
+          {isTracked ? `Tracked` : `Track`}
         </Button>
         <ReportPopup />
       </div>
