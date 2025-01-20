@@ -53,13 +53,19 @@ const SearchBar: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     const params = new URLSearchParams();
     if (searchQuery.trim()) {
       params.set("search", searchQuery.trim());
     }
     navigate(`/?${params.toString()}`);
     setSearchQuery("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
   };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -78,6 +84,7 @@ const SearchBar: React.FC = () => {
         placeholder="Search..."
         value={searchQuery}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
       />
       <button
         id="Search-3"

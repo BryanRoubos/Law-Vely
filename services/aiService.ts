@@ -217,3 +217,39 @@ export const generateCategories = async (
     throw new Error("Failed to generate categories for legislation text.");
   }
 };
+
+
+export const extractLegislationDate = async (
+  legislationTextRaw: string
+): Promise<string> => {
+  try {
+    const dateResponse = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Extract the date of the legislation in a format like '8th February 1974'. Ensure that no other text other than the day, month and year is extracted. If no date exists, respond with 'No date found.'",
+          },
+          { role: "user", content: legislationTextRaw },
+        ],
+        max_tokens: 50,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    const extractedDate = dateResponse.data.choices[0].message.content.trim();
+    return extractedDate;
+  } catch (error: any) {
+    console.error("Error extracting date:", error.message);
+    throw new Error("Failed to extract date from legislation text.");
+  }
+};
+

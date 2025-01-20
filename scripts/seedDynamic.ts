@@ -81,10 +81,14 @@ const seedDatabase = async (
 };
 
 // Example usage:
+
 const START_YEAR = 2006;
 const END_YEAR = 2006;
 const START_CHAPTER = 18;
 const END_CHAPTER = 18;
+
+
+
 const SEED_LIMIT = 1;
 
 seedDatabase(START_YEAR, END_YEAR, START_CHAPTER, END_CHAPTER, SEED_LIMIT);
