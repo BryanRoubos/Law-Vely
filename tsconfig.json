@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2019",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "outDir": "./built",
     "allowJs": true,
-    "resolveJsonModule": true,  // Allow importing JSON modules
+    "resolveJsonModule": true, // Allow importing JSON modules
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["node_modules/@types"],
     "types": ["node", "jest", "express"]
