@@ -157,57 +157,55 @@ export const generateCategories = async (
       }
     );
 
-    // Parse the response content
     const assignedCategories = response.data.choices[0].message.content
       .split(/,\s*/)
       .map((category: string) => category.trim());
 
-    // Filter out invalid categories
     const validCategories = assignedCategories.filter((category: string) =>
       topics.includes(category)
     );
     if (validCategories.length > 0) {
-      // OpenAI returned valid categories
       return validCategories;
     }
 
-    // Log a warning before falling back to NLP-based categorization
     console.warn(
       "No valid categories assigned by OpenAI. Falling back to NLP-based categorization."
     );
-    // Tokenize the combined text
+
     const tokenizer = new natural.WordTokenizer();
     const textTokens = tokenizer.tokenize(combinedText.toLowerCase());
 
-    // Create a frequency map of tokens in the combined text
     const tokenFreq: { [key: string]: number } = {};
     textTokens.forEach((token) => {
       tokenFreq[token] = (tokenFreq[token] || 0) + 1;
     });
 
-    // Calculate a score for each category by comparing token frequency with topic tokens
     const topicScores = topics.map((topic) => {
       const topicTokens = tokenizer.tokenize(topic.toLowerCase());
       let score = 0;
 
-      // For each topic, accumulate the score based on frequency of matching tokens
       topicTokens.forEach((topicToken) => {
         if (tokenFreq[topicToken]) {
-          score += tokenFreq[topicToken]; // Weight by frequency of matching tokens
+          score += tokenFreq[topicToken];
         }
       });
 
       return { topic, score };
     });
 
-    // Sort the topics by score in descending order
     const bestMatch = topicScores.sort((a, b) => b.score - a.score)[0];
 
-    // If best match has zero score, use fuzzy matching as a fallback
     if (bestMatch.score === 0) {
       const fuzzyMatch = stringSimilarity.findBestMatch(combinedText, topics);
-      console.log("Fuzzy Match Results:", fuzzyMatch.ratings);
-      return [fuzzyMatch.bestMatch.target];
+      const sortedMatches = fuzzyMatch.ratings.sort(
+        (a, b) => b.rating - a.rating
+      );
+
+      // Extract the top 3 matches
+      const topMatches = sortedMatches.slice(0, 3).map((match) => match.target);
+
+      console.log("Top 3 fuzzy matches:", topMatches);
+      return topMatches;
     }
 
     console.log("Selected category based on token frequency:", bestMatch.topic);
@@ -217,7 +215,6 @@ export const generateCategories = async (
     throw new Error("Failed to generate categories for legislation text.");
   }
 };
-
 
 export const extractLegislationDate = async (
   legislationTextRaw: string
@@ -252,4 +249,3 @@ export const extractLegislationDate = async (
     throw new Error("Failed to extract date from legislation text.");
   }
 };
-

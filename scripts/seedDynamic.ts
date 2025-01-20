@@ -8,7 +8,7 @@ const getRandomChapters = (
   endChapter: number,
   limit: number
 ): number[] => {
-  const chapters: number[] = []; // Explicitly define the type as number[]
+  const chapters: number[] = [];
   const range = endChapter - startChapter + 1;
 
   while (chapters.length < limit && chapters.length < range) {
@@ -47,7 +47,6 @@ const seedDatabase = async (
         chapterNumbers.map(async (chapter) => {
           const url = `${LEGISLATION_API_BASE_URL}/${year}/${chapter}/data.xht?view=snippet&wrap=true`;
 
-          // Check if the legislation already exists in the database
           const legislationRef = db.ref("legislationSummaries");
           const snapshot = await legislationRef
             .orderByChild("url")
@@ -58,10 +57,9 @@ const seedDatabase = async (
             console.log(
               `Legislation with URL ${url} already exists. Skipping...`
             );
-            return null; // Skip processing if the legislation already exists
+            return null;
           }
 
-          // Process the legislation if it doesn't exist
           return processLegislation(url);
         })
       );
@@ -80,15 +78,11 @@ const seedDatabase = async (
   }
 };
 
-// Example usage:
+const START_YEAR = 1994;
+const END_YEAR = 2000;
+const START_CHAPTER = 2;
+const END_CHAPTER = 48;
 
-const START_YEAR = 2006;
-const END_YEAR = 2006;
-const START_CHAPTER = 18;
-const END_CHAPTER = 18;
-
-
-
-const SEED_LIMIT = 1;
+const SEED_LIMIT = 6;
 
 seedDatabase(START_YEAR, END_YEAR, START_CHAPTER, END_CHAPTER, SEED_LIMIT);
