@@ -51,7 +51,11 @@ export const extractTitle = async (
 
 export const generateSummaries = async (
   legislationTextRaw: string
-): Promise<{ summaryOfLegislation: string; summaryOfSubSections: string; extractTitle: string}> => {
+): Promise<{
+  summaryOfLegislation: string;
+  summaryOfSubSections: string;
+  extractTitle: string;
+}> => {
   try {
     const title = await extractTitle(legislationTextRaw);
     const summaryPayloads = [
@@ -59,8 +63,7 @@ export const generateSummaries = async (
         messages: [
           {
             role: "system",
-            content:
-              `Begin the summary with "The ${title} relates to..." You are an assistant that explains the legal texts concisely in a summary, and in layman's terms. Ensure the text is shorter than the original text from the url.`,
+            content: `Begin the summary with "The ${title} relates to..." You are an assistant that explains the legal texts concisely in a summary, and in layman's terms. Ensure the text is shorter than the original text from the url.`,
           },
           {
             role: "user",
@@ -72,8 +75,7 @@ export const generateSummaries = async (
         messages: [
           {
             role: "system",
-            content:
-              `Explain each sub-section of the act in a step-by-step manner, starting with "The subsections of ${title} cover...". Make it simple and easy to understand.`,
+            content: `Explain each sub-section of the act in a step-by-step manner, starting with "The subsections of ${title} cover...". Make it simple and easy to understand.`,
           },
           {
             role: "user",
@@ -82,8 +84,6 @@ export const generateSummaries = async (
         ],
       },
     ];
-
-    
 
     const summaryResponse = await Promise.all(
       summaryPayloads.map((payload) =>
@@ -120,7 +120,10 @@ export const generateSummaries = async (
   }
 };
 
-export const generateCategories = async (summaryOfSubSections: string, title: string): Promise<string[]> => {
+export const generateCategories = async (
+  summaryOfSubSections: string,
+  title: string
+): Promise<string[]> => {
   try {
     const combinedText = `Title: ${title}\nSummaryOfSubsections: ${summaryOfSubSections}`;
     const response = await axios.post(
@@ -160,5 +163,39 @@ export const generateCategories = async (summaryOfSubSections: string, title: st
   } catch (error: any) {
     console.error("Error generating categories:", error);
     throw new Error("Failed to generate categories for the summary.");
+  }
+};
+
+export const extractLegislationDate = async (
+  legislationTextRaw: string
+): Promise<string> => {
+  try {
+    const dateResponse = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "Extract the date of the legislation in a format like '8th February 1974'. Ensure that no other text other than the day, month and year is extracted. If no date exists, respond with 'No date found.'",
+          },
+          { role: "user", content: legislationTextRaw },
+        ],
+        max_tokens: 50,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+      }
+    );
+
+    const extractedDate = dateResponse.data.choices[0].message.content.trim();
+    return extractedDate;
+  } catch (error: any) {
+    console.error("Error extracting date:", error.message);
+    throw new Error("Failed to extract date from legislation text.");
   }
 };
