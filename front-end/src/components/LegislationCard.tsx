@@ -1,4 +1,3 @@
-import { manipulateDateAndTime } from "../utils/utils";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
@@ -8,11 +7,11 @@ import Typography from "@mui/material/Typography";
 
 interface LegislationCardProps {
   title: string;
-  date: string;
+  legislationDate: string;
   categories: string[];
 }
 
-function LegislationCard({ title, date, categories }: LegislationCardProps) {
+function LegislationCard({ title, legislationDate, categories }: LegislationCardProps) {
   // return (
   //   <div
   //     id="LegCard-1"
@@ -113,7 +112,7 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
             fontFamily: "'Open Sans', serif", // Explicitly set the font
           }}
         >
-          <strong>Date:</strong> {manipulateDateAndTime(date)}
+          <strong>Date: {legislationDate}</strong>
         </Typography>
       </CardContent>
 

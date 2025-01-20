@@ -55,7 +55,7 @@ function LegislationList({ legislation }: LegislationListProps) {
         <Link key={leg.id} to={`/legislations/${leg.id}`}>
           <LegislationCard
             title={leg.title}
-            date={leg.legislationDate}
+            legislationDate={leg.legislationDate}
             categories={leg.categories}
           />
         </Link>
