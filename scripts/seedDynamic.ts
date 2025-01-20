@@ -79,10 +79,10 @@ const seedDatabase = async (
 };
 
 const START_YEAR = 1994;
-const END_YEAR = 2000;
+const END_YEAR = 1994;
 const START_CHAPTER = 2;
-const END_CHAPTER = 48;
+const END_CHAPTER = 2;
 
-const SEED_LIMIT = 6;
+const SEED_LIMIT = 1;
 
 seedDatabase(START_YEAR, END_YEAR, START_CHAPTER, END_CHAPTER, SEED_LIMIT);
