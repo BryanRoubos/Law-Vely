@@ -30,7 +30,6 @@
 import LegislationCard from "./LegislationCard";
 import { Link } from "react-router-dom";
 
-// Define the Legislation type
 interface Legislation {
   id: string;
   summaryOfLegislation: string;
@@ -39,6 +38,7 @@ interface Legislation {
   title: string;
   categories: string[];
   url: string;
+  legislationDate: string;
 }
 
 interface LegislationListProps {
@@ -47,10 +47,17 @@ interface LegislationListProps {
 
 function LegislationList({ legislation }: LegislationListProps) {
   return (
-    <div>
+    <div
+      id="LegList-Container"
+      className="grid grid-cols-1 gap-8 md:grid-cols-2 p-4"
+    >
       {legislation.map((leg) => (
         <Link key={leg.id} to={`/legislations/${leg.id}`}>
-          <LegislationCard title={leg.title} date={leg.timestamp} />
+          <LegislationCard
+            title={leg.title}
+            date={leg.legislationDate}
+            categories={leg.categories}
+          />
         </Link>
       ))}
     </div>
