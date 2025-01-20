@@ -61,11 +61,17 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           </div>
         )}
       </div>
-      
-      <p id="SLC-4" className="text-sm text-gray-500 m-1">
+
+      <a href={legislation.url} className="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline mt-2">
+          Read the full legislation here <svg className="w-4 h-4 ms-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+      </a>
+
+      <p id="SLC-4" className="text-sm text-gray-500 mt-1 mb-2">
         Date Created: {manipulateDateAndTime(legislation.timestamp)}
       </p>
-      <a href={legislation.url}>Find more information here...</a>
+      
       <div id="SLC-5" className="flex justify-between">
         <Button
           id="track-btn"

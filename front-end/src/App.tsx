@@ -13,7 +13,7 @@ function App() {
 
   const location = useLocation();
 
-  const hideNavBarPaths = ["/signin", "/signup"];
+  const hideNavBarPaths = ["/signin", "/signup", "/account"];
   const shouldHideNavBar = hideNavBarPaths.includes(location.pathname)
 
 
