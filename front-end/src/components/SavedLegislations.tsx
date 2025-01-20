@@ -1,108 +1,80 @@
-import LegislationList from "./LegislationList";
-import LegislationSection from "./LegislationSection";
-import LegislationCard from "./LegislationCard";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ref, get } from "firebase/database";
+import { db } from "../../firebaseConfig"; 
+import { Link, useNavigate } from "react-router-dom";
 
 interface Legislation {
   id: string;
-  summaryOfLegislation: string;
-  summaryOfSubSections: string;
-  timestamp: number;
   title: string;
+  timestamp: number;
 }
 
-const savedLegislations: Legislation[] = [
-    {
-        id: "101",
-        title: "Universal Healthcare Act",
-        summaryOfLegislation:
-        "This act ensures free access to healthcare services for all citizens.",
-        summaryOfSubSections: `- **Section 1**: Funding initiatives\n- **Section 2**: Eligibility criteria`,
-        timestamp: 1678901234567,
-    },
-    {
-        id: "102",
-        title: "Clean Water Bill",
-        summaryOfLegislation:
-        "A bill focused on protecting freshwater resources and reducing pollution.",
-        summaryOfSubSections: `- **Section 1**: Industrial waste management\n- **Section 2**: Water conservation programs`,
-        timestamp: 1678901234567,
-    },
-    {
-        id: "1",
-        title: "Climate Change Bill 2025",
-        summaryOfLegislation:
-            "This bill aims to reduce greenhouse gas emissions by 50% by 2030.",
-        summaryOfSubSections: `- **Section 1**: Renewable energy initiatives\n- **Section 2**: Carbon tax regulations`,
-        timestamp: 1678901234567,
-        },
-        {
-        id: "2",
-        title: "Data Privacy Act",
-        summaryOfLegislation:
-            "An act to strengthen user privacy and regulate data collection.",
-        summaryOfSubSections: `- **Section 1**: User consent policies\n- **Section 2**: Data breach penalties`,
-        timestamp: 1678901234567,
-    },
-];
+interface SavedLegislationsProps {
+  uid: string | undefined;
+}
 
-const popularLegislations: Legislation[] = [
-  {
-    id: "101",
-    title: "Universal Healthcare Act",
-    summaryOfLegislation:
-      "This act ensures free access to healthcare services for all citizens.",
-    summaryOfSubSections: `- **Section 1**: Funding initiatives\n- **Section 2**: Eligibility criteria`,
-    timestamp: 1678901234567,
-  },
-  {
-    id: "102",
-    title: "Clean Water Bill",
-    summaryOfLegislation:
-      "A bill focused on protecting freshwater resources and reducing pollution.",
-    summaryOfSubSections: `- **Section 1**: Industrial waste management\n- **Section 2**: Water conservation programs`,
-    timestamp: 1678901234567,
-  },
-  {
-    id: "1",
-    title: "Climate Change Bill 2025",
-    summaryOfLegislation:
-        "This bill aims to reduce greenhouse gas emissions by 50% by 2030.",
-    summaryOfSubSections: `- **Section 1**: Renewable energy initiatives\n- **Section 2**: Carbon tax regulations`,
-    timestamp: 1678901234567,
-    },
-    {
-    id: "2",
-    title: "Data Privacy Act",
-    summaryOfLegislation:
-        "An act to strengthen user privacy and regulate data collection.",
-    summaryOfSubSections: `- **Section 1**: User consent policies\n- **Section 2**: Data breach penalties`,
-    timestamp: 1678901234567,
-    },
-];
+const SavedLegislations = ({ uid }: SavedLegislationsProps) => {
+  const [legislations, setLegislations] = useState<Legislation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
-function SavedLegislations() {
+  useEffect(() => {
+    if (!uid) {
+      setIsLoading(false);
+      return;
+    }
+
+    const fetchLegislations = async () => {
+      const userRef = ref(db, `users/${uid}/savedLegislations`);
+      try {
+        const snapshot = await get(userRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          const formattedLegislations = Object.entries(data).map(
+            ([id, legislation]: any) => ({
+              id,
+              title: legislation.title,
+              timestamp: legislation.timestamp,
+            })
+          );
+          setLegislations(formattedLegislations);
+        } else {
+          setLegislations([]);
+        }
+      } catch (error) {
+        console.error("Error fetching legislations:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLegislations();
+  }, [uid]);
+
+  if (isLoading) {
+    return <p>Loading saved legislations...</p>;
+  }
+
+  if (legislations.length === 0) {
+    return <p>You have no tracked legislations.</p>;
+  }
+
   return (
-    <>
-      {savedLegislations.length > 0 ? (
-        savedLegislations.map((legislation) => (
-          <Link to={`/legislations/${legislation.id}`} key={legislation.id}>
-            <LegislationCard
-              title={legislation.title}
-              date={legislation.timestamp}
-            />
-          </Link>
-        ))
-      ) : (
-        <div>
-          <h2 id="SavedLeg-1" className="text-lg text-gray-800">
-            You have no tracked legislation, here are all available legislations:
-          </h2>
-          <LegislationSection />
-        </div>
-      )}
-    </>
+    <div>
+      {legislations.map((legislation) => (
+        <Link
+          to={`/legislations/${legislation.id}`}
+          key={legislation.id}
+          className="block mb-4 p-4 bg-gray-200 rounded-md shadow-md hover:bg-gray-300"
+        >
+          <h3 className="font-semibold text-lg">{legislation.title}</h3>
+          <p className="text-sm">
+            <strong>Timestamp:</strong> {new Date(legislation.timestamp).toLocaleString()}
+          </p>
+        </Link>
+      ))}
+    </div>
   );
-}
+};
 
 export default SavedLegislations;
