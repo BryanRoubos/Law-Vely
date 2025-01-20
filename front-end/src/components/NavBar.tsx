@@ -1,24 +1,39 @@
 import CategoriesList from "./CategoriesList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faBars } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
 
-function NavBar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const NavBar: React.FC = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const toggleMenu = () => {
+  const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleCategoryClick = () => {
+  const handleCategoryClick = (): void => {
     setIsMenuOpen(false);
   };
+
+  useEffect(() => {
+    const handleFocusChange = (e: FocusEvent): void => {
+      const navElement = document.getElementById("Nav-1");
+      if (navElement && !navElement.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("focusin", handleFocusChange);
+
+    return () => {
+      document.removeEventListener("focusin", handleFocusChange);
+    };
+  }, []);
 
   return (
     <div>
       <div
         id="Nav-1"
-        className="flex items-center justify-between bg-purple-700 text-white p-3 md:hidden mb-10 hover:gb-gray"
+        className="bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center justify-between bg-purple-700 text-white p-3 md:hidden hover:gb-gray"
       >
         <h3 id="Nav-2" className="text-base font-bold">
           Topics
@@ -33,10 +48,7 @@ function NavBar() {
       </div>
 
       {isMenuOpen && (
-        <div
-          id="Nav-3"
-          className="bg-purple-500 text-white p-4 md:hidden rounded-"
-        >
+        <div id="Nav-3" className="text-white md:hidden rounded-md">
           <CategoriesList handleCategoryClick={handleCategoryClick} />
         </div>
       )}
@@ -46,6 +58,6 @@ function NavBar() {
       </div>
     </div>
   );
-}
+};
 
 export default NavBar;

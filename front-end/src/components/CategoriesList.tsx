@@ -83,7 +83,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
   return (
     <aside
       id="CL-1"
-      className="bg-gradient-to-r from-purple-600 to-indigo-500 text-white w-full rounded-lg shadow-lg p-4 m-2"
+      className="bg-gradient-to-r from-purple-600 to-indigo-500 text-white w-full md:rounded-lg shadow-lg p-4 md:m-2 md:mt-3"
     >
       <ul id="CL-2" className="space-y-3">
         {categories.map((category, index) => (

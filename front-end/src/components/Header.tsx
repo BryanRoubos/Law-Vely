@@ -19,9 +19,9 @@ function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
+    <header className="bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
       {/* left logo and home icon */}
-      <div className="flex items-center gap-4 flex-shrink-0">
+      <div className="flex items-center gap-1 flex-shrink-0">
         <Logo />
         <Link to="/" className="flex items-center">
           <FontAwesomeIcon
