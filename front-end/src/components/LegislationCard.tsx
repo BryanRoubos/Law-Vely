@@ -2,11 +2,11 @@ import { manipulateDateAndTime } from "../utils/utils";
 
 interface LegislationCardProps {
   title: string;
-  date: string;
+  legislationDate: string;
   categories: string[];
 }
 
-function LegislationCard({ title, date, categories }: LegislationCardProps) {
+function LegislationCard({ title, legislationDate, categories }: LegislationCardProps) {
   return (
     <div
       className="flex flex-col justify-between w-11/12 max-w-sm p-4 mx-auto bg-white rounded-lg shadow-md dark:bg-gray-800 
@@ -24,7 +24,7 @@ function LegislationCard({ title, date, categories }: LegislationCardProps) {
             : categories.join(", ")}
         </p>
         <p className="text-sm italic text-gray-500 dark:text-gray-400 font-roboto">
-          <strong>Date:</strong> {manipulateDateAndTime(date)}
+          <strong>Date: {legislationDate}</strong>
         </p>
       </div>
       <div className="flex justify-center mt-6">

@@ -27,7 +27,7 @@ function LegislationList({ legislation }: LegislationListProps) {
         >
           <LegislationCard
             title={leg.title}
-            date={leg.legislationDate}
+            legislationDate={leg.legislationDate}
             categories={leg.categories}
           />
         </Link>
