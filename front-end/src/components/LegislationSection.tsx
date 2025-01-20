@@ -12,6 +12,7 @@ interface Legislation {
   title: string;
   categories: string[];
   url: string;
+  legislationDate: string;
 }
 
 interface LegislationResponse {
@@ -33,6 +34,7 @@ function LegislationSection() {
     setIsError(null);
     fetchLegislationData(categoryQuery, searchQuery)
       .then((legislations) => {
+        console.log(legislations);
         setLegislationData(legislations);
         setIsLoading(null);
       })
@@ -65,7 +67,7 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-4 space-y-3">
-      <h1 id="LS-2" className="text-center font-bold text-5xl pt-6 md:">
+      <h1 id="LS-2" className="text-center font-bold text-3xl pt-6 md:">
         Legislations for{" "}
         {categoryQuery
           ? categoryQuery

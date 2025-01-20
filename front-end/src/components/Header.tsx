@@ -23,43 +23,47 @@ function Header() {
       {/* left logo and home icon */}
       <div className="flex items-center gap-4 flex-shrink-0">
         <Logo />
-        <Link to="/">
+        <Link to="/" className="flex items-center">
           <FontAwesomeIcon
             icon={faHome}
-            className="text-xl hover:text-purple-300"
+            className="text-xl hover:text-purple-300 transition-colors duration-200"
           />
         </Link>
       </div>
-
       {/* center section: larger search bar */}
       <div className="flex-grow mx-4">
         <div className="hidden sm:flex justify-center">
           <SearchBar />
         </div>
 
-        {/* mobile toggle bar */}
+        {/* Small screens: Toggleable Search Bar */}
         {isSearchVisible && (
-          <div className="absolute inset-0 top-0 bg-purple-700 flex items-center px-4 z-10">
+          <div className="absolute inset-0 top-0 bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center px-4 z-20 shadow-lg">
             <button
               onClick={toggleSearchBar}
-              className="text-white text-2xl mr-4"
+              className="text-white text-2xl mr-4 hover:text-purple-300 transition-colors duration-200"
             >
               <FontAwesomeIcon icon={faArrowLeftLong} />
             </button>
             <SearchBar />
           </div>
         )}
-        <button onClick={toggleSearchBar} className="sm:hidden text-xl">
+        {/* Mobile Search Icon */}
+        <button
+          onClick={toggleSearchBar}
+          className="sm:hidden text-xl hover:text-purple-300 transition-colors duration-200"
+        >
           <FontAwesomeIcon icon={faSearch} />
         </button>
       </div>
 
+
       {/* right section: user and sign-in button */}
       <div className="flex items-center gap-4">
-        <Link to="/account">
+        <Link to="/account" className="flex items-center">
           <FontAwesomeIcon
             icon={faUser}
-            className="text-xl hover:text-purple-300"
+            className="text-xl hover:text-purple-300 transition-colors duration-200"
           />
         </Link>
         <SignInButton />
