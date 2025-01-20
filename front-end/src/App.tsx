@@ -18,7 +18,7 @@ function App() {
 
 
   return (
-    <div id="App-1" className="bg-blue-100">
+    <div id="App-1" className="font-montserrat bg-blue-100">
     <Header />
     <div id="App-2" className="flex justify-between items-stretch flex-col md:flex-row">
       {!shouldHideNavBar && <NavBar />}

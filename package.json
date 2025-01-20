@@ -6,7 +6,7 @@
     "test": "jest",
     "start": "ts-node app.ts",
     "dev": "nodemon app.ts",
-    "seed": "ts-node scripts/seedDatabase.ts"
+    "seed": "ts-node scripts/seedDynamic.ts"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +18,10 @@
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "firebase": "^11.2.0",
     "firebase-admin": "^13.0.2",
     "node-cron": "^3.0.3",
     "openai": "^4.78.0",
