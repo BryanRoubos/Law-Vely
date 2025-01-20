@@ -18,7 +18,7 @@ function NavBar() {
     <div>
       <div
         id="Nav-1"
-        className="flex items-center justify-between bg-purple-700 text-white p-3 md:hidden mb-10"
+        className="flex items-center justify-between bg-purple-700 text-white p-3 md:hidden mb-10 hover:gb-gray"
       >
         <h3 id="Nav-2" className="text-base font-bold">
           Topics

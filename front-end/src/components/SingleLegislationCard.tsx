@@ -83,17 +83,22 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
       >
         {legislation.title}
       </h1>
-      <h2>
-        <strong>Summary</strong>
-      </h2>
-      <p id="SLC-3" className="text-gray-600 mb-4">{legislation.summaryOfLegislation}</p>
-
-      <div>
+  
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold text-gray-700 mb-2">
+          Summary
+        </h2>
+        <p id="SLC-3" className="text-gray-600 leading-relaxed">
+          {legislation.summaryOfLegislation}
+        </p>
+      </div>
+  
+      <div className="mb-6">
         <Button
           id="subsect-btn"
           variant="text"
           onClick={() => setShowSubSections(!showSubSections)}
-          className="flex items-center text-blue-600"
+          className="flex items-center text-blue-600 hover:underline"
         >
           {showSubSections ? (
             <>
@@ -105,29 +110,43 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
             </>
           )}
         </Button>
-
+  
         {showSubSections && (
-          <div>
-            <h2>Subsection Summaries</h2>
-            <ReactMarkdown className="text-gray-600 mb-4">
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold text-gray-700 mb-2">
+              Subsection Summaries
+            </h2>
+            <ReactMarkdown className="text-gray-600 leading-relaxed">
               {legislation.summaryOfSubSections}
             </ReactMarkdown>
           </div>
         )}
       </div>
-
-      <p id="SLC-4" className="text-sm text-gray-500 m-1">
-        Date Created: {manipulateDateAndTime(legislation.timestamp)}
-      </p>
-      <a href={legislation.url} target="_blank" rel="noopener noreferrer">
-        Find more information here...
+  
+      <div className="text-sm text-gray-500 mb-4">
+        <p id="SLC-4">
+          Date Created: {manipulateDateAndTime(legislation.timestamp)}
+        </p>
+      </div>
+  
+      {legislation.url && (
+        <div className="mb-6">
+          <a href={legislation.url} className="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline mt-2" target="_blank">
+          Read the full legislation here <svg className="w-4 h-4 ms-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
       </a>
-      <div id="SLC-5" className="flex justify-between mt-4">
+        </div>
+      )}
+  
+      <div id="SLC-5" className="flex justify-between items-center">
+        
         <Button
           id="track-btn"
           variant="contained"
           type="button"
           onClick={handleTrackLegislation}
+          className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
         >
           <FontAwesomeIcon
             icon={isTracked ? solidBookmark : regularBookmark}

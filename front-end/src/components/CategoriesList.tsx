@@ -43,11 +43,11 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
           <li
             key={index}
             id="CL-3"
-            className="text-lg md:font-bold md:hover:underline md:p-3 p-1 m-2"
+            className="text-lg md:font-bold md:hover:underline md:p-3 p-1 m-2 rounded-md hover:bg-green-300 w-3/4"
           >
             <button
               onClick={() => handleCategoryChange(category)}
-              className="w-full text-left"
+              className="w-full text-left transform transition-transform duration-200 hover:scale-110 hover:text-blue-500"
             >
               {category}
             </button>
