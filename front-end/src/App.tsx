@@ -17,7 +17,7 @@ function App() {
 
   return (
     // <div id="App-1" className="font-montserrat bg-blue-100">
-    <div id="App-1" className="font-montserrat app-background-colour">
+    <div id="App-1" className="font-montserrat app-background-colour md:flex-row">
       <Header />
       <div
         id="App-2"

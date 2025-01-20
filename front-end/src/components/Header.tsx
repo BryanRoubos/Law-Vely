@@ -19,9 +19,9 @@ function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
-      {/* left logo and home icon */}
-      <div className="flex items-center gap-4 flex-shrink-0">
+    <header className="flex items-center justify-between h-16 bg-gradient-to-r from-purple-600 to-indigo-500 px-4 text-white shadow-md relative">
+      {/* Left: Logo and Home Icon */}
+      <div className="flex items-center gap-4">
         <Logo />
         <Link to="/" className="flex items-center">
           <FontAwesomeIcon
@@ -30,12 +30,12 @@ function Header() {
           />
         </Link>
       </div>
-      {/* center section: larger search bar */}
-      <div className="flex-grow mx-4">
+      {/* Center: Search Bar */}
+      <div className="flex-grow mx-6">
+        {/* Large screens: Show Search Bar */}
         <div className="hidden sm:flex justify-center">
           <SearchBar />
         </div>
-
         {/* Small screens: Toggleable Search Bar */}
         {isSearchVisible && (
           <div className="absolute inset-0 top-0 bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center px-4 z-20 shadow-lg">
@@ -56,9 +56,7 @@ function Header() {
           <FontAwesomeIcon icon={faSearch} />
         </button>
       </div>
-
-
-      {/* right section: user and sign-in button */}
+      {/* Right: User Icon and Sign-In Button */}
       <div className="flex items-center gap-4">
         <Link to="/account" className="flex items-center">
           <FontAwesomeIcon
