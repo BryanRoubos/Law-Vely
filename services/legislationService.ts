@@ -6,6 +6,7 @@ import {
   extractTitle,
   generateSummaries,
   generateCategories,
+  extractLegislationDate,
 } from "./aiService";
 import { createSlug } from "../utils/slug";
 
@@ -22,6 +23,7 @@ export const processLegislation = async (url: string) => {
     if (!textContent) throw new Error("No legislation text found.");
 
     const title = await extractTitle(textContent);
+    const legislationDate = await extractLegislationDate(textContent);
     const { summaryOfLegislation, summaryOfSubSections } =
       await generateSummaries(textContent);
 
@@ -35,6 +37,7 @@ export const processLegislation = async (url: string) => {
       url,
       summaryOfLegislation,
       summaryOfSubSections,
+      legislationDate,
       categories: categories || [],
       status: categories.length > 0 ? "completed" : "pending",
       timestamp: Date.now(),
@@ -51,7 +54,7 @@ export const processLegislation = async (url: string) => {
 
 export const saveToDatabase = async (legislation: any) => {
   try {
-    const { id, title, categories } = legislation;
+    const { id, title, categories, legislationDate } = legislation;
     if (!legislation || !legislation.id) {
       console.error("Invalid legislation data:", legislation);
       return; // Skip saving this record
@@ -63,6 +66,7 @@ export const saveToDatabase = async (legislation: any) => {
     } else {
       await db.ref(`legislationSummaries/${id}`).set(legislation);
       console.log(`Saved legislation: ${title}`);
+      console.log(`Saved legislation: ${title} with date: ${legislationDate}`);
     }
   } catch (error) {
     console.error("Error saving to database:", error);
