@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchLegislationData } from "../api";
-import LegislationList from "./LegislationList";
 import { useSearchParams } from "react-router-dom";
+import LegislationList from "./LegislationList";
 import Pagination from "./Pagination";
+import Spinner from "./Spinner";
+import NoResults from "./NoResults";
 import LegislationListSkeleton from "./LoadingStyling/legislationListSkeleton";
 
 interface Legislation {
@@ -50,8 +52,20 @@ function LegislationSection() {
       });
   }, [categoryQuery, searchQuery]);
 
+  if (isLoading) {
+    return (
+      <>
+        <Spinner />
+      </>
+  )
+  }
+
   if (isError) {
-    return <div>{isError}</div>;
+    return (
+      <div className="m-2 text-center text-xl">
+        {<NoResults />}
+      </div>
+  );
   }
 
   const legislationArray = Object.entries(legislationData).map(

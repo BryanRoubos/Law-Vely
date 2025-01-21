@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
 import SavedLegislations from "./SavedLegislations";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
 
 interface User {
   name: string;
@@ -27,7 +28,11 @@ const ProfilePage = () => {
   }, [auth, navigate]);
 
   if (!user) {
-    return <p>Loading profile...</p>;
+    return (
+      <>
+        <Spinner />
+      </>
+  )
   }
 
   return (
