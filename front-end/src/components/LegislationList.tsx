@@ -18,7 +18,7 @@ interface LegislationListProps {
 
 function LegislationList({ legislation }: LegislationListProps) {
   return (
-    <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-2 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-2 lg:grid-cols-3">
       {legislation.map((leg) => (
         <Link
           key={leg.id}
