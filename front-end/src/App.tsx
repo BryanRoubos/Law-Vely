@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import "../src/css/App.css";
 
 function App() {
   const location = useLocation();

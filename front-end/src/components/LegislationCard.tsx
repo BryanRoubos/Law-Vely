@@ -11,9 +11,9 @@ function LegislationCard({
 }: LegislationCardProps) {
   return (
     <div
-      className="flex flex-col justify-between w-11/12 max-w-sm p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gray-100 rounded-lg shadow-lg dark:bg-gray-800 
+      className="flex flex-col justify-between w-11/12 max-w-sm p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gray-100 rounded-lg border border-blue-800 shadow-lg dark:bg-gray-800 
     hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-out animate-fade-in
-    h-[20rem] sm:h-[20rem] md:h-[20rem] lg:h-[20rem]"
+    h-[20rem] sm:h-[20rem] md:h-[20rem] lg:h-[22rem]"
     >
       <div className="text-center flex flex-col justify-between h-full">
         <h3

@@ -65,11 +65,14 @@ function LegislationSection() {
   );
 
   return (
-    <div id="LS-1" className="flex-1 p-4 space-y-3">
+    <div
+      id="LS-1"
+      className="flex-1 w-full p-4 space-y-3 flex flex-col items-center"
+    >
       <h1
         id="LS-2"
-        className="text-center font-bold text-2xl sm:text-xl md:text-3xl text-teal-700 dark:text-teal-400 pt-6 
-    tracking-wide leading-tight hover:shadow-md transition-shadow duration-300"
+        className="text-center font-bold text-3xl sm:text-2xl md:text-3xl lg:text-4xl text-white pt-6 
+        tracking-wide leading-tight hover:shadow-md transition-shadow duration-300"
       >
         Legislations for{" "}
         {categoryQuery
