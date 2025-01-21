@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { fetchLegislationData } from "../api";
-import LegislationList from "./LegislationList";
 import { useSearchParams } from "react-router-dom";
+import LegislationList from "./LegislationList";
 import Pagination from "./Pagination";
+import Spinner from "./Spinner";
+import NoResults from "./NoResults";
 
 interface Legislation {
   id: string;
@@ -34,7 +36,6 @@ function LegislationSection() {
     setIsError(null);
     fetchLegislationData(categoryQuery, searchQuery)
       .then((legislations) => {
-        console.log(legislations);
         setLegislationData(legislations);
         setIsLoading(null);
       })
@@ -51,11 +52,19 @@ function LegislationSection() {
   }, [categoryQuery, searchQuery]);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <>
+        <Spinner />
+      </>
+  )
   }
 
   if (isError) {
-    return <div>{isError}</div>;
+    return (
+      <div className="m-2 text-center text-xl">
+        {<NoResults />}
+      </div>
+  );
   }
 
   const legislationArray = Object.entries(legislationData).map(

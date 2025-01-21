@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchLegislationById } from "../api";
 import SingleLegislationCard from "./SingleLegislationCard";
+import Spinner from "./Spinner";
 
 interface Legislation {
   id: string;
@@ -16,7 +17,6 @@ function SingleLegislation() {
   const [legislation, setLegislation] = useState<Legislation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [hasError, setHasError] = useState<string | null>(null);
-
   const { legislation_id } = useParams<{ legislation_id: string }>();
 
   useEffect(() => {
@@ -33,7 +33,13 @@ function SingleLegislation() {
       });
   }, [legislation_id]);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return (
+    <>
+      <Spinner />
+    </>
+  )
+};
   if (hasError) return <p>Error: {hasError}</p>;
   if (!legislation) return <p>No legislation found.</p>;
 
