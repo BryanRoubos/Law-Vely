@@ -1,3 +1,4 @@
+import './css/App.css';
 import { Routes, Route, useLocation } from "react-router-dom";
 import LegislationSection from "./components/LegislationSection";
 import SingleLegislation from "./components/SingleLegislation";
