@@ -3,6 +3,7 @@ import { fetchLegislationData } from "../api";
 import LegislationList from "./LegislationList";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "./Pagination";
+import LegislationListSkeleton from "./LoadingStyling/legislationListSkeleton";
 
 interface Legislation {
   id: string;
@@ -23,20 +24,20 @@ function LegislationSection() {
   const [legislationData, setLegislationData] = useState<LegislationResponse>(
     {}
   );
-  const [isLoading, setIsLoading] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true)
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
   const categoryQuery = searchParams.get("category") || "";
 
   useEffect(() => {
-    setIsLoading("Legislations are loading...");
+    setIsLoading(true);
     setIsError(null);
     fetchLegislationData(categoryQuery, searchQuery)
       .then((legislations) => {
         console.log(legislations);
         setLegislationData(legislations);
-        setIsLoading(null);
+        setIsLoading(false);
       })
       .catch(() => {
         setIsError(
@@ -46,13 +47,9 @@ function LegislationSection() {
             ? `No legislations found for the category: ${categoryQuery}`
             : "Failed to load legislations. Please try again later!"
         );
-        setIsLoading(null);
+        setIsLoading(false);
       });
   }, [categoryQuery, searchQuery]);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
 
   if (isError) {
     return <div>{isError}</div>;
@@ -66,28 +63,34 @@ function LegislationSection() {
   );
 
   return (
-    <div id="LS-1" className="flex-1 p-4 space-y-3">
-      <h1 id="LS-2" className="text-center font-bold text-3xl pt-6 md:">
-        Legislations for{" "}
-        {categoryQuery
-          ? categoryQuery
-          : searchQuery
-          ? searchQuery
-          : "All Categories"}
-      </h1>
+    <div id="LS-1" className="flex-1 p-6 space-y-6">
+      {isLoading ? (
+        <LegislationListSkeleton count={10} />
+      ) : (
+        <>
+          <h1 id="LS-2" className="text-center font-bold text-3xl pt-6">
+            Legislations for{" "}
+            {categoryQuery
+              ? categoryQuery
+              : searchQuery
+              ? searchQuery
+              : "All Categories"}
+          </h1>
 
-      {categoryQuery && legislationArray.length === 0 && (
-        <p>No legislations found for this category.</p>
+          {categoryQuery && legislationArray.length === 0 && (
+            <p>No legislations found for this category.</p>
+          )}
+          <Pagination
+            legislations={legislationArray}
+            legislationsPerPage={10}
+            renderLegislations={(currentLegislations) => (
+              <div>
+                <LegislationList legislation={currentLegislations} />
+              </div>
+            )}
+          />
+        </>
       )}
-      <Pagination
-        legislations={legislationArray}
-        legislationsPerPage={10}
-        renderLegislations={(currentLegislations) => (
-          <div>
-            <LegislationList legislation={currentLegislations} />
-          </div>
-        )}
-      />
     </div>
   );
 }
