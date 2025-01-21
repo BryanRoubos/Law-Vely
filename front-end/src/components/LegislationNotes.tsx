@@ -48,6 +48,7 @@ function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
   const handleAddNote = async () => {
 
     if (!userUID){
+        alert("You must be logged in to add notes.");
         return navigate("/signin")
   }
 

@@ -150,8 +150,11 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           </a>
         </div>
       )}
-      <LegislationNotes legislationId={legislation.id} userUID={userUID} />
 
+      {userUID && (
+              <LegislationNotes legislationId={legislation.id} userUID={userUID} />
+      )}
+      
       <div id="SLC-5" className="flex justify-between items-center">
         <Button
           id="track-btn"
