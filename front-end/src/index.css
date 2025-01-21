@@ -15,7 +15,7 @@
 } */
 
 #subsect-btn {
-  background-color: #909090 !important;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* background-color: #909090 !important; */
+  color: black
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
 }

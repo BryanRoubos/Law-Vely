@@ -11,7 +11,7 @@ import { faBookmark as regularBookmark } from "@fortawesome/free-regular-svg-ico
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { ref, get, set, remove } from "firebase/database";
-import { db } from "../../firebaseConfig"; // Ensure Firebase is configured
+import { db } from "../../firebaseConfig"; 
 
 
 interface SingleLegislation {
@@ -76,10 +76,15 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
   };
 
   return (
-    <div id="SLC-1" className="md:mx-8">
+      <div id="SLC-1" className="md:mx-8 px-4">
+          <div className="mt-2 mb-4 p-4 text-xs text-gray-500 ">
+      <p className="italic text-center">
+        Disclaimer: This summary and information about the legislation is provided for informational purposes only and is not intended to serve as legal advice. Please refer to official legislative sources for full details.
+      </p>
+    </div>
       <h1
         id="SLC-2"
-        className="lg:text-2xl text-xl font-bold text-gray-800 mb-4"
+        className="lg:text-3xl text-xl font-bold text-gray-800 mt-4 mb-4 text-center"
       >
         {legislation.title}
       </h1>
@@ -98,7 +103,7 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           id="subsect-btn"
           variant="text"
           onClick={() => setShowSubSections(!showSubSections)}
-          className="flex items-center text-blue-600 hover:underline"
+          className="flex items-center text-black"
         >
           {showSubSections ? (
             <>
@@ -146,7 +151,7 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           variant="contained"
           type="button"
           onClick={handleTrackLegislation}
-          className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+          className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300"
         >
           <FontAwesomeIcon
             icon={isTracked ? solidBookmark : regularBookmark}
@@ -156,7 +161,7 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
         </Button>
         <ReportPopup />
       </div>
-    </div>
+          </div>
   );
 }
 

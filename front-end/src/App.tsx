@@ -26,6 +26,7 @@ function App() {
         {!shouldHideNavBar && <NavBar />}
 
         <div id="App-3" className="mr-1 md:m-2 flex w-full">
+          
           <Routes>
             <Route path="/" element={<LegislationSection />} />
             <Route
