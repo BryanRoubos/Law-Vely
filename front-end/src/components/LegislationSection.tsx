@@ -5,7 +5,6 @@ import LegislationList from "./LegislationList";
 import Pagination from "./Pagination";
 import Spinner from "./Spinner";
 import NoResults from "./NoResults";
-import LegislationListSkeleton from "./LoadingStyling/legislationListSkeleton";
 
 interface Legislation {
   id: string;
@@ -77,9 +76,6 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-6 space-y-6">
-      {isLoading ? (
-        <LegislationListSkeleton count={10} />
-      ) : (
         <>
           <h1 id="LS-2" className="text-center font-bold text-3xl pt-6">
             Legislations for{" "}
@@ -102,7 +98,6 @@ function LegislationSection() {
             )}
           />
         </>
-      )}
     </div>
   );
 }
