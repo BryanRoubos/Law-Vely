@@ -45,7 +45,7 @@ function ReportPopup(): JSX.Element {
   return (
     <div>
       {/* Button to open the popup */}
-      <Button id="report-btn" variant="contained" type="button" onClick={togglePopup} className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">
+      <Button id="report-btn" variant="contained" type="button" onClick={togglePopup} className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300">
         <FontAwesomeIcon icon={faFlag} className="mr-2" /> Report
       </Button>
 
@@ -56,7 +56,7 @@ function ReportPopup(): JSX.Element {
             <button className="close-button" onClick={togglePopup}>
               ✖
             </button>
-            <h2>Report an Issue</h2>
+            <h2 className="popup-title">Report an Issue</h2>
             <form onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="issue">Describe the Issue:</label>
@@ -71,9 +71,11 @@ function ReportPopup(): JSX.Element {
                 ></textarea>
               </div>
               <Button
+              id="report-popup-button"
                 variant="contained"
                 type="submit"
                 disabled={reportSubmitPending}
+                className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300"
               >
                 {reportSubmitPending ? "Submitting..." : "Submit"}
               </Button>
