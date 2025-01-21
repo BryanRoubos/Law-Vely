@@ -30,7 +30,7 @@ interface SingleLegislationCardProps {
 function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
   const [isTracked, setIsTracked] = useState(false);
   const [showSubSections, setShowSubSections] = useState(false);
-  const userUID = localStorage.getItem("userUID") || "test-user";
+  const userUID = localStorage.getItem("userUID");
 
   useEffect(() => {
     if (!userUID) return;

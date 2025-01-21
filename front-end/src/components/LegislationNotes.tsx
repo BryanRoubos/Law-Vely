@@ -3,6 +3,7 @@ import { ref, get, set, push, remove } from "firebase/database";
 import { db } from "../../firebaseConfig";
 import Button from "@mui/material/Button";
 import { manipulateDateAndTime } from "../utils/utils";
+import { useNavigate } from "react-router-dom";
 
 interface Note {
   id: string;
@@ -12,15 +13,17 @@ interface Note {
 
 interface LegislationNotesProps {
   legislationId: string;
-  userUID: string;
+  userUID: string | null;
 }
 
 function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate()
+
 
   useEffect(() => {
-    if (!userUID) return;
 
     const fetchNotes = async () => {
       const notesRef = ref(
@@ -43,6 +46,11 @@ function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
   }, [userUID, legislationId]);
 
   const handleAddNote = async () => {
+
+    if (!userUID){
+        return navigate("/signin")
+  }
+
     if (!newNote.trim()) return;
 
     const notesRef = ref(
