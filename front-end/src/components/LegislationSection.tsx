@@ -35,7 +35,6 @@ function LegislationSection() {
     setIsError(null);
     fetchLegislationData(categoryQuery, searchQuery)
       .then((legislations) => {
-        console.log(legislations);
         setLegislationData(legislations);
         setIsLoading(false);
       })
@@ -76,13 +75,12 @@ function LegislationSection() {
               ? searchQuery
               : "All Categories"}
           </h1>
-
           {categoryQuery && legislationArray.length === 0 && (
             <p>No legislations found for this category.</p>
           )}
           <Pagination
             legislations={legislationArray}
-            legislationsPerPage={10}
+            legislationsPerPage={12}
             renderLegislations={(currentLegislations) => (
               <div>
                 <LegislationList legislation={currentLegislations} />
