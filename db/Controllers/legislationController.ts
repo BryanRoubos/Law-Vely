@@ -1,6 +1,7 @@
 import express, { Request, Response, RequestHandler } from "express";
 import { admin } from "../../firebase";
 
+
 const db = admin.database();
 
 interface LegislationSummary {
@@ -72,14 +73,24 @@ export const getLegislationSummaryById = (req: Request, res: Response) => {
     });
 };
 
-export const getLegislationSummariesByCategory: RequestHandler = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
-  const category = req.query.category as string | undefined;
+export const getLegislationSummariesByCategory: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+  const categoryQuery = req.query.category;
 
-  if (!category) {
-    res.status(400).json({ error: "Category query parameter is required" });
+  if (!categoryQuery) {
+    res.status(400).json({ error: "At least one category query parameter is required" });
+    return;
+  }
+
+  let categories: string[] = [];
+
+  if (Array.isArray(categoryQuery)) {
+    categories = categoryQuery.map((cat) => String(cat).toLowerCase());
+
+  } else if (typeof categoryQuery === 'string') {
+    categories = [categoryQuery.toLowerCase()];
+
+  } else {
+    res.status(400).json({ error: "Invalid category query format" });
     return;
   }
 
@@ -92,17 +103,13 @@ export const getLegislationSummariesByCategory: RequestHandler = async (
       return;
     }
 
-    const normalizedCategory = category.toLowerCase();
-
     const filteredSummaries = Object.entries(summaries).reduce(
       (acc: Record<string, LegislationSummary>, [id, summary]) => {
         const typedSummary = summary as LegislationSummary;
-        if (
-          typedSummary.categories &&
-          typedSummary.categories.some(
-            (cat) => cat.toLowerCase() === normalizedCategory
-          )
-        ) {
+
+        if (typedSummary.categories && typedSummary.categories.some((cat) =>
+          categories.includes(cat.toLowerCase())
+        )) {
           acc[id] = typedSummary;
         }
         return acc;
@@ -111,11 +118,11 @@ export const getLegislationSummariesByCategory: RequestHandler = async (
     );
 
     if (Object.keys(filteredSummaries).length === 0) {
-      res.status(404).json({ msg: "No legislation found for this category" });
+      res.status(404).json({ msg: "No legislation found for the given categories" });
       return;
     }
-
     res.status(200).json(filteredSummaries);
+
   } catch (error) {
     console.error("Error fetching legislation summaries by category:", error);
     res.status(500).json({ error: "Failed to fetch data" });
