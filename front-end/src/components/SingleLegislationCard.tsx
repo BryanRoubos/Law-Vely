@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { ref, get, set, remove } from "firebase/database";
 import { db } from "../../firebaseConfig";
+import LegislationNotes from "./LegislationNotes";
 
 interface SingleLegislation {
   id: string;
@@ -76,10 +77,7 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
 
   return (
     <div id="SLC-1" className="md:mx-8">
-      <h1
-        id="SLC-2"
-        className="lg:text-2xl text-xl font-bold text-gray-800 mb-4"
-      >
+      <h1 id="SLC-2" className="lg:text-2xl text-xl font-bold text-gray-800 mb-4">
         {legislation.title}
       </h1>
 
@@ -152,6 +150,7 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           </a>
         </div>
       )}
+      <LegislationNotes legislationId={legislation.id} userUID={userUID} />
 
       <div id="SLC-5" className="flex justify-between items-center">
         <Button
@@ -172,5 +171,6 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
     </div>
   );
 }
+
 
 export default SingleLegislationCard;
