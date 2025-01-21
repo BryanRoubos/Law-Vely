@@ -10,6 +10,7 @@ function SignInButton() {
   const handleSignOut = async () => {
     try{
       await signOut(auth);
+      localStorage.removeItem("userUID")
       console.log("user signed out")
       navigate("/signin")
     } catch (error) {

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ref, get } from "firebase/database";
 import { db } from "../../firebaseConfig"; 
 import { Link, useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
+import NoSaved from "./NoSaved";
 
 interface Legislation {
   id: string;
@@ -52,11 +54,19 @@ const SavedLegislations = ({ uid }: SavedLegislationsProps) => {
   }, [uid]);
 
   if (isLoading) {
-    return <p>Loading saved legislations...</p>;
+    return(
+      <>
+        <Spinner />
+      </>
+  )
   }
 
   if (legislations.length === 0) {
-    return <p>You have no tracked legislations.</p>;
+    return (
+      <div className="m-2 text-center text-xl">
+          {<NoSaved />}
+      </div>
+    )
   }
 
   return (

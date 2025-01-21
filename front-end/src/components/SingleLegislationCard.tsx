@@ -11,8 +11,8 @@ import { faBookmark as regularBookmark } from "@fortawesome/free-regular-svg-ico
 import Button from "@mui/material/Button";
 import { useState, useEffect } from "react";
 import { ref, get, set, remove } from "firebase/database";
-import { db } from "../../firebaseConfig"; 
-
+import { db } from "../../firebaseConfig";
+import LegislationNotes from "./LegislationNotes";
 
 interface SingleLegislation {
   id: string;
@@ -30,16 +30,16 @@ interface SingleLegislationCardProps {
 function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
   const [isTracked, setIsTracked] = useState(false);
   const [showSubSections, setShowSubSections] = useState(false);
+  const userUID = localStorage.getItem("userUID");
 
-  // Mock user UID; replace this with your actual authentication
-  const userUID = localStorage.getItem("userUID") || "test-user";
-
-  // Check if the legislation is already tracked
   useEffect(() => {
     if (!userUID) return;
 
     const checkTrackedStatus = async () => {
-      const trackRef = ref(db, `users/${userUID}/savedLegislations/${legislation.id}`);
+      const trackRef = ref(
+        db,
+        `users/${userUID}/savedLegislations/${legislation.id}`
+      );
       const snapshot = await get(trackRef);
       setIsTracked(snapshot.exists());
     };
@@ -47,25 +47,25 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
     checkTrackedStatus();
   }, [userUID, legislation.id]);
 
-  // Handle track/untrack action
   const handleTrackLegislation = async () => {
     if (!userUID) {
       alert("You must be logged in to track legislation.");
       return;
     }
 
-    const trackRef = ref(db, `users/${userUID}/savedLegislations/${legislation.id}`);
+    const trackRef = ref(
+      db,
+      `users/${userUID}/savedLegislations/${legislation.id}`
+    );
 
     try {
       if (isTracked) {
-        // Remove legislation from tracked list
         await remove(trackRef);
         setIsTracked(false);
       } else {
-        // Add legislation to tracked list
         await set(trackRef, {
           title: legislation.title,
-          timestamp: Date.now(), // Optional: Add timestamp for tracking
+          timestamp: Date.now(),
         });
         setIsTracked(true);
       }
@@ -88,16 +88,14 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
       >
         {legislation.title}
       </h1>
-  
+
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-700 mb-2">
-          Summary
-        </h2>
+        <h2 className="text-lg font-semibold text-gray-700 mb-2">Summary</h2>
         <p id="SLC-3" className="text-gray-600 leading-relaxed">
           {legislation.summaryOfLegislation}
         </p>
       </div>
-  
+
       <div className="mb-6">
         <Button
           id="subsect-btn"
@@ -111,11 +109,12 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
             </>
           ) : (
             <>
-              Show More <FontAwesomeIcon icon={faChevronDown} className="ml-2" />
+              Show More{" "}
+              <FontAwesomeIcon icon={faChevronDown} className="ml-2" />
             </>
           )}
         </Button>
-  
+
         {showSubSections && (
           <div className="mt-4">
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
@@ -127,25 +126,44 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           </div>
         )}
       </div>
-  
+
       <div className="text-sm text-gray-500 mb-4">
         <p id="SLC-4">
           Date Created: {manipulateDateAndTime(legislation.timestamp)}
         </p>
       </div>
-  
+
       {legislation.url && (
         <div className="mb-6">
-          <a href={legislation.url} className="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline mt-2" target="_blank">
-          Read the full legislation here <svg className="w-4 h-4 ms-2 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-        </svg>
-      </a>
+          <a
+            href={legislation.url}
+            className="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline mt-2"
+            target="_blank"
+          >
+            Read the full legislation here{" "}
+            <svg
+              className="w-4 h-4 ms-2 rtl:rotate-180"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 10"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 5h12m0 0L9 1m4 4L9 9"
+              />
+            </svg>
+          </a>
         </div>
       )}
-  
+
+      {userUID && (
+              <LegislationNotes legislationId={legislation.id} userUID={userUID} />
+      )}
+      
       <div id="SLC-5" className="flex justify-between items-center">
-        
         <Button
           id="track-btn"
           variant="contained"
@@ -164,5 +182,6 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
           </div>
   );
 }
+
 
 export default SingleLegislationCard;

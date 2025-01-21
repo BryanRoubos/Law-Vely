@@ -1,4 +1,4 @@
-import "../src/css/App.css";
+import './css/App.css';
 import { Routes, Route, useLocation } from "react-router-dom";
 import LegislationSection from "./components/LegislationSection";
 import SingleLegislation from "./components/SingleLegislation";
@@ -8,15 +8,14 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import NotFound from "./components/NotFound";
 
 function App() {
   const location = useLocation();
-
   const hideNavBarPaths = ["/signin", "/signup"];
   const shouldHideNavBar = hideNavBarPaths.includes(location.pathname);
 
   return (
-    // <div id="App-1" className="font-montserrat bg-blue-100">
     <div id="App-1" className="font-montserrat app-background-colour md:flex-row">
       <Header />
       <div
@@ -25,8 +24,7 @@ function App() {
       >
         {!shouldHideNavBar && <NavBar />}
 
-        <div id="App-3" className="mr-1 md:m-2 flex w-full">
-          
+        <div id="App-3" className="mr-1 md:m-2 flex w-full min-h-screen">
           <Routes>
             <Route path="/" element={<LegislationSection />} />
             <Route
@@ -36,6 +34,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/account" element={<ProfilePage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
