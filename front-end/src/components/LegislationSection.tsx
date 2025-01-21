@@ -34,7 +34,6 @@ function LegislationSection() {
     setIsError(null);
     fetchLegislationData(categoryQuery, searchQuery)
       .then((legislations) => {
-        console.log(legislations);
         setLegislationData(legislations);
         setIsLoading(null);
       })
@@ -67,7 +66,11 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-4 space-y-3">
-      <h1 id="LS-2" className="text-center font-bold text-3xl pt-6 md:">
+      <h1
+        id="LS-2"
+        className="text-center font-bold text-2xl sm:text-xl md:text-3xl text-teal-700 dark:text-teal-400 pt-6 
+    tracking-wide leading-tight hover:shadow-md transition-shadow duration-300"
+      >
         Legislations for{" "}
         {categoryQuery
           ? categoryQuery
@@ -81,7 +84,7 @@ function LegislationSection() {
       )}
       <Pagination
         legislations={legislationArray}
-        legislationsPerPage={10}
+        legislationsPerPage={12}
         renderLegislations={(currentLegislations) => (
           <div>
             <LegislationList legislation={currentLegislations} />

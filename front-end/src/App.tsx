@@ -1,4 +1,3 @@
-import "../src/css/App.css";
 import { Routes, Route, useLocation } from "react-router-dom";
 import LegislationSection from "./components/LegislationSection";
 import SingleLegislation from "./components/SingleLegislation";
@@ -17,7 +16,10 @@ function App() {
 
   return (
     // <div id="App-1" className="font-montserrat bg-blue-100">
-    <div id="App-1" className="font-montserrat app-background-colour md:flex-row">
+    <div
+      id="App-1"
+      className="font-montserrat app-background-colour md:flex-row"
+    >
       <Header />
       <div
         id="App-2"
