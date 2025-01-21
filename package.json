@@ -14,7 +14,6 @@
   "description": "",
   "dependencies": {
     "@types/cors": "^2.8.17",
-    "@types/supertest": "^6.0.2",
     "axios": "^1.7.9",
     "cheerio": "^1.0.0",
     "cors": "^2.8.5",
@@ -27,8 +26,7 @@
     "node-cron": "^3.0.3",
     "openai": "^4.78.0",
     "postman": "^0.2.0",
-    "string-similarity": "^4.0.4",
-    "supertest": "^7.0.0"
+    "string-similarity": "^4.0.4"
   },
   "devDependencies": {
     "@types/babel__core": "^7.20.5",
@@ -36,8 +34,11 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.5",
     "@types/string-similarity": "^4.0.2",
+    "@types/supertest": "^6.0.2",
     "jest": "^29.7.0",
+    "jest-mock": "^29.7.0",
     "nodemon": "^3.1.9",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
