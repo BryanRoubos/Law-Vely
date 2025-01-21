@@ -25,7 +25,7 @@ function LegislationSection() {
   const [legislationData, setLegislationData] = useState<LegislationResponse>(
     {}
   );
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") || "";
@@ -56,15 +56,11 @@ function LegislationSection() {
       <>
         <Spinner />
       </>
-  )
+    );
   }
 
   if (isError) {
-    return (
-      <div className="m-2 text-center text-xl">
-        {<NoResults />}
-      </div>
-  );
+    return <div className="m-2 text-center text-xl">{<NoResults />}</div>;
   }
 
   const legislationArray = Object.entries(legislationData).map(
@@ -76,28 +72,31 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-6 space-y-6">
-        <>
-          <h1 id="LS-2" className="text-center font-bold text-3xl pt-6">
-            Legislations for{" "}
-            {categoryQuery
-              ? categoryQuery
-              : searchQuery
-              ? searchQuery
-              : "All Categories"}
-          </h1>
-          {categoryQuery && legislationArray.length === 0 && (
-            <p>No legislations found for this category.</p>
+      <>
+        <h1
+          id="LS-2"
+          className="text-center font-bold text-4xl pt-6 text-white font-oswald"
+        >
+          Legislations for{" "}
+          {categoryQuery
+            ? categoryQuery
+            : searchQuery
+            ? searchQuery
+            : "All Categories"}
+        </h1>
+        {categoryQuery && legislationArray.length === 0 && (
+          <p>No legislations found for this category.</p>
+        )}
+        <Pagination
+          legislations={legislationArray}
+          legislationsPerPage={12}
+          renderLegislations={(currentLegislations) => (
+            <div>
+              <LegislationList legislation={currentLegislations} />
+            </div>
           )}
-          <Pagination
-            legislations={legislationArray}
-            legislationsPerPage={12}
-            renderLegislations={(currentLegislations) => (
-              <div>
-                <LegislationList legislation={currentLegislations} />
-              </div>
-            )}
-          />
-        </>
+        />
+      </>
     </div>
   );
 }
