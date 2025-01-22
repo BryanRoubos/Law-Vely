@@ -19,7 +19,7 @@ function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between h-16 bg-purple-700 px-4 text-white relative">
+    <header className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-500 h-16 bg-purple-700 px-4 text-white relative">
       <div className="flex items-center gap-4 flex-shrink-0">
         <Logo />
         <Link to="/" className="flex items-center">
