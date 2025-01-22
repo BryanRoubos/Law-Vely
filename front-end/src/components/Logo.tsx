@@ -1,4 +1,4 @@
-import logo from "../assets/logo-full.svg";
+import logo from "../assets/8-logo-no-book--white-congenial-2.svg";
 import { motion } from "framer-motion";
 
 function Logo() {

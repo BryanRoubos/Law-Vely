@@ -46,7 +46,7 @@ function SingleLegislation() {
   return (
     <div
       id="SL-1"
-      className="flex flex-col items-center md:p-5 p-3 bg-[#F8E79C] shadow-lg rounded-lg m-2 md:m-5"
+      className="flex flex-col items-center md:p-10 p-6 bg-[#F8E79C] shadow-lg rounded-lg m-2 md:m-5 h-fit"
     >
       <SingleLegislationCard legislation={legislation} />
     </div>

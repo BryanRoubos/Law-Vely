@@ -14,6 +14,27 @@ const NavBar: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  useEffect(() => {
+    const handleFocusChange = (e: FocusEvent): void => {
+      const navElement = document.getElementById("Nav-1");
+      if (navElement && !navElement.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    const delayedFocusChange = (e: FocusEvent) => {
+      setTimeout(() => {
+        handleFocusChange(e);
+      }, 100);
+    };
+
+    document.addEventListener("focusin", delayedFocusChange);
+
+    return () => {
+      document.removeEventListener("focusin", delayedFocusChange);
+    };
+  }, []);
+
   return (
     <div>
       <div
@@ -21,7 +42,7 @@ const NavBar: React.FC = () => {
         className="flex items-center justify-between bg-[#b960df] text-white p-3 md:hidden hover:gb-gray"
       >
         <h3 id="Nav-2" className="text-base font-bold">
-          Topics
+          Categories
         </h3>
         <button onClick={toggleMenu} id="Nav-3" className="text-xl">
           {isMenuOpen ? (
