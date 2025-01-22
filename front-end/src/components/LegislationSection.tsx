@@ -61,8 +61,12 @@ function LegislationSection() {
     return <Spinner />;
   }
 
-  if (isError) {
-    return <div className="m-2 text-center text-xl">{isError}</div>;
+ if (isError) {
+    return (
+      <div className="m-2 text-center text-xl">
+        <NoResults />
+      </div>
+    );
   }
 
   const legislationArray = Object.entries(legislationData).map(
@@ -74,7 +78,7 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-6 space-y-6">
-      <h1 id="LS-2" className="text-center font-bold text-4xl pt-6 text-white">
+      <h1 id="LS-2" className="text-center font-bold text-4xl pt-6 text-white text-shadow-thin">
         Legislations for{" "}
         {categoryQueries.length > 0
           ? categoryQueries.join(", ")

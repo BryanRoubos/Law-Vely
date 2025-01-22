@@ -65,7 +65,7 @@ function Header() {
   //   </header>
   // );
   return (
-    <header className="flex items-center justify-between bg-[#7f00ff] h-16 px-4 text-white relative">
+    <header className="flex items-center bg-gradient-to-r from-purple-600 to-indigo-500 justify-between bg-[#7f00ff] h-16 px-4 text-white relative">
       <div className="flex items-center gap-4 flex-shrink-0">
         <Logo />
       </div>
