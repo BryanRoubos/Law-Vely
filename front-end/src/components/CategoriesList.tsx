@@ -27,6 +27,7 @@ const categories: string[] = [
   "Trade",
   "Consumer",
   "Governance",
+  "Technology",
 ];
 
 interface CategoriesListProps {
@@ -76,6 +77,10 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
       case "Governance":
         return (
           <FontAwesomeIcon icon={faLandmark} className="text-purple-400" />
+        );
+      case "Technology":
+        return (
+          <FontAwesomeIcon icon={faShoppingCart} className="text-orange-400" />
         );
       default:
         return null;
