@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
+import getCategoryIcon  from '../utils/GetCategoryIcon'
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCoins,
-  faHome,
-  faCar,
-  faHeart,
-  faLeaf,
-  faBolt,
-  faGraduationCap,
-  faGavel,
-  faHandshake,
-  faShoppingCart,
-  faLandmark,
-} from '@fortawesome/free-solid-svg-icons';
 
 const categories = [
   "Finance",
@@ -28,35 +15,6 @@ const categories = [
   "Consumer",
   "Governance",
 ];
-
-const getCategoryIcon = (category: string) => {
-  switch (category) {
-    case "Finance":
-      return faCoins;
-    case "Housing":
-      return faHome;
-    case "Transportation":
-      return faCar;
-    case "Health":
-      return faHeart;
-    case "Environment":
-      return faLeaf;
-    case "Energy":
-      return faBolt;
-    case "Education":
-      return faGraduationCap;
-    case "Justice":
-      return faGavel;
-    case "Trade":
-      return faHandshake;
-    case "Consumer":
-      return faShoppingCart;
-    case "Governance":
-      return faLandmark;
-    default:
-      return faCoins;
-  }
-};
 
 const UserPreferences: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -77,51 +35,38 @@ const UserPreferences: React.FC = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Select Your Preferences</h1>
-
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {categories.map((category, index) => (
-          <div key={index} className="p-4">
+    <div className="user-preferences-container">
+      <div
+        className="m-4 md:m-8 lg:m-12 bg-gradient-to-br from-lime-200 to-sky-200 rounded-lg shadow-lg dark:bg-gradient-to-br from-lime-200 to-sky-200"
+        id="user-preferences-card"
+      >
+        <h3
+          id="user-preferences-title"
+          className="mb-3 sm:mb-3 md:mb-4 lg:mb-5 text-xl sm:text-xl md:text-lg lg:text-xl font-bold text-blue-800 dark:text-blue-800 font-inter tracking-wide"
+        >
+          Select the areas of law you're interested in
+        </h3>
+        <div className="category-row">
+          {categories.map((category, index) => (
             <button
+              key={index}
               onClick={() => toggleCategory(category)}
-              className={`w-full p-4 rounded-lg border-2 flex items-center gap-3 ${
+              className={`flex items-center gap-2 text-lg font-medium md:font-semibold p-3 rounded-md transition-all duration-300 ease-in-out ${
                 selectedCategories.includes(category)
-                  ? "border-green-500 bg-green-100"
-                  : "border-gray-300"
-              } transition-all`}
+                  ? "bg-gradient-to-r from-[#7F00FF] to-[#d900e6] text-white"
+                  : "bg-white text-black"
+              }`}
             >
-              <FontAwesomeIcon icon={getCategoryIcon(category)} className="text-xl" />
+              {getCategoryIcon(category)}
               <span>{category}</span>
             </button>
-          </div>
-        ))}
-      </div>
-
-      {selectedCategories.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-xl font-semibold">Selected Categories:</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-            {selectedCategories.map((category, index) => (
-              <div key={index} className="p-4 bg-blue-100 rounded-lg flex items-center gap-3">
-                <FontAwesomeIcon icon={getCategoryIcon(category)} className="text-xl text-blue-500" />
-                <span>{category}</span>
-                <button
-                  className="text-red-500 hover:text-red-700"
-                  onClick={() => toggleCategory(category)}
-                >
-                  &times;
-                </button>
-              </div>
-            ))}
-          </div>
+          ))}
         </div>
-      )}
-      <div className="mt-6 text-center">
+
         <button
           onClick={handleGetStarted}
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-500 disabled:bg-gray-300 disabled:cursor-not-allowed"
-          disabled={selectedCategories.length === 0}
+          id="get-started-button"
+          className="px-4 py-2 text-base text-white bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6] focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300"
         >
           Get Started
         </button>
