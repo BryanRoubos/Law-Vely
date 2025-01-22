@@ -89,7 +89,7 @@ function LegislationSection() {
         )}
         <Pagination
           legislations={legislationArray}
-          legislationsPerPage={12}
+          legislationsPerPage={9}
           renderLegislations={(currentLegislations) => (
             <div>
               <LegislationList legislation={currentLegislations} />

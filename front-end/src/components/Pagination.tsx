@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import "../css/Pagination.css";
 
 interface Legislation {
@@ -37,28 +37,71 @@ function Pagination({
     }
   };
 
-  return (
-    <div>
-      {renderLegislations(currentLegislations)}
+  // return (
+  //   <div>
+  //     {renderLegislations(currentLegislations)}
 
-      <div className="pagination-container">
-        <Button
-          variant="contained"
+  //     <div className="pagination-container ">
+  //       <Button
+  //         variant="contained"
+  //         onClick={() => handleChangePage(currentPage - 1)}
+  //         disabled={currentPage === 1}
+  //       >
+  //         Previous
+  //       </Button>
+  //       <span className="page-numbers">
+  //         Page {currentPage} of {totalPages}
+  //       </span>
+  //       <Button
+  //         variant="contained"
+  //         onClick={() => handleChangePage(currentPage + 1)}
+  //         disabled={currentPage === totalPages}
+  //       >
+  //         Next
+  //       </Button>
+  //     </div>
+  //   </div>
+  // );
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Content Section */}
+      <div className="flex-grow">{renderLegislations(currentLegislations)}</div>
+
+      {/* Pagination Section */}
+      <div className="pagination-container flex justify-between items-center mt-4 p-4 bg-#7DC0EF">
+        {/* Previous Button */}
+        <button
           onClick={() => handleChangePage(currentPage - 1)}
           disabled={currentPage === 1}
+          className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
+            currentPage === 1
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#7F00FF] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+          }`}
         >
+          <FiChevronLeft className="mr-2" size={20} />
           Previous
-        </Button>
-        <span className="page-numbers">
+        </button>
+
+        {/* Page Numbers */}
+        <span className="text-black font-bold text-sm sm:text-md">
           Page {currentPage} of {totalPages}
         </span>
-        <Button
-          variant="contained"
+
+        {/* Next Button */}
+        <button
           onClick={() => handleChangePage(currentPage + 1)}
           disabled={currentPage === totalPages}
+          className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
+            currentPage === totalPages
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#7F00FF] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+          }`}
         >
           Next
-        </Button>
+          <FiChevronRight className="ml-2" size={20} />
+        </button>
       </div>
     </div>
   );
