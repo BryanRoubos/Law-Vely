@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faCoins,
   faHome,
@@ -13,10 +13,7 @@ import {
   faHandshake,
   faShoppingCart,
   faLandmark,
-} from "@fortawesome/free-solid-svg-icons";
-import { ref, set } from "firebase/database";
-import { db } from "../../firebaseConfig";
-import { getAuth } from "firebase/auth";
+} from '@fortawesome/free-solid-svg-icons';
 
 const categories = [
   "Finance",
@@ -64,8 +61,6 @@ const getCategoryIcon = (category: string) => {
 const UserPreferences: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const navigate = useNavigate();
-  const auth = getAuth();
-  const userUID = auth.currentUser?.uid;
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -75,27 +70,16 @@ const UserPreferences: React.FC = () => {
     );
   };
 
-  const handleGetStarted = async () => {
-    if (!userUID) {
-      alert("You must be logged in to save preferences.");
-      return;
-    }
-
+  const handleGetStarted = () => {
     const params = new URLSearchParams();
-    selectedCategories.forEach((category) => params.append("category", category));
-
-    try {
-      await set(ref(db, `users/${userUID}/preferences`), selectedCategories);
-      navigate(`/?${params.toString()}`);
-    } catch (error) {
-      console.error("Error saving preferences:", error);
-      alert("Failed to save preferences. Please try again.");
-    }
+    selectedCategories.forEach((category) => params.append('category', category));
+    navigate(`/?${params.toString()}`);
   };
 
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Select Your Preferences</h1>
+
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {categories.map((category, index) => (
           <div key={index} className="p-4">
@@ -113,6 +97,26 @@ const UserPreferences: React.FC = () => {
           </div>
         ))}
       </div>
+
+      {selectedCategories.length > 0 && (
+        <div className="mt-6">
+          <h2 className="text-xl font-semibold">Selected Categories:</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            {selectedCategories.map((category, index) => (
+              <div key={index} className="p-4 bg-blue-100 rounded-lg flex items-center gap-3">
+                <FontAwesomeIcon icon={getCategoryIcon(category)} className="text-xl text-blue-500" />
+                <span>{category}</span>
+                <button
+                  className="text-red-500 hover:text-red-700"
+                  onClick={() => toggleCategory(category)}
+                >
+                  &times;
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="mt-6 text-center">
         <button
           onClick={handleGetStarted}
