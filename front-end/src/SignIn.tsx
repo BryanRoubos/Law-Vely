@@ -51,7 +51,7 @@ const SignIn: React.FC = () => {
       console.log("Generated ID Token:", idToken);
 
       const response = await fetch(
-        "http://localhost:3001/api/auth/verify-token",
+        "http://localhost:3002/api/auth/verify-token",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
