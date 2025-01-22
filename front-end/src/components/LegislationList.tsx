@@ -1,5 +1,5 @@
+import { Link, useLocation } from "react-router-dom";
 import LegislationCard from "./LegislationCard";
-import { Link } from "react-router-dom";
 
 interface Legislation {
   id: string;
@@ -17,12 +17,17 @@ interface LegislationListProps {
 }
 
 function LegislationList({ legislation }: LegislationListProps) {
+  const location = useLocation(); 
+
   return (
     <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-2 lg:grid-cols-3">
       {legislation.map((leg) => (
         <Link
           key={leg.id}
-          to={`/legislations/${leg.id}`}
+          to={{
+            pathname: `/legislations/${leg.id}`, 
+            search: location.search, 
+          }}
           className="transition-transform duration-200 hover:scale-105"
         >
           <LegislationCard

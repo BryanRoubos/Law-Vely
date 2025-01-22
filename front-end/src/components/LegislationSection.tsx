@@ -22,9 +22,7 @@ interface LegislationResponse {
 }
 
 function LegislationSection() {
-  const [legislationData, setLegislationData] = useState<LegislationResponse>(
-    {}
-  );
+  const [legislationData, setLegislationData] = useState<LegislationResponse>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
@@ -38,30 +36,33 @@ function LegislationSection() {
     [searchParams]
   );
 
-  useEffect(() => {
-    console.log("categoryQueries:", categoryQueries);
-    console.log("searchQuery:", searchQuery);
+  const isPreferencesPage = searchParams.has("preferences");
 
+  useEffect(() => {
     setIsLoading(true);
     setIsError(null);
-
-    fetchLegislationData(categoryQueries, searchQuery)
-      .then((legislations) => {
-        setLegislationData(legislations);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching legislations:", error);
-        setIsError("Failed to load legislations. Please try again later.");
-        setIsLoading(false);
-      });
-  }, [categoryQueries, searchQuery]);
+    if (isPreferencesPage) {
+      console.log("Displaying user preferences");
+      setIsLoading(false);
+    } else {
+      fetchLegislationData(categoryQueries, searchQuery)
+        .then((legislations) => {
+          setLegislationData(legislations);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching legislations:", error);
+          setIsError("Failed to load legislations. Please try again later.");
+          setIsLoading(false);
+        });
+    }
+  }, [categoryQueries, searchQuery, isPreferencesPage]);
 
   if (isLoading) {
     return <Spinner />;
   }
 
- if (isError) {
+  if (isError) {
     return (
       <div className="m-2 text-center text-xl">
         <NoResults />

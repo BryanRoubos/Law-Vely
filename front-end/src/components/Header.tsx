@@ -1,102 +1,63 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faUser,
-  faSearch,
-  faArrowLeftLong,
-} from "@fortawesome/free-solid-svg-icons";
-import SearchBar from "./SearchBar";
+import { faHome, faUser } from "@fortawesome/free-solid-svg-icons";
 import Logo from "./Logo";
-import { useState } from "react";
+import SearchBar from "./SearchBar";
 import SignInButton from "./SignInButton";
 
-function Header() {
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
+const Header: React.FC = () => {
+  const [searchParams] = useSearchParams(); 
 
-  const toggleSearchBar = () => {
-    setIsSearchVisible(!isSearchVisible);
+  
+  const categoryQueries: string[] = searchParams.getAll("category"); 
+  const searchQuery: string = searchParams.get("search") || ""; 
+  
+ 
+  const isSignedIn: boolean = !!localStorage.getItem("userUID"); 
+
+  const generateLink = (): string => {
+    const params = new URLSearchParams();
+
+    categoryQueries.forEach((category) => {
+      params.append("category", category); 
+    });
+
+    if (searchQuery) {
+      params.append("search", searchQuery); 
+    }
+
+    return `/?${params.toString()}`;
   };
 
-  // return (
-  //   <header className="flex items-center justify-between bg-[#7f00ff] h-16  px-4 text-white relative">
-  //     <div className="flex items-center gap-4 flex-shrink-0">
-  //       <Logo />
-  //       <Link to="/" className="flex items-center">
-  //         <FontAwesomeIcon
-  //           icon={faHome}
-  //           className="text-xl hover:text-purple-300 transition-colors duration-200"
-  //         />
-  //       </Link>
-  //     </div>
-  //     <div className="flex-grow mx-4">
-  //       <div className="hidden sm:flex justify-center">
-  //         <SearchBar />
-  //       </div>
-
-  //       {isSearchVisible && (
-  //         <div className="absolute inset-0 top-0 bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center px-4 z-20 shadow-lg">
-  //           <button
-  //             onClick={toggleSearchBar}
-  //             className="text-white text-2xl mr-4 hover:text-purple-300 transition-colors duration-200"
-  //           >
-  //             <FontAwesomeIcon icon={faArrowLeftLong} />
-  //           </button>
-  //           <SearchBar />
-  //         </div>
-  //       )}
-  //       <button
-  //         onClick={toggleSearchBar}
-  //         className="sm:hidden text-xl hover:text-purple-300 transition-colors duration-200"
-  //       >
-  //         <FontAwesomeIcon icon={faSearch} />
-  //       </button>
-  //     </div>
-
-  //     <div className="flex items-center gap-4">
-  //       <Link to="/account" className="flex items-center">
-  //         <FontAwesomeIcon
-  //           icon={faUser}
-  //           className="text-xl hover:text-purple-300 transition-colors duration-200"
-  //         />
-  //       </Link>
-  //       <SignInButton />
-  //     </div>
-  //   </header>
-  // );
   return (
     <header className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-500 h-16 px-4 text-white">
-      {/* Left Section: Logo */}
       <div className="flex items-center gap-4">
         <Logo />
       </div>
-  
-      {/* Middle Section: Search Bar */}
+
       <div className="flex-grow mx-4 hidden sm:flex justify-center">
         <SearchBar />
       </div>
-  
-      {/* Right Section: Icons and SignInButton */}
+
       <div className="flex items-center gap-4 flex-nowrap">
-        <Link to="/" className="flex items-center">
+        <Link to={generateLink()} className="flex items-center">
           <FontAwesomeIcon
             icon={faHome}
             className="text-xl hover:text-purple-300 transition-colors duration-200"
           />
         </Link>
-  
-        <Link to="/account" className="flex items-center">
-          <FontAwesomeIcon
-            icon={faUser}
-            className="text-xl hover:text-purple-300 transition-colors duration-200"
-          />
-        </Link>
-  
-        {/* Sign In/Out Button */}
-        <SignInButton />
+        {isSignedIn && (
+          <Link to="/account" className="flex items-center">
+            <FontAwesomeIcon
+              icon={faUser}
+              className="text-xl hover:text-purple-300 transition-colors duration-200"
+            />
+          </Link>
+        )}
+        <SignInButton isSignedIn={isSignedIn} />
       </div>
     </header>
   );
-}
+};
 
 export default Header;

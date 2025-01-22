@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import getCategoryIcon  from '../utils/GetCategoryIcon'
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import getCategoryIcon from "../utils/GetCategoryIcon";
+import { useNavigate } from "react-router-dom";
+import {db} from "../../firebaseConfig";
+import { ref, set, get } from "firebase/database"; 
 
 const categories = [
   "Finance",
@@ -14,23 +16,45 @@ const categories = [
   "Trade",
   "Consumer",
   "Governance",
+  "Technology",
 ];
 
 const UserPreferences: React.FC = () => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const navigate = useNavigate();
+  const userUID = localStorage.getItem("userUID"); 
+  
+  useEffect(() => {
+    if (!userUID) {
+      navigate("/signin"); 
+      return;
+    }
+
+    const fetchPreferences = async () => {
+      const userRef = ref(db, `users/${userUID}/preferences`);
+      const snapshot = await get(userRef);
+      if (snapshot.exists()) {
+        setSelectedCategories(snapshot.val() || []); 
+      }
+    };
+
+    fetchPreferences();
+  }, [userUID, navigate]);
 
   const toggleCategory = (category: string) => {
-    setSelectedCategories((prev) =>
-      prev.includes(category)
-        ? prev.filter((cat) => cat !== category)
-        : [...prev, category]
-    );
+    const updatedCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter((cat) => cat !== category) 
+      : [...selectedCategories, category]; 
+
+    setSelectedCategories(updatedCategories);
+
+    const userRef = ref(db, `users/${userUID}/preferences`);
+    set(userRef, updatedCategories);
   };
 
   const handleGetStarted = () => {
     const params = new URLSearchParams();
-    selectedCategories.forEach((category) => params.append('category', category));
+    selectedCategories.forEach((category) => params.append("category", category));
     navigate(`/?${params.toString()}`);
   };
 
