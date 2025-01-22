@@ -23,13 +23,43 @@ export const processLegislation = async (url: string) => {
     if (!textContent) throw new Error("No legislation text found.");
 
     const title = await extractTitle(textContent);
-    const legislationDate = await extractLegislationDate(textContent);
+    let legislationDate = await extractLegislationDate(textContent);
     const { summaryOfLegislation, summaryOfSubSections } =
       await generateSummaries(textContent);
 
-    const categories = await generateCategories(summaryOfSubSections, title);
+    const categories = await generateCategories(
+      summaryOfSubSections,
+      title,
+      summaryOfLegislation
+    );
 
     const id = createSlug(title);
+
+    // Extract years from the title and the legislation date
+    const titleYearMatch = title.match(/\b(19|20)\d{2}\b/);
+    const legislationYearMatch = legislationDate.match(/\b(19|20)\d{2}\b/);
+
+    if (titleYearMatch && legislationYearMatch) {
+      const titleYear = parseInt(titleYearMatch[0]);
+      const legislationYear = parseInt(legislationYearMatch[0]);
+
+      if (legislationYear > titleYear) {
+        // Add "repealed" if legislationDate is later than the title year
+        console.log(
+          `Legislation year (${legislationYear}) is later than title year (${titleYear}). Marking as repealed.`
+        );
+        legislationDate = `repealed ${legislationDate}`;
+      } else if (titleYear > legislationYear) {
+        // Update legislationDate to match the title year
+        console.log(
+          `Title year (${titleYear}) is later than legislation year (${legislationYear}). Updating legislation date to match the title year.`
+        );
+        legislationDate = legislationDate.replace(
+          /\b(19|20)\d{2}\b/,
+          titleYear.toString()
+        );
+      }
+    }
 
     const legislationData = {
       id,
