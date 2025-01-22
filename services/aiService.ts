@@ -45,7 +45,10 @@ export const extractTitle = async (
         },
       }
     );
-    const extractedTitle = titleResponse.data.choices[0].message.content.trim();
+    let extractedTitle = titleResponse.data.choices[0].message.content.trim();
+    extractedTitle = extractedTitle
+      .replace(/^(the title of the text is\s*|title:\s*)/i, "")
+      .trim();
     return extractedTitle;
   } catch (error: any) {
     console.error("Error extracting title:", error.message);
@@ -126,34 +129,48 @@ export const generateSummaries = async (
 
 export const generateCategories = async (
   summaryOfSubSections: string,
+  summaryOfLegislation: string,
   title: string
 ): Promise<string[]> => {
   try {
     const combinedText = `Title: ${title}\nSummaryOfSubsections: ${summaryOfSubSections}`;
-    // Combine the title and summary for a comprehensive matching pool
-
-    // Perform fuzzy matching
-    const fuzzyMatch = stringSimilarity.findBestMatch(combinedText, topics);
-
-    // Sort matches by similarity score in descending order
-    const sortedMatches = fuzzyMatch.ratings.sort(
-      (a, b) => b.rating - a.rating
+    const response = await axios.post(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content: `You are a helpful assistant that classifies texts into specific categories. The available categories are: ${topics.join(
+              ", "
+            )}. Assign one or more of these categories to the text. Make sure all legislation goes into at least one legislation`,
+          },
+          {
+            role: "user",
+            content: `Based on the following text, assign the most relevant categories:\n\n${combinedText}`,
+          },
+        ],
+        max_tokens: 100,
+        temperature: 0.7,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${OPENAI_API_KEY}`,
+        },
+      }
     );
 
-    // Extract the top 3 matches
-    const topMatches = sortedMatches.slice(0, 3).map((match) => match.target);
+    const categoriesString = response.data.choices[0].message.content.trim();
+    const categories = categoriesString
+      .split(",")
+      .map((category: string) => category.trim())
+      .filter((category: string) => topics.includes(category)); // Ensure the categories match the predefined topics
 
-    console.log("Top 3 fuzzy matches:", topMatches);
-
-    // Ensure at least one category is selected
-    if (topMatches.length === 0 || sortedMatches[0].rating <= 0) {
-      return [sortedMatches[0].target]; // Select the best match even if it's weak
-    }
-
-    return topMatches;
-  } catch (error) {
-    console.error("Error generating categories using fuzzy match:", error);
-    throw new Error("Failed to generate categories using fuzzy match.");
+    return categories;
+  } catch (error: any) {
+    console.error("Error generating categories:", error);
+    throw new Error("Failed to generate categories for the summary.");
   }
 };
 
