@@ -18,8 +18,12 @@ function App() {
   const shouldHideNavBar = shouldHideHeader; 
 
   return (
+ 
+  
     <div id="App-1" className="font-montserrat app-background-colour md:flex-row">
           {!shouldHideHeader && <Header />}
+       
+     
       <div
         id="App-2"
         className="flex justify-between items-stretch flex-col md:flex-row"
@@ -43,6 +47,7 @@ function App() {
       </div>
       <Footer />
     </div>
+ 
   );
 }
 
