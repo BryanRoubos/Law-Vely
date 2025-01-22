@@ -74,7 +74,9 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
           <FontAwesomeIcon icon={faShoppingCart} className="text-orange-400" />
         );
       case "Governance":
-        return <FontAwesomeIcon icon={faLandmark} className="text-purple-400" />;
+        return (
+          <FontAwesomeIcon icon={faLandmark} className="text-purple-400" />
+        );
       default:
         return null;
     }
@@ -83,18 +85,18 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
   return (
     <aside
       id="CL-1"
-      className="bg-gradient-to-r from-purple-600 to-indigo-500 text-white w-full md:rounded-lg shadow-lg p-4 md:m-2 md:mt-3"
+      className="bg-[#b960df] text-white w-full md:rounded-lg shadow-lg p-4 md:m-2 md:mt-3"
     >
       <ul id="CL-2" className="space-y-3">
         {categories.map((category, index) => (
           <li
             key={index}
             id="CL-3"
-            className="text-lg font-medium md:font-semibold p-3 rounded-md hover:bg-green-400 hover:text-white transition-all duration-300 ease-in-out"
+            className="text-lg font-medium md:font-semibold p-3 rounded-md hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6] hover:text-white transition-all duration-300 ease-in-out"
           >
             <button
               onClick={() => handleCategoryChange(category)}
-              className="w-full text-left transform transition-transform duration-200 hover:scale-105 hover:text-yellow-300 flex items-center gap-2"
+              className="w-full text-left transform transition-transform duration-200 hover:scale-105 flex items-center gap-2"
             >
               {getCategoryIcon(category)}
               {category}
@@ -107,4 +109,3 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
 };
 
 export default CategoriesList;
-

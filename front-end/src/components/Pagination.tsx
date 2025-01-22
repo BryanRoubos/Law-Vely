@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-import "../css/Pagination.css";
 
 interface Legislation {
   id: string;
@@ -77,7 +76,7 @@ function Pagination({
           className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
             currentPage === 1
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#7F00FF] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+              : "bg-[#7f00ff] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
           }`}
         >
           <FiChevronLeft className="mr-2" size={20} />
@@ -96,7 +95,7 @@ function Pagination({
           className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
             currentPage === totalPages
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#7F00FF] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+              : "bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
           }`}
         >
           Next

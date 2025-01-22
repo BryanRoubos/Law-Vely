@@ -75,7 +75,7 @@ function LegislationSection() {
       <>
         <h1
           id="LS-2"
-          className="text-center font-bold text-4xl pt-6 text-white font-oswald"
+          className="text-center font-bold text-5xl pt-6 text-white"
         >
           Legislations for{" "}
           {categoryQuery
