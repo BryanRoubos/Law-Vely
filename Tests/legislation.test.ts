@@ -8,6 +8,10 @@ jest.mock("firebase-admin", () => {
       ref: jest.fn().mockReturnThis(),
       once: jest.fn(),
     };
+
+    const mockAuth = {
+      verifyIdToken: jest.fn()
+    }
   
     return {
       apps: mockApps,
@@ -18,6 +22,7 @@ jest.mock("firebase-admin", () => {
         cert: jest.fn(),
       },
       database: jest.fn(() => mockDatabase), 
+      auth: jest.fn(() => mockAuth),
     };
   });
 
