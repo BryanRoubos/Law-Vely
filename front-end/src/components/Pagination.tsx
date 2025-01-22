@@ -46,7 +46,7 @@ function Pagination({
           className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
             currentPage === 1
               ? "bg-gray-400 cursor-not-allowed"
-              : "bg-[#7f00ff] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+              : "bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
           }`}
         >
           <FiChevronLeft className="mr-2" size={20} />
