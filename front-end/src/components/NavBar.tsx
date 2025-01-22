@@ -22,10 +22,16 @@ const NavBar: React.FC = () => {
       }
     };
 
-    document.addEventListener("focusin", handleFocusChange);
+    const delayedFocusChange = (e: FocusEvent) => {
+      setTimeout(() => {
+        handleFocusChange(e);
+      }, 100);
+    };
+
+    document.addEventListener("focusin", delayedFocusChange);
 
     return () => {
-      document.removeEventListener("focusin", handleFocusChange);
+      document.removeEventListener("focusin", delayedFocusChange);
     };
   }, []);
 
@@ -36,7 +42,7 @@ const NavBar: React.FC = () => {
         className="bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center justify-between bg-purple-700 text-white p-3 md:hidden hover:gb-gray"
       >
         <h3 id="Nav-2" className="text-base font-bold">
-          Topics
+          Categories
         </h3>
         <button onClick={toggleMenu} id="Nav-3" className="text-xl">
           {isMenuOpen ? (
