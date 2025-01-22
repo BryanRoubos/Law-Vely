@@ -31,7 +31,7 @@ const SignIn: React.FC = () => {
 
       localStorage.setItem("userUID", user.uid);
 
-      navigate("/");
+      navigate("/user-preferences");
     } catch (error) {
       console.error("Error signing in with email and password:", error);
     }
