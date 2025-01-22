@@ -13,12 +13,13 @@ import UserPreferences from './components/UserPreferences';
 
 function App() {
   const location = useLocation();
-  const hideNavBarPaths = ["/signin", "/signup"];
-  const shouldHideNavBar = hideNavBarPaths.includes(location.pathname);
+  const hideHeaderPaths = ["/signin", "/signup", "/user-preferences"];
+  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
+  const shouldHideNavBar = shouldHideHeader; 
 
   return (
     <div id="App-1" className="font-montserrat app-background-colour md:flex-row">
-      <Header />
+          {!shouldHideHeader && <Header />}
       <div
         id="App-2"
         className="flex justify-between items-stretch flex-col md:flex-row"
