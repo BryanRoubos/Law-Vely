@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import NotFound from "./components/NotFound";
+import UserPreferences from './components/UserPreferences';
 
 function App() {
   const location = useLocation();
@@ -33,6 +34,7 @@ function App() {
             />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/user-preferences" element={<UserPreferences />} />
             <Route path="/account" element={<ProfilePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
