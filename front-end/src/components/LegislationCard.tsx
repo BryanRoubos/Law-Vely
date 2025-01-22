@@ -38,10 +38,7 @@ function LegislationCard({
           <span className="font-extrabold">Date:</span> {legislationDate}
         </p>
         <div className="flex justify-center mt-3">
-          <button
-            className="px-4 py-2 text-base font-oswald text-white bg-gradient-to-r from-purple-600 to-purple-4text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-30000 rounded-md 
-          hover:bg-gradient-to-br hover:from-teal-600 hover:to-blue-600 transition-all duration-300 font-inter shadow-md hover:shadow-lg"
-          >
+          <button className="px-4 py-2 text-base text-white bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6] focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
             Find out more
           </button>
         </div>

@@ -29,8 +29,14 @@ function LegislationSection() {
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
 
-  const categoryQueries = useMemo(() => searchParams.getAll("category") || [], [searchParams]);
-  const searchQuery = useMemo(() => searchParams.get("search") || "", [searchParams]);
+  const categoryQueries = useMemo(
+    () => searchParams.getAll("category") || [],
+    [searchParams]
+  );
+  const searchQuery = useMemo(
+    () => searchParams.get("search") || "",
+    [searchParams]
+  );
 
   useEffect(() => {
     console.log("categoryQueries:", categoryQueries);
@@ -68,10 +74,7 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-6 space-y-6">
-      <h1
-        id="LS-2"
-        className="text-center font-bold text-4xl pt-6 text-white font-oswald"
-      >
+      <h1 id="LS-2" className="text-center font-bold text-4xl pt-6 text-white">
         Legislations for{" "}
         {categoryQueries.length > 0
           ? categoryQueries.join(", ")
