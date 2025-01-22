@@ -117,9 +117,6 @@ export const generateSummaries = async (
     const summaryOfSubSections =
       summaryResponse[1].data.choices[0].message.content.trim();
 
-    // console.log("summary 1 response:", summaryOfLegislation);
-    // console.log("summary 2 response:", summaryOfSubSections);
-
     return { summaryOfLegislation, summaryOfSubSections, extractTitle: title };
   } catch (error: any) {
     console.error("Error generating summaries:", error.message);
@@ -165,7 +162,7 @@ export const generateCategories = async (
     const categories = categoriesString
       .split(",")
       .map((category: string) => category.trim())
-      .filter((category: string) => topics.includes(category)); // Ensure the categories match the predefined topics
+      .filter((category: string) => topics.includes(category));
 
     return categories;
   } catch (error: any) {
