@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ref, get } from "firebase/database";
-import { db } from "../../firebaseConfig"; 
-import { Link, useNavigate } from "react-router-dom";
+import { db } from "../../firebaseConfig";
+import { Link } from "react-router-dom";
 import Spinner from "./Spinner";
 import NoSaved from "./NoSaved";
 
@@ -18,7 +18,6 @@ interface SavedLegislationsProps {
 const SavedLegislations = ({ uid }: SavedLegislationsProps) => {
   const [legislations, setLegislations] = useState<Legislation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!uid) {
@@ -54,33 +53,36 @@ const SavedLegislations = ({ uid }: SavedLegislationsProps) => {
   }, [uid]);
 
   if (isLoading) {
-    return(
+    return (
       <>
         <Spinner />
       </>
-  )
+    );
   }
 
   if (legislations.length === 0) {
-    return (
-      <div className="m-2 text-center text-xl">
-          {<NoSaved />}
-      </div>
-    )
+    return <div className="m-2 text-center text-xl">{<NoSaved />}</div>;
   }
 
   return (
-    <div>
+    <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-2 lg:grid-cols-3">
       {legislations.map((legislation) => (
         <Link
           to={`/legislations/${legislation.id}`}
           key={legislation.id}
-          className="block mb-4 p-4 bg-gray-200 rounded-md shadow-md hover:bg-gray-300"
+          className="flex flex-col justify-between w-11/12 max-w-sm p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gradient-to-br from-lime-200 to-sky-200 rounded-lg shadow-lg dark:bg-gradient-to-br from-lime-200 to-sky-200
+          hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-out animate-fade-in
+          h-auto sm:h-[10rem] md:h-[12rem] lg:h-[15rem]"
         >
-          <h3 className="font-semibold text-lg">{legislation.title}</h3>
-          <p className="text-sm">
-            <strong>Timestamp:</strong> {new Date(legislation.timestamp).toLocaleString()}
-          </p>
+          <div className="text-center flex flex-col justify-between h-full">
+            <h3 className="mb-3 text-xl font-bold text-blue-800 tracking-wide">
+              {legislation.title}
+            </h3>
+            <p className="text-sm italic text-black font-medium tracking-wide">
+              <strong>Timestamp:</strong>{" "}
+              {new Date(legislation.timestamp).toLocaleString()}
+            </p>
+          </div>
         </Link>
       ))}
     </div>

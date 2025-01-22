@@ -11,7 +11,6 @@ function LegislationCard({
   legislationDate,
   categories,
 }: LegislationCardProps) {
-  console.log(categories);
   return (
     <div
       className="flex flex-col justify-between w-11/12 max-w-sm p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gradient-to-br from-lime-200 to-sky-200 rounded-lg shadow-lg dark:bg-gradient-to-br from-lime-200 to-sky-200
