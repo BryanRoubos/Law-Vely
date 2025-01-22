@@ -36,40 +36,10 @@ function Pagination({
     }
   };
 
-  // return (
-  //   <div>
-  //     {renderLegislations(currentLegislations)}
-
-  //     <div className="pagination-container ">
-  //       <Button
-  //         variant="contained"
-  //         onClick={() => handleChangePage(currentPage - 1)}
-  //         disabled={currentPage === 1}
-  //       >
-  //         Previous
-  //       </Button>
-  //       <span className="page-numbers">
-  //         Page {currentPage} of {totalPages}
-  //       </span>
-  //       <Button
-  //         variant="contained"
-  //         onClick={() => handleChangePage(currentPage + 1)}
-  //         disabled={currentPage === totalPages}
-  //       >
-  //         Next
-  //       </Button>
-  //     </div>
-  //   </div>
-  // );
-
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Content Section */}
       <div className="flex-grow">{renderLegislations(currentLegislations)}</div>
-
-      {/* Pagination Section */}
       <div className="pagination-container flex justify-between items-center mt-4 p-4 bg-#7DC0EF">
-        {/* Previous Button */}
         <button
           onClick={() => handleChangePage(currentPage - 1)}
           disabled={currentPage === 1}
@@ -82,13 +52,9 @@ function Pagination({
           <FiChevronLeft className="mr-2" size={20} />
           Previous
         </button>
-
-        {/* Page Numbers */}
-        <span className="text-black font-bold text-sm sm:text-md">
+        <span className="text-black font-bold text-sm sm:text-md text-center p-2">
           Page {currentPage} of {totalPages}
         </span>
-
-        {/* Next Button */}
         <button
           onClick={() => handleChangePage(currentPage + 1)}
           disabled={currentPage === totalPages}
