@@ -72,7 +72,7 @@ const SavedLegislations = ({ uid }: SavedLegislationsProps) => {
           key={legislation.id}
           className="flex flex-col justify-between w-11/12 max-w-sm p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gradient-to-br from-lime-200 to-sky-200 rounded-lg shadow-lg dark:bg-gradient-to-br from-lime-200 to-sky-200
           hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-out animate-fade-in
-          h-auto sm:h-[10rem] md:h-[12rem] lg:h-[15rem]"
+          h-auto md:h-[12rem] lg:h-[12rem]"
         >
           <div className="text-center flex flex-col justify-between h-full">
             <h3 className="mb-3 text-xl font-bold text-blue-800 tracking-wide">
