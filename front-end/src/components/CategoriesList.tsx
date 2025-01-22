@@ -40,10 +40,12 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
 
   const handleCategoryChange = (category: string) => {
     const params = new URLSearchParams();
+  
     if (category !== "All") {
       params.set("category", category);
-    }
-    navigate(`/?${params.toString()}`);
+    } 
+  
+    navigate(`/?${params.toString()}`); 
     handleCategoryClick();
   };
 
