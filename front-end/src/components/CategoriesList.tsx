@@ -12,6 +12,7 @@ import {
   faHandshake,
   faShoppingCart,
   faLandmark,
+  faMobileAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 const categories: string[] = [
@@ -80,7 +81,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({
         );
       case "Technology":
         return (
-          <FontAwesomeIcon icon={faShoppingCart} className="text-orange-400" />
+          <FontAwesomeIcon icon={faMobileAlt} className="text-green-400" />
         );
       default:
         return null;
