@@ -77,6 +77,7 @@ export const processLegislation = async (url: string) => {
     console.log(`Processed and saved legislation: ${title}`);
     console.log("legislation id --->", id);
     console.log("legislation CATEGORY -------->", categories);
+    console.log("legislation DATE -------->", legislationDate);
 
     return legislationData;
   } catch (error) {
