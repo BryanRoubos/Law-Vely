@@ -1,4 +1,4 @@
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { Components } from "react-markdown";
 import { manipulateDateAndTime } from "../utils/utils";
 import ReportPopup from "./ReportPopup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -75,6 +75,14 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
     }
   };
 
+  const customRenderers: Components = {
+    strong: ({ children }) => (
+      <li className="list-disc ml-6 font-bold leading-loose mt-8 mb-2">
+        {children}
+      </li>
+    ),
+  };
+
   return (
     <div id="SLC-1" className="md:mx-8 px-4">
       <div className="mt-2 mb-4 p-4 text-xs text-gray-500 ">
@@ -87,19 +95,24 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
       </div>
       <h1
         id="SLC-2"
-        className="lg:text-3xl text-xl font-bold text-gray-800 mt-4 mb-4 text-center"
+        className="lg:text-3xl text-xl font-bold text-gray-800 mt-4 mb-8 text-center"
       >
         {legislation.title}
       </h1>
 
-      <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-700 mb-2">Summary</h2>
-        <p id="SLC-3" className="text-gray-600 leading-relaxed">
+      <div className="mb-20">
+        <h2 className="text-lg font-semibold text-gray-700 mb-6 mt-14">
+          Summary
+        </h2>
+        <p
+          id="SLC-3"
+          className="text-gray-600 leading-relaxed lg:leading-loose text-base lg:text-lg tracking-wide mb-10"
+        >
           {legislation.summaryOfLegislation}
         </p>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 mt-10">
         <Button
           id="subsect-btn"
           variant="text"
@@ -119,18 +132,21 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
         </Button>
 
         {showSubSections && (
-          <div className="mt-4">
+          <div className="mt-10">
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
               Subsection Summaries
             </h2>
-            <ReactMarkdown className="text-gray-600 leading-relaxed">
-              {legislation.summaryOfSubSections}
+            <ReactMarkdown
+              className="text-gray-600 leading-relaxed lg:leading-loose text-base lg:text-lg tracking-wide"
+              components={customRenderers}
+            >
+              {legislation.summaryOfSubSections.replace(/:/g, "")}
             </ReactMarkdown>
           </div>
         )}
       </div>
 
-      <div className="text-sm text-gray-500 mb-4">
+      <div className="text-sm text-gray-500 mt-10 mb-4">
         <p id="SLC-4">
           Date Created: {manipulateDateAndTime(legislation.timestamp)}
         </p>
