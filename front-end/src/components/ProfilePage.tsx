@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { getAuth } from "firebase/auth";
-import SavedLegislations from "./SavedLegislations";
+import { ref, get } from "firebase/database";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../firebaseConfig";
+import SavedLegislations from "./SavedLegislations";
 import Spinner from "./Spinner";
 
 interface User {
@@ -11,28 +13,37 @@ interface User {
 
 const ProfilePage = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [isCheckingPreferences, setIsCheckingPreferences] = useState(true);
   const auth = getAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const currentUser = auth.currentUser;
-
-    if (!currentUser) {
+    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+      if (!currentUser) {
         navigate("/signin");
-    } else {
-        setUser({
-            name: currentUser.displayName || "User",
-            title: "Legislation Enthusiast",
-          });
-    }
+        return;
+      }
+
+      setUser({
+        name: currentUser.displayName || "User",
+        title: "Legislation Enthusiast",
+      });
+
+      const preferenceRef = ref(db, `users/${currentUser.uid}/preferences`);
+      const snapshot = await get(preferenceRef);
+
+      if (!snapshot.exists()) {
+        navigate("/user-preferences");
+      }
+
+      setIsCheckingPreferences(false);
+    });
+
+    return () => unsubscribe();
   }, [auth, navigate]);
 
-  if (!user) {
-    return (
-      <>
-        <Spinner />
-      </>
-  )
+  if (isCheckingPreferences || !user) {
+    return <Spinner />;
   }
 
   return (

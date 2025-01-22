@@ -1,10 +1,12 @@
 import { useEffect, useState, useMemo } from "react";
 import { fetchLegislationData } from "../api";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import LegislationList from "./LegislationList";
 import Pagination from "./Pagination";
 import Spinner from "./Spinner";
 import NoResults from "./NoResults";
+import { db } from "../../firebaseConfig";
+import {set, ref, get} from "firebase/database"
 
 interface Legislation {
   id: string;
@@ -28,6 +30,7 @@ function LegislationSection() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate()
 
   const categoryQueries = useMemo(
     () => searchParams.getAll("category") || [],
@@ -39,8 +42,23 @@ function LegislationSection() {
   );
 
   useEffect(() => {
-    console.log("categoryQueries:", categoryQueries);
-    console.log("searchQuery:", searchQuery);
+    const fetchUserPreferences = async () => {
+    let effectiveUserPref = categoryQueries;
+
+    if(effectiveUserPref.length === 0) {
+      const userUID = localStorage.getItem("UserUID");
+      if(userUID) {
+        const userRef = ref(db, `users/${userUID}/preferences`);
+        const snapshot = await get(userRef)
+        if(snapshot.exists()) {
+          effectiveUserPref = snapshot.val();
+
+          const params = new URLSearchParams;
+          effectiveUserPref.forEach((category) => params.append("category", category))
+        navigate(`/?${params.toString()}`)
+        }
+      }
+    }
 
     setIsLoading(true);
     setIsError(null);
@@ -55,6 +73,9 @@ function LegislationSection() {
         setIsError("Failed to load legislations. Please try again later.");
         setIsLoading(false);
       });
+  }
+
+  fetchUserPreferences()
   }, [categoryQueries, searchQuery]);
 
   if (isLoading) {
