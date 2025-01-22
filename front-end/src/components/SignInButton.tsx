@@ -19,22 +19,24 @@ function SignInButton() {
   }
 
   return (
-    <nav>
-      {currentUser ? (
-        <button
-          onClick={handleSignOut}
-          className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded"
-        >
-          Sign out
-        </button>
-      ) : (
-        <Link
-          to="/signin"
-          className="bg-green-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded"
-        >
-          Sign in
-        </Link>
-      )}
+    <nav className="flex justify-center p-4">
+      <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+        {currentUser ? (
+          <button
+            onClick={handleSignOut}
+            className="bg-purple-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 border-b-4 border-indigo-900 hover:border-purple-800 rounded w-full sm:w-auto shadow-md transition duration-300"
+          >
+            Sign out
+          </button>
+        ) : (
+          <Link
+            to="/signin"
+            className="bg-purple-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 border-b-4 border-indigo-900 hover:border-purple-800 rounded w-full sm:w-auto shadow-md transition duration-300"
+          >
+            Sign in
+          </Link>
+        )}
+      </div>
     </nav>
   );
 }
