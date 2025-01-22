@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, googleProvider, db } from "../firebaseConfig";
 import {
@@ -8,12 +8,14 @@ import {
 } from "firebase/auth";
 import { ref, set } from "firebase/database";
 import "./css/LoginPage.css";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "./css/LoginPage.css";
 
 const SignIn: React.FC = () => {
-
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
-  const navigate = useNavigate()
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleEmailSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,14 +24,14 @@ const SignIn: React.FC = () => {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password,
+        password
       );
       const user = userCredential.user;
       console.log("User signed in with email and password:", user.uid);
 
-      localStorage.setItem("userUID", user.uid)
+      localStorage.setItem("userUID", user.uid);
 
-      navigate("/")
+      navigate("/");
     } catch (error) {
       console.error("Error signing in with email and password:", error);
     }
@@ -74,11 +76,9 @@ const SignIn: React.FC = () => {
 
         console.log("User data saved in database.");
 
-        localStorage.setItem("userUID", user.uid)
+        localStorage.setItem("userUID", user.uid);
 
-        navigate("/")
-
-
+        navigate("/");
       } else {
         console.error("Authentication failed");
       }
@@ -89,6 +89,12 @@ const SignIn: React.FC = () => {
 
   return (
     <div className="container">
+      <button
+        className="absolute top-4 right-4 text-4xl text-gray-600 hover:text-white transition-colors"
+        onClick={() => navigate("/")}
+      >
+        <FontAwesomeIcon icon={faTimes} />
+      </button>
       <div className="card">
         <div className="left-panel">
           <h1>Welcome!</h1>
@@ -98,20 +104,20 @@ const SignIn: React.FC = () => {
           <h2>Hello!</h2>
           <form onSubmit={handleEmailSignIn}>
             <label>Email Address</label>
-            <input 
-            type="email"
-            placeholder="Enter your email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            <input
+              type="email"
+              placeholder="Enter your email"
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <label>Password</label>
-            <input 
-            type="password"
-            placeholder="Enter your password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-             />
-             <button type="submit">Sign In</button>
+            <input
+              type="password"
+              placeholder="Enter your password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit">Sign In</button>
             <div className="extra-options">
               <label>
                 <input type="checkbox" /> Remember
