@@ -9,15 +9,17 @@ import Footer from "./components/Footer";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import NotFound from "./components/NotFound";
+import UserPreferences from './components/UserPreferences';
 
 function App() {
   const location = useLocation();
-  const hideNavBarPaths = ["/signin", "/signup"];
-  const shouldHideNavBar = hideNavBarPaths.includes(location.pathname);
+  const hideHeaderPaths = ["/signin", "/signup", "/user-preferences"];
+  const shouldHideHeader = hideHeaderPaths.includes(location.pathname);
+  const shouldHideNavBar = shouldHideHeader; 
 
   return (
     <div id="App-1" className="font-montserrat app-background-colour md:flex-row">
-      <Header />
+          {!shouldHideHeader && <Header />}
       <div
         id="App-2"
         className="flex justify-between items-stretch flex-col md:flex-row"
@@ -33,6 +35,7 @@ function App() {
             />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/user-preferences" element={<UserPreferences />} />
             <Route path="/account" element={<ProfilePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { fetchLegislationData } from "../api";
 import { useSearchParams } from "react-router-dom";
 import LegislationList from "./LegislationList";
@@ -28,39 +28,41 @@ function LegislationSection() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
-  const searchQuery = searchParams.get("search") || "";
-  const categoryQuery = searchParams.get("category") || "";
+
+  const categoryQueries = useMemo(
+    () => searchParams.getAll("category") || [],
+    [searchParams]
+  );
+  const searchQuery = useMemo(
+    () => searchParams.get("search") || "",
+    [searchParams]
+  );
 
   useEffect(() => {
+    console.log("categoryQueries:", categoryQueries);
+    console.log("searchQuery:", searchQuery);
+
     setIsLoading(true);
     setIsError(null);
-    fetchLegislationData(categoryQuery, searchQuery)
+
+    fetchLegislationData(categoryQueries, searchQuery)
       .then((legislations) => {
         setLegislationData(legislations);
         setIsLoading(false);
       })
-      .catch(() => {
-        setIsError(
-          searchQuery
-            ? `No legislations found for the search: ${searchQuery}`
-            : categoryQuery
-            ? `No legislations found for the category: ${categoryQuery}`
-            : "Failed to load legislations. Please try again later!"
-        );
+      .catch((error) => {
+        console.error("Error fetching legislations:", error);
+        setIsError("Failed to load legislations. Please try again later.");
         setIsLoading(false);
       });
-  }, [categoryQuery, searchQuery]);
+  }, [categoryQueries, searchQuery]);
 
   if (isLoading) {
-    return (
-      <>
-        <Spinner />
-      </>
-    );
+    return <Spinner />;
   }
 
   if (isError) {
-    return <div className="m-2 text-center text-xl">{<NoResults />}</div>;
+    return <div className="m-2 text-center text-xl">{isError}</div>;
   }
 
   const legislationArray = Object.entries(legislationData).map(
@@ -72,31 +74,27 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-6 space-y-6">
-      <>
-        <h1
-          id="LS-2"
-          className="text-center font-bold text-4xl pt-6 text-white font-oswald"
-        >
-          Legislations for{" "}
-          {categoryQuery
-            ? categoryQuery
-            : searchQuery
-            ? searchQuery
-            : "All Categories"}
-        </h1>
-        {categoryQuery && legislationArray.length === 0 && (
-          <p>No legislations found for this category.</p>
-        )}
+      <h1 id="LS-2" className="text-center font-bold text-4xl pt-6 text-white">
+        Legislations for{" "}
+        {categoryQueries.length > 0
+          ? categoryQueries.join(", ")
+          : searchQuery
+          ? `Search: "${searchQuery}"`
+          : "All Categories"}
+      </h1>
+      {legislationArray.length === 0 ? (
+        <NoResults />
+      ) : (
         <Pagination
           legislations={legislationArray}
-          legislationsPerPage={12}
+          legislationsPerPage={9}
           renderLegislations={(currentLegislations) => (
             <div>
               <LegislationList legislation={currentLegislations} />
             </div>
           )}
         />
-      </>
+      )}
     </div>
   );
 }

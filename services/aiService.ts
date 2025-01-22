@@ -45,7 +45,10 @@ export const extractTitle = async (
         },
       }
     );
-    const extractedTitle = titleResponse.data.choices[0].message.content.trim();
+    let extractedTitle = titleResponse.data.choices[0].message.content.trim();
+    extractedTitle = extractedTitle
+      .replace(/^(the title of the text is\s*|title:\s*)/i, "")
+      .trim();
     return extractedTitle;
   } catch (error: any) {
     console.error("Error extracting title:", error.message);
@@ -126,6 +129,7 @@ export const generateSummaries = async (
 
 export const generateCategories = async (
   summaryOfSubSections: string,
+  summaryOfLegislation: string,
   title: string
 ): Promise<string[]> => {
   try {
@@ -139,7 +143,7 @@ export const generateCategories = async (
             role: "system",
             content: `You are a helpful assistant that classifies texts into specific categories. The available categories are: ${topics.join(
               ", "
-            )}. Assign one or more of these categories to the text. Ensure that at least one category is always assigned.`,
+            )}. Assign one or more of these categories to the text. Make sure all legislation goes into at least one legislation`,
           },
           {
             role: "user",
@@ -157,62 +161,16 @@ export const generateCategories = async (
       }
     );
 
-    const assignedCategories = response.data.choices[0].message.content
-      .split(/,\s*/)
-      .map((category: string) => category.trim());
+    const categoriesString = response.data.choices[0].message.content.trim();
+    const categories = categoriesString
+      .split(",")
+      .map((category: string) => category.trim())
+      .filter((category: string) => topics.includes(category)); // Ensure the categories match the predefined topics
 
-    const validCategories = assignedCategories.filter((category: string) =>
-      topics.includes(category)
-    );
-    if (validCategories.length > 0) {
-      return validCategories;
-    }
-
-    console.warn(
-      "No valid categories assigned by OpenAI. Falling back to NLP-based categorization."
-    );
-
-    const tokenizer = new natural.WordTokenizer();
-    const textTokens = tokenizer.tokenize(combinedText.toLowerCase());
-
-    const tokenFreq: { [key: string]: number } = {};
-    textTokens.forEach((token) => {
-      tokenFreq[token] = (tokenFreq[token] || 0) + 1;
-    });
-
-    const topicScores = topics.map((topic) => {
-      const topicTokens = tokenizer.tokenize(topic.toLowerCase());
-      let score = 0;
-
-      topicTokens.forEach((topicToken) => {
-        if (tokenFreq[topicToken]) {
-          score += tokenFreq[topicToken];
-        }
-      });
-
-      return { topic, score };
-    });
-
-    const bestMatch = topicScores.sort((a, b) => b.score - a.score)[0];
-
-    if (bestMatch.score === 0) {
-      const fuzzyMatch = stringSimilarity.findBestMatch(combinedText, topics);
-      const sortedMatches = fuzzyMatch.ratings.sort(
-        (a, b) => b.rating - a.rating
-      );
-
-      // Extract the top 3 matches
-      const topMatches = sortedMatches.slice(0, 3).map((match) => match.target);
-
-      console.log("Top 3 fuzzy matches:", topMatches);
-      return topMatches;
-    }
-
-    console.log("Selected category based on token frequency:", bestMatch.topic);
-    return [bestMatch.topic];
+    return categories;
   } catch (error: any) {
-    console.error("Error generating categories:", error.message);
-    throw new Error("Failed to generate categories for legislation text.");
+    console.error("Error generating categories:", error);
+    throw new Error("Failed to generate categories for the summary.");
   }
 };
 

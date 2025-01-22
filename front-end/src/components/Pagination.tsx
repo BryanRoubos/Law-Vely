@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
-import "../css/Pagination.css";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 interface Legislation {
   id: string;
@@ -38,27 +37,36 @@ function Pagination({
   };
 
   return (
-    <div>
-      {renderLegislations(currentLegislations)}
-
-      <div className="pagination-container">
-        <Button
-          variant="contained"
+    <div className="flex flex-col min-h-screen">
+      <div className="flex-grow">{renderLegislations(currentLegislations)}</div>
+      <div className="pagination-container flex justify-between items-center mt-4 p-4 bg-#7DC0EF">
+        <button
           onClick={() => handleChangePage(currentPage - 1)}
           disabled={currentPage === 1}
+          className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
+            currentPage === 1
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+          }`}
         >
+          <FiChevronLeft className="mr-2" size={20} />
           Previous
-        </Button>
-        <span className="page-numbers">
+        </button>
+        <span className="text-black font-bold text-sm sm:text-md text-center p-2">
           Page {currentPage} of {totalPages}
         </span>
-        <Button
-          variant="contained"
+        <button
           onClick={() => handleChangePage(currentPage + 1)}
           disabled={currentPage === totalPages}
+          className={`flex items-center px-4 py-2 rounded-lg font-medium text-white transition duration-300 ${
+            currentPage === totalPages
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6]"
+          }`}
         >
           Next
-        </Button>
+          <FiChevronRight className="ml-2" size={20} />
+        </button>
       </div>
     </div>
   );

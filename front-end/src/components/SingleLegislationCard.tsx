@@ -76,12 +76,15 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
   };
 
   return (
-      <div id="SLC-1" className="md:mx-8 px-4">
-          <div className="mt-2 mb-4 p-4 text-xs text-gray-500 ">
-      <p className="italic text-center">
-        Disclaimer: This summary and information about the legislation is provided for informational purposes only and is not intended to serve as legal advice. Please refer to official legislative sources for full details.
-      </p>
-    </div>
+    <div id="SLC-1" className="md:mx-8 px-4">
+      <div className="mt-2 mb-4 p-4 text-xs text-gray-500 ">
+        <p className="italic text-center">
+          Disclaimer: This summary and information about the legislation is
+          provided for informational purposes only and is not intended to serve
+          as legal advice. Please refer to official legislative sources for full
+          details.
+        </p>
+      </div>
       <h1
         id="SLC-2"
         className="lg:text-3xl text-xl font-bold text-gray-800 mt-4 mb-4 text-center"
@@ -160,9 +163,9 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
       )}
 
       {userUID && (
-              <LegislationNotes legislationId={legislation.id} userUID={userUID} />
+        <LegislationNotes legislationId={legislation.id} userUID={userUID} />
       )}
-      
+
       <div id="SLC-5" className="flex justify-between items-center">
         <Button
           id="track-btn"
@@ -179,9 +182,8 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
         </Button>
         <ReportPopup />
       </div>
-          </div>
+    </div>
   );
 }
-
 
 export default SingleLegislationCard;

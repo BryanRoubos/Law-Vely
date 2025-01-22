@@ -39,7 +39,7 @@ const NavBar: React.FC = () => {
     <div>
       <div
         id="Nav-1"
-        className="bg-gradient-to-r from-purple-600 to-indigo-500 flex items-center justify-between bg-purple-700 text-white p-3 md:hidden hover:gb-gray"
+        className="flex items-center justify-between bg-[#b960df] text-white p-3 md:hidden hover:gb-gray"
       >
         <h3 id="Nav-2" className="text-base font-bold">
           Categories
