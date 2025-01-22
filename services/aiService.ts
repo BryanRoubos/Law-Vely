@@ -130,89 +130,30 @@ export const generateCategories = async (
 ): Promise<string[]> => {
   try {
     const combinedText = `Title: ${title}\nSummaryOfSubsections: ${summaryOfSubSections}`;
-    const response = await axios.post(
-      "https://api.openai.com/v1/chat/completions",
-      {
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content: `You are a helpful assistant that classifies texts into specific categories. The available categories are: ${topics.join(
-              ", "
-            )}. Assign one or more of these categories to the text. Ensure that at least one category is always assigned.`,
-          },
-          {
-            role: "user",
-            content: `Based on the following text, assign the most relevant categories:\n\n${combinedText}`,
-          },
-        ],
-        max_tokens: 100,
-        temperature: 0.7,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${OPENAI_API_KEY}`,
-        },
-      }
+    // Combine the title and summary for a comprehensive matching pool
+
+    // Perform fuzzy matching
+    const fuzzyMatch = stringSimilarity.findBestMatch(combinedText, topics);
+
+    // Sort matches by similarity score in descending order
+    const sortedMatches = fuzzyMatch.ratings.sort(
+      (a, b) => b.rating - a.rating
     );
 
-    const assignedCategories = response.data.choices[0].message.content
-      .split(/,\s*/)
-      .map((category: string) => category.trim());
+    // Extract the top 3 matches
+    const topMatches = sortedMatches.slice(0, 3).map((match) => match.target);
 
-    const validCategories = assignedCategories.filter((category: string) =>
-      topics.includes(category)
-    );
-    if (validCategories.length > 0) {
-      return validCategories;
+    console.log("Top 3 fuzzy matches:", topMatches);
+
+    // Ensure at least one category is selected
+    if (topMatches.length === 0 || sortedMatches[0].rating <= 0) {
+      return [sortedMatches[0].target]; // Select the best match even if it's weak
     }
 
-    console.warn(
-      "No valid categories assigned by OpenAI. Falling back to NLP-based categorization."
-    );
-
-    const tokenizer = new natural.WordTokenizer();
-    const textTokens = tokenizer.tokenize(combinedText.toLowerCase());
-
-    const tokenFreq: { [key: string]: number } = {};
-    textTokens.forEach((token) => {
-      tokenFreq[token] = (tokenFreq[token] || 0) + 1;
-    });
-
-    const topicScores = topics.map((topic) => {
-      const topicTokens = tokenizer.tokenize(topic.toLowerCase());
-      let score = 0;
-
-      topicTokens.forEach((topicToken) => {
-        if (tokenFreq[topicToken]) {
-          score += tokenFreq[topicToken];
-        }
-      });
-
-      return { topic, score };
-    });
-
-    const bestMatch = topicScores.sort((a, b) => b.score - a.score)[0];
-
-    if (bestMatch.score === 0) {
-      const fuzzyMatch = stringSimilarity.findBestMatch(combinedText, topics);
-      const sortedMatches = fuzzyMatch.ratings.sort(
-        (a, b) => b.rating - a.rating
-      );
-
-      // Extract the top 3 matches
-      const topMatches = sortedMatches.slice(0, 3).map((match) => match.target);
-
-      console.log("Top 3 fuzzy matches:", topMatches);
-      return topMatches;
-    }
-
-    console.log("Selected category based on token frequency:", bestMatch.topic);
-    return [bestMatch.topic];
-  } catch (error: any) {
-    console.error("Error generating categories:", error.message);
-    throw new Error("Failed to generate categories for legislation text.");
+    return topMatches;
+  } catch (error) {
+    console.error("Error generating categories using fuzzy match:", error);
+    throw new Error("Failed to generate categories using fuzzy match.");
   }
 };
 
