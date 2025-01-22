@@ -24,11 +24,11 @@ function LegislationCard({
         >
           {title}
         </h3>
-        <p
+        <div
           className="mb-3 sm:mb-3 md:mb-4 lg:mb-5 text-sm md:text-sm text-black dark:text-black font-medium 
   tracking-wide"
         >
-          <ul className="mt-2 flex flex-col items-center gap-2">
+          <ul className="mt-2 flex flex-col items-center gap-2 ">
             {categories.length > 3 ? (
               <>
                 {categories.slice(0, 3).map((category, index) => (
@@ -46,7 +46,7 @@ function LegislationCard({
               ))
             )}
           </ul>
-        </p>
+        </div>
 
         <p
           className="text-sm mb-2 sm:mb-2 md:mb-3 lg:mb-3 italic text-black dark:text-black font-medium 

@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       textShadow: {
-        thin: '0px 0px 1px rgba(0,0,0,6.5)',
+        thin: "0px 0px 1px rgba(0,0,0,6.5)",
       },
       fontFamily: {
         montserrat: ["Montserrat", "sans-serif"],
@@ -28,5 +28,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-textshadow')],
+  plugins: [require("tailwindcss-textshadow")],
 };
