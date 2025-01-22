@@ -12,7 +12,7 @@ import { createSlug } from "../utils/slug";
 
 export const processLegislation = async (url: string) => {
   try {
-    console.log("Fetching URL:", url); // Log the URL
+    console.log("Fetching URL:", url);
     const response = await axios.get(url, {
       headers: { "Content-Type": "text/plain" },
     });
@@ -35,7 +35,6 @@ export const processLegislation = async (url: string) => {
 
     const id = createSlug(title);
 
-    // Extract years from the title and the legislation date
     const titleYearMatch = title.match(/\b(19|20)\d{2}\b/);
     const legislationYearMatch = legislationDate.match(/\b(19|20)\d{2}\b/);
 
@@ -44,13 +43,11 @@ export const processLegislation = async (url: string) => {
       const legislationYear = parseInt(legislationYearMatch[0]);
 
       if (legislationYear > titleYear) {
-        // Add "repealed" if legislationDate is later than the title year
         console.log(
           `Legislation year (${legislationYear}) is later than title year (${titleYear}). Marking as repealed.`
         );
         legislationDate = `repealed ${legislationDate}`;
       } else if (titleYear > legislationYear) {
-        // Update legislationDate to match the title year
         console.log(
           `Title year (${titleYear}) is later than legislation year (${legislationYear}). Updating legislation date to match the title year.`
         );
@@ -90,7 +87,7 @@ export const saveToDatabase = async (legislation: any) => {
     const { id, title, categories, legislationDate } = legislation;
     if (!legislation || !legislation.id) {
       console.error("Invalid legislation data:", legislation);
-      return; // Skip saving this record
+      return;
     }
 
     if (!categories || categories.length === 0) {
