@@ -14,26 +14,11 @@ const NavBar: React.FC = () => {
     setIsMenuOpen(false);
   };
 
-  useEffect(() => {
-    const handleFocusChange = (e: FocusEvent): void => {
-      const navElement = document.getElementById("Nav-1");
-      if (navElement && !navElement.contains(e.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener("focusin", handleFocusChange);
-
-    return () => {
-      document.removeEventListener("focusin", handleFocusChange);
-    };
-  }, []);
-
   return (
     <div>
       <div
         id="Nav-1"
-        className="flex items-center justify-between p-3 md:hidden"
+        className="flex items-center justify-between bg-[#b960df] text-white p-3 md:hidden hover:gb-gray"
       >
         <h3 id="Nav-2" className="text-base font-bold">
           Topics
