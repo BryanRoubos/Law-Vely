@@ -1,6 +1,8 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import { faHome, faUser, faSearch, faArrowLeftLong } from "@fortawesome/free-solid-svg-icons";
+
 import Logo from "./Logo";
 import { useState } from "react";
 import SearchBar from "./SearchBar";
@@ -70,8 +72,10 @@ const Header: React.FC = () => {
       <div className="flex items-center gap-2 flex-nowrap ml-auto ml-6 sm:ml-2">
         <Link to={generateLink()} className="flex items-center hidden sm:block">
           <FontAwesomeIcon
+
             icon={faHome}
             className="text-xl sm:text-2xl hover:text-purple-300 transition-colors duration-200" 
+
           />
         </Link>
   
