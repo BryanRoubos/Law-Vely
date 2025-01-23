@@ -56,7 +56,7 @@ const Header: React.FC = () => {
           isSearchVisible ? "block" : "hidden"
         } sm:hidden`}
       >
-        <div className="flex items-center justify-between ml-15">
+        <div className="flex items-center justify-between pl-3">
           <button
             onClick={toggleSearchBar}
             className="text-white text-2xl"
@@ -67,7 +67,7 @@ const Header: React.FC = () => {
         </div>
       </div>
   
-      <div className="flex items-center gap-2 flex-nowrap ml-auto ml-6 sm:ml-4">
+      <div className="flex items-center gap-2 flex-nowrap ml-auto ml-6 sm:ml-2">
         <Link to={generateLink()} className="flex items-center hidden sm:block">
           <FontAwesomeIcon
             icon={faHome}
