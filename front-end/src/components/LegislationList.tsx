@@ -20,7 +20,7 @@ function LegislationList({ legislation }: LegislationListProps) {
   const location = useLocation();
 
   return (
-    <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-1 lg:grid-cols-3">
       {legislation.map((leg) => (
         <Link
           key={leg.id}

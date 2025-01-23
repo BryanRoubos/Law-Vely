@@ -41,9 +41,7 @@ const NavBar: React.FC = () => {
         id="Nav-1"
         className="flex items-center bg-gradient-to-r from-purple-600 to-indigo-500 justify-between bg-[#b960df] text-white p-3 md:hidden hover:gb-gray"
       >
-        <h3 id="Nav-2" className="text-base font-bold">
-          Categories
-        </h3>
+     
         <button onClick={toggleMenu} id="Nav-3" className="text-xl">
           {isMenuOpen ? (
             <FontAwesomeIcon icon={faTimes} />
