@@ -43,11 +43,11 @@ const Header: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-2 sm:hidden ml-auto ml-10">
-        <button onClick={toggleSearchBar} className="text-xl sm:text-2xl lg:text-3xl mt-1">
+        <button onClick={toggleSearchBar} className={`text-xl sm:text-2xl lg:text-3xl mt-1 ${!isSearchVisible ? "block" : "hidden"
+        } sm:hidden`}>
           <FontAwesomeIcon
             icon={faSearch}
-            className="hover:text-purple-300 transition-colors duration-200"
-          />
+            className="hover:text-purple-300 transition-colors duration-200"/>
         </button>
       </div>
 
@@ -71,7 +71,7 @@ const Header: React.FC = () => {
         <Link to={generateLink()} className="flex items-center hidden sm:block">
           <FontAwesomeIcon
             icon={faHome}
-            className="text-xl sm:text-2xl hover:text-purple-300 transition-colors duration-200"
+            className="text-xl sm:text-2xl hover:text-purple-300 transition-colors duration-200" 
           />
         </Link>
   
