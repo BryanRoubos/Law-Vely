@@ -1,22 +1,27 @@
-import { Link } from "react-router-dom";
 import logo from "../assets/logo-white-min-shadow.png";
-// import { motion } from "framer-motion";
+import { Link, useSearchParams } from "react-router-dom";
 
 function Logo() {
+  const [searchParams] = useSearchParams(); 
+  const categoryQueries: string[] = searchParams.getAll("category");
+  const searchQuery: string = searchParams.get("search") || ""; 
+
+  const generateLink = (): string => {
+    const params = new URLSearchParams();
+
+    categoryQueries.forEach((category) => {
+      params.append("category", category);
+    });
+
+    if (searchQuery) {
+      params.append("search", searchQuery);
+    }
+
+    return `/?${params.toString()}`;
+  };
   return (
-    //  <motion.div
-    //    initial={{ opacity: 0, scale: 1.8 }}
-    //    animate={{
-    //      opacity: 1,
-    //      scale: 0.5 + (window.innerWidth / 1440) * 0.5,
-    //    }}
-    //    transition={{ duration: 0.4, ease: "easeInOut" }}
-    //    whileHover={{ scale: 1.1, rotate: -3 }}
-    //  >
-    //    <img src={logo} alt="Law-Vely Logo" className="h-auto max-h-12 md:max-h-16 w-auto max-w-full mt-1" />
-    //  </motion.div>
     <div>
-      <Link to="/">
+      <Link to={generateLink()}>
         <img
           src={logo}
           alt="Law-Vely Logo"
