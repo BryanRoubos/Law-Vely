@@ -33,14 +33,16 @@ const Header: React.FC = () => {
     return `/?${params.toString()}`;
   };
   return (
-    <header className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-500 h-16 px-4 text-white relative">
-      <div className="flex items-center ">
+    <header className="flex items-center justify-between bg-gradient-to-r from-purple-600 to-indigo-500 h-16 px-3 text-white relative">
+      <div className="flex items-center gap-2">
         <Logo />
       </div>
+  
       <div className="flex-grow mx-4 hidden sm:flex justify-center">
         <SearchBar />
       </div>
-      <div className="flex items-center gap-4 sm:hidden ml-auto ml-6">
+
+      <div className="flex items-center gap-2 sm:hidden ml-auto ml-10">
         <button onClick={toggleSearchBar} className="text-xl sm:text-2xl lg:text-3xl mt-1">
           <FontAwesomeIcon
             icon={faSearch}
@@ -54,7 +56,7 @@ const Header: React.FC = () => {
           isSearchVisible ? "block" : "hidden"
         } sm:hidden`}
       >
-        <div className="flex items-center justify-between px-4 py-2">
+        <div className="flex items-center justify-between ml-15">
           <button
             onClick={toggleSearchBar}
             className="text-white text-2xl"
@@ -66,12 +68,13 @@ const Header: React.FC = () => {
       </div>
   
       <div className="flex items-center gap-2 flex-nowrap ml-auto ml-6 sm:ml-4">
-        <Link to={generateLink()} className="flex items-center">
+        <Link to={generateLink()} className="flex items-center hidden sm:block">
           <FontAwesomeIcon
             icon={faHome}
             className="text-xl sm:text-2xl hover:text-purple-300 transition-colors duration-200"
           />
         </Link>
+  
         {isSignedIn && (
           <Link to="/account" className="flex items-center">
             <FontAwesomeIcon
@@ -80,9 +83,10 @@ const Header: React.FC = () => {
             />
           </Link>
         )}
+  
         <SignInButton isSignedIn={isSignedIn} />
       </div>
     </header>
   );
-}
+} 
 export default Header

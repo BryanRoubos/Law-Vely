@@ -18,7 +18,7 @@ function SignInButton() {
     }
   }
   return (
-    <nav className="flex justify-center p-4">
+    <nav className="flex justify-center">
       <div className="flex flex-col sm:flex-row items-center ml-0 sm:ml-auto"> {/* Removed ml-auto for mobile and added sm:ml-auto */}
         {currentUser ? (
           <button
