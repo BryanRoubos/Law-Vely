@@ -7,12 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ReportPopup(): JSX.Element {
   const [popupVisible, setPopupVisible] = useState<boolean>(false);
+  const [thankYouVisible, setThankYouVisible] = useState<boolean>(false);
   const [formData, setFormData] = useState({ issue: "", name: "" });
   const [reportSubmitPending, setReportSubmitPending] =
     useState<boolean>(false);
 
   const togglePopup = () => {
     setPopupVisible(!popupVisible);
+    setThankYouVisible(false); 
   };
 
   const handleChange = (
@@ -25,7 +27,7 @@ function ReportPopup(): JSX.Element {
     e.preventDefault();
     setReportSubmitPending(true);
 
-    // EmailJS parameters
+
     const serviceID = "service_trtsr6r";
     const templateID = "template_36c2tsk";
     const publicKey = "Zbgg247UHBfHgQ1tk";
@@ -34,22 +36,33 @@ function ReportPopup(): JSX.Element {
       .send(serviceID, templateID, formData, publicKey)
       .then(() => {
         console.log("Email sent successfully!");
-        setPopupVisible(false); // Close the popup
+        setReportSubmitPending(false);
+        setThankYouVisible(true); 
+        setPopupVisible(false);
       })
       .catch((error: string | null) => {
         console.error("Failed to send email:", error);
         setReportSubmitPending(false);
       });
   };
-
   return (
-    <div>
-      {/* Button to open the popup */}
-      <Button id="report-btn" variant="contained" type="button" onClick={togglePopup} className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300">
+    <div style={{ position: "relative", display: "inline-block" }}>
+      <Button
+        id="report-btn"
+        variant="contained"
+        type="button"
+        onClick={togglePopup}
+        className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300"
+      >
         <FontAwesomeIcon icon={faFlag} className="mr-2" /> Report
       </Button>
+  
+      {thankYouVisible && (
+        <div className="thank-you-message">
+          <p>Thank you! Your report has been submitted successfully.</p>
+        </div>
+      )}
 
-      {/* Conditional Popup */}
       {popupVisible && (
         <div id="RP-1" className="popup">
           <div id="RP-2" className="popup-content">
@@ -71,7 +84,7 @@ function ReportPopup(): JSX.Element {
                 ></textarea>
               </div>
               <Button
-              id="report-popup-button"
+                id="report-popup-button"
                 variant="contained"
                 type="submit"
                 disabled={reportSubmitPending}
@@ -86,5 +99,4 @@ function ReportPopup(): JSX.Element {
     </div>
   );
 }
-
-export default ReportPopup;
+  export default ReportPopup

@@ -122,7 +122,6 @@ const SignIn: React.FC = () => {
               <label>
                 <input type="checkbox" /> Remember
               </label>
-              <a href="/">Forgot Password?</a>
             </div>
             <p>OR</p>
             <button onClick={handleGoogleSignIn}>Sign in with Google</button>
