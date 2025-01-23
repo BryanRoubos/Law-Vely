@@ -7,7 +7,7 @@ import Spinner from "./Spinner";
 interface User {
   name: string;
   title: string;
-  photoURL: string | null;
+
 }
 
 const ProfilePage = () => {
@@ -30,7 +30,6 @@ const ProfilePage = () => {
         setUser({
           name: currentUser.displayName || "User", 
           title: "Legislation Enthusiast",
-          photoURL: currentUser.photoURL,
         });
       } catch (error) {
         console.error("Error reloading user data:", error);
@@ -59,13 +58,6 @@ const ProfilePage = () => {
         <h1 id="PP-3" className="lg:text-2xl text-xl font-bold text-gray-800">
           Hello, {user.name}
         </h1>
-        {user.photoURL && (
-          <img
-            src={user.photoURL}
-            alt="User Profile"
-            className="w-16 h-16 rounded-full my-2"
-          />
-        )}
         <p id="PP-4" className="text-gray-600">
           {user.title}
         </p>
