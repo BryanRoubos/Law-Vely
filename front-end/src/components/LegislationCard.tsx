@@ -13,13 +13,13 @@ function LegislationCard({
 }: LegislationCardProps) {
   return (
     <div
-      className="flex flex-col justify-between w-full max-w-md md:max-w-lg p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gradient-to-br from-lime-200 to-sky-200 rounded-lg shadow-lg dark:bg-gradient-to-br from-lime-200 to-sky-200
+      className="flex flex-col justify-between w-full max-w-md p-4 sm:p-4 md:p-4 lg:p-5 mx-auto bg-gradient-to-br from-lime-200 to-sky-200 rounded-lg shadow-lg dark:bg-gradient-to-br from-lime-200 to-sky-200
       hover:scale-105 hover:shadow-xl transition-transform duration-300 ease-out animate-fade-in
       h-[20rem] sm:h-[20rem] md:h-[22rem] lg:h-[22rem]"
     >
       <div className="text-center flex flex-col justify-between h-full">
         <h3
-          className="mb-2 text-lg md:text-sm font-bold text-blue-800 dark:text-blue-800 font-inter 
+          className="mb-2 text-lg md:text-lg font-bold text-blue-800 dark:text-blue-800 font-inter 
         tracking-wide"
         >
           {title}
