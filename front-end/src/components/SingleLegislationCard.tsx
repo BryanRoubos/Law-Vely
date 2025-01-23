@@ -95,24 +95,24 @@ function SingleLegislationCard({ legislation }: SingleLegislationCardProps) {
       </div>
       <h1
         id="SLC-2"
-        className="lg:text-3xl text-xl font-bold text-gray-800 mt-4 mb-8 text-center"
+        className="lg:text-3xl text-2xl font-bold text-blue-800 dark:text-blue-800 mt-4 mb-4 text-center"
       >
         {legislation.title}
       </h1>
 
-      <div className="mb-20">
-        <h2 className="text-lg font-semibold text-gray-700 mb-6 mt-14">
+      <div className="mb-10">
+        <h2 className="text-lg font-semibold text-gray-700 mb-6 mt-8">
           Summary
         </h2>
         <p
           id="SLC-3"
-          className="text-gray-600 leading-relaxed lg:leading-loose text-base lg:text-lg tracking-wide mb-10"
+          className="text-gray-600 leading-relaxed lg:leading-loose text-base lg:text-lg tracking-wide"
         >
           {legislation.summaryOfLegislation}
         </p>
       </div>
 
-      <div className="mb-6 mt-10">
+      <div className="mb-6">
         <Button
           id="subsect-btn"
           variant="text"

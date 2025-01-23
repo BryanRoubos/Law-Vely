@@ -20,11 +20,9 @@ function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   useEffect(() => {
-
     const fetchNotes = async () => {
       const notesRef = ref(
         db,
@@ -46,11 +44,10 @@ function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
   }, [userUID, legislationId]);
 
   const handleAddNote = async () => {
-
-    if (!userUID){
-        alert("You must be logged in to add notes.");
-        return navigate("/signin")
-  }
+    if (!userUID) {
+      alert("You must be logged in to add notes.");
+      return navigate("/signin");
+    }
 
     if (!newNote.trim()) return;
 
@@ -113,8 +110,11 @@ function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
       </div>
       <ul>
         {notes.map((note) => (
-          <li key={note.id} className="mb-2">
-            <p className="text-gray-600">{note.content}</p>
+          <li
+            key={note.id}
+            className="mb-2 border border-gray-400 rounded-lg p-2 bg-green-50"
+          >
+            <p className="text-black">{note.content}</p>
             <div className="flex justify-between text-sm text-gray-500">
               <span>{manipulateDateAndTime(note.timestamp)}</span>
               <Button
