@@ -17,21 +17,20 @@ function SignInButton() {
       console.error("Error signing out", error);
     }
   }
-
   return (
     <nav className="flex justify-center p-4">
-      <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+      <div className="flex flex-col sm:flex-row items-center ml-0 sm:ml-auto"> {/* Removed ml-auto for mobile and added sm:ml-auto */}
         {currentUser ? (
           <button
             onClick={handleSignOut}
-            className="bg-purple-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 border-b-4 border-indigo-900 hover:border-purple-800 rounded w-full sm:w-auto shadow-md transition duration-300"
+            className="bg-purple-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 border-b-4 border-indigo-900 hover:border-purple-800 rounded shadow-md transition duration-300 text-sm sm:text-base md:text-lg whitespace-nowrap"
           >
             Sign out
           </button>
         ) : (
           <Link
             to="/signin"
-            className="bg-purple-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 border-b-4 border-indigo-900 hover:border-purple-800 rounded w-full sm:w-auto shadow-md transition duration-300"
+            className="bg-purple-700 hover:bg-indigo-600 text-white font-semibold py-2 px-4 border-b-4 border-indigo-900 hover:border-purple-800 rounded shadow-md transition duration-300 text-sm sm:text-base md:text-lg whitespace-nowrap"
           >
             Sign in
           </Link>
@@ -41,4 +40,4 @@ function SignInButton() {
   );
 }
 
-export default SignInButton
+export default SignInButton;
