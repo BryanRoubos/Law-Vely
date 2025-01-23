@@ -28,7 +28,10 @@ function Pagination({
   const endIndex = startIndex + legislationsPerPage;
   const currentLegislations = legislations.slice(startIndex, endIndex);
 
-  const totalPages = Math.ceil(legislations.length / legislationsPerPage);
+  const totalPages =
+    legislations.length > 0
+      ? Math.ceil(legislations.length / legislationsPerPage)
+      : 1;
 
   const handleChangePage = (newPage: number) => {
     if (newPage >= 1 && newPage <= totalPages) {
