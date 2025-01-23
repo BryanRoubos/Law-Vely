@@ -36,10 +36,10 @@
   text-align: center;
 } */
 
-.thank-you-message {
+/* .thank-you-message {
   background-color: none;
-    max-width: 500px;
-  width: 80%;
+ max-width: 400px;
+  width: 60%;
   font-family: montserrat;
   
   text-align: center;
@@ -48,7 +48,26 @@
   left: 50%;
   transform: translate(-50%, -50%);
  
+} */
+
+.thank-you-message {
+  background-color: none;
+  max-width: 400px;
+  width: 60%;
+  font-family: montserrat;
+  font-size: small;
+  
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 
 @keyframes fadeIn {
