@@ -19,11 +19,11 @@ interface LegislationListProps {
 function LegislationList({ legislation }: LegislationListProps) {
   const location = useLocation();
 
-  // legislation.map((singleLegislation) => {
-  //   const legislationKeys = Object.keys(singleLegislation);
-  //   if (!legislationKeys.includes("categories")) {
-  //   }
-  // });
+  legislation.map((singleLegislation) => {
+    const legislationKeys = Object.keys(singleLegislation);
+    if (!legislationKeys.includes("categories")) {
+    }
+  });
 
   // return (
   //   <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-1 lg:grid-cols-3">
@@ -50,7 +50,6 @@ function LegislationList({ legislation }: LegislationListProps) {
       {legislation.map((leg) => {
         const legislationKeys = Object.keys(leg);
         const hasCategories = legislationKeys.includes("categories");
-
         return (
           <Link
             key={leg.id}

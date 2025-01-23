@@ -70,13 +70,13 @@ function LegislationCard({
     >
       <div className="text-center flex flex-col justify-between h-full">
         <h3
-          className="mb-2 text-lg font-bold text-blue-800 dark:text-blue-800 font-inter 
+          className="mb-2 text-lg font-bold text-blue-800 dark:text-blue-800 font-inter
         tracking-wide"
         >
           {title}
         </h3>
         <div
-          className="mb-2 text-sm text-black dark:text-black font-medium 
+          className="mb-2 text-sm text-black dark:text-black font-medium
     tracking-wide"
         >
           {categories && categories.length > 0 ? (
@@ -102,8 +102,17 @@ function LegislationCard({
             <p className="italic text-gray-500">No categories available</p>
           )}
         </div>
-        <div className="text-xs text-gray-600 dark:text-gray-600">
+
+        <p
+          className="text-sm mb-1 italic text-black dark:text-black font-medium
+        tracking-wide"
+        >
           {legislationDate}
+        </p>
+        <div className="flex justify-center mt-2">
+          <button className="px-4 py-2 text-base text-white bg-[#b960df] hover:bg-gradient-to-r hover:from-[#7F00FF] hover:to-[#d900e6] focus:ring-4 focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+            Find out more
+          </button>
         </div>
       </div>
     </div>
