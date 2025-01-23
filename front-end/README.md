@@ -1,50 +1,99 @@
-# React + TypeScript + Vite
+# 💼 Law-vely Front End
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Law-vely** is an app designed to make government legislation easier to read and more accessible to everyone. It simplifies complex legal texts into easy-to-understand summaries. Whether you're a guest or a registered user, **Law-vely** provides a user-friendly way to navigate legislation effortlessly.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+### 👤 Guest Access
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- 🕵️‍♀️ **Browse legislation summaries** without needing to sign up.
+- 🔍 **Filter by categories** using the intuitive navbar.
+- 📝 **Search** for specific legislations with a built-in search bar.
+- 🚨 **Report issues** directly to the development team using the report form on individual legislation cards.
+- 🔗 Links to the official [Government Legislation Website](https://www.legislation.gov.uk) for more detailed information.
 
-- Configure the top-level `parserOptions` property like this:
+### 🔒 Registered User Features
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- 📌 **Track legislation** to stay updated on changes.
+- 🎯 **Customize preferences** by selecting favorite legislation categories (e.g., Health, Environment).
+- 🗒️ **Add personal notes** to individual pieces of legislation for quick reference.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🌐 **Link to Hosted Version of Law-vely**
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+🚀 **[Check out the Front-End Hosted Version Here!](PUT_FRONT_END_HOSTED_LINK_HERE)**  
+🛠️ **[Check out the Back-End Hosted Version Here!](https://law-vely.onrender.com/api/legislationsummaries)**
+
+---
+
+## 🛠️ Tech Stack
+
+- **Front-end**: React, TypeScript, Tailwind CSS.
+- **Back-end**: Firebase Realtime Database, Express.js, Nodemon, Node.js. See our [Back-End README.md](../README.md) for more details.
+- **Hosting**: Netlify, Render.
+
+---
+
+## 🏃‍♀️ Getting Started
+
+### 🖥️ Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/ilyasbaggelaar/Law-Vely.git
+
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd front-end
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+### 🌐 Usage
+
+1. Open your browser and navigate to the local development server address. By default, this is usually:
+
+   ```
+   http://localhost:3000
+   ```
+
+2. If port 3000 is occupied, the terminal will indicate a different port (e.g., `http://localhost:3001`).
+
+3. Explore the app as a guest or create an account to unlock additional features.
+
+### ⚠️ Disclaimer
+
+The summaries and information provided about each legislation is provided for informational purposes only and is not intended to serve as legal advice. Please refer to official legislative sources for full
+details.
+
+---
+
+### 🙌 Acknowledgements
+
+- **Government Legislation API**: For providing the data.
+- **React**: For enabling seamless front-end development.
+- **Tailwind**: For efficient and effective styling.
+
+---
+
+### 🚀 Future Plans
+
+- 📚 Add more legislations to the app.
+- 💡 Create additional features for signed-in users.
+- 🌙 Provide a dark mode for better accessibility.
