@@ -22,7 +22,34 @@
   position: relative;
   font-family: montserrat;
   animation: slideUp 0.4s ease-out;
+  text-align: center;
 }
+
+/* .thank-you-message {
+  background-color: white;
+   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  width: 90%;
+
+  font-family: montserrat;
+  animation: slideUp 0.4s ease-out;
+  text-align: center;
+} */
+
+.thank-you-message {
+  background-color: none;
+    max-width: 500px;
+  width: 80%;
+  font-family: montserrat;
+  
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+}
+
 
 @keyframes fadeIn {
   from {
@@ -56,26 +83,11 @@
   border: none;
   font-size: 1.6rem;
   font-weight: bold;
-  color: white;
+  color: black;
   position: absolute;
   top: 15px;
   right: 25px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
- 
-  border-radius: 50%;
-  background: linear-gradient(to right, #6b46c1, #4c51bf); 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.close-button:hover {
-  background: linear-gradient(to left, #6b46c1, #4c51bf); 
-}
-
-.close-button:focus {
-  outline: none;
-  ring: 4px solid rgba(156, 163, 175, 0.3);
-  ring-color: rgba(156, 163, 175, 0.4);
 }
 
 .input,
@@ -101,6 +113,6 @@
   resize: vertical;
 }
 
- #report-popup-button {
+#report-popup-button {
   margin-top: 15px;
- }
+}

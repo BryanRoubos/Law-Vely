@@ -14,7 +14,11 @@ function ReportPopup(): JSX.Element {
 
   const togglePopup = () => {
     setPopupVisible(!popupVisible);
-    setThankYouVisible(false); 
+    setThankYouVisible(false); // Reset thank-you visibility when reopening popup
+
+    if (!popupVisible) {
+      setFormData({issue: "", name: ""})
+    }
   };
 
   const handleChange = (
@@ -27,7 +31,6 @@ function ReportPopup(): JSX.Element {
     e.preventDefault();
     setReportSubmitPending(true);
 
-
     const serviceID = "service_trtsr6r";
     const templateID = "template_36c2tsk";
     const publicKey = "Zbgg247UHBfHgQ1tk";
@@ -37,14 +40,16 @@ function ReportPopup(): JSX.Element {
       .then(() => {
         console.log("Email sent successfully!");
         setReportSubmitPending(false);
-        setThankYouVisible(true); 
-        setPopupVisible(false);
+        setThankYouVisible(true); // Show thank-you message
       })
       .catch((error: string | null) => {
         console.error("Failed to send email:", error);
         setReportSubmitPending(false);
       });
+
+      setFormData({issue: "", name: ""})
   };
+
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
       <Button
@@ -56,12 +61,6 @@ function ReportPopup(): JSX.Element {
       >
         <FontAwesomeIcon icon={faFlag} className="mr-2" /> Report
       </Button>
-  
-      {thankYouVisible && (
-        <div className="thank-you-message">
-          <p>Thank you! Your report has been submitted successfully.</p>
-        </div>
-      )}
 
       {popupVisible && (
         <div id="RP-1" className="popup">
@@ -69,34 +68,43 @@ function ReportPopup(): JSX.Element {
             <button className="close-button" onClick={togglePopup}>
               ✖
             </button>
-            <h2 className="popup-title">Report an Issue</h2>
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="issue">Describe the Issue:</label>
-                <textarea
-                  id="issue"
-                  name="issue"
-                  rows={4}
-                  value={formData.issue}
-                  onChange={handleChange}
-                  required
-                  className="textarea"
-                ></textarea>
+            {thankYouVisible ? (
+              <div className="thank-you-message">
+                <p>Thank you! Your report has been submitted successfully.</p>
               </div>
-              <Button
-                id="report-popup-button"
-                variant="contained"
-                type="submit"
-                disabled={reportSubmitPending}
-                className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300"
-              >
-                {reportSubmitPending ? "Submitting..." : "Submit"}
-              </Button>
-            </form>
+            ) : (
+              <>
+                <h2 className="popup-title">Report an Issue</h2>
+                <form onSubmit={handleSubmit}>
+                  <div>
+                    <label htmlFor="issue">Describe the Issue:</label>
+                    <textarea
+                      id="issue"
+                      name="issue"
+                      rows={4}
+                      value={formData.issue}
+                      onChange={handleChange}
+                      required
+                      className="textarea"
+                    ></textarea>
+                  </div>
+                  <Button
+                    id="report-popup-button"
+                    variant="contained"
+                    type="submit"
+                    disabled={reportSubmitPending}
+                    className="text-white bg-gradient-to-r from-purple-500 to-indigo-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all duration-300"
+                  >
+                    {reportSubmitPending ? "Submitting..." : "Submit"}
+                  </Button>
+                </form>
+              </>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 }
-  export default ReportPopup
+
+export default ReportPopup;
