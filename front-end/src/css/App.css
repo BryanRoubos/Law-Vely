@@ -34,3 +34,24 @@
   justify-content: center;
   margin-bottom: 1rem;
 }
+.thank-you-message {
+  position: absolute;
+  top: 100%; 
+  right: 40%;
+  transform: translateX(-50%); 
+  margin-top: 5px;
+  color: green;
+  font-size: 1rem;
+  text-align: center;
+  white-space: nowrap; 
+}
+
+@media (max-width: 600px) {
+  .thank-you-message {
+   top: -140%;
+    right: 65%; 
+    font-size: 0.9rem; 
+    white-space: normal;
+    word-wrap: break-word; 
+  }
+}
