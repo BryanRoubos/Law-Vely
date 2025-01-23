@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, reload } from "firebase/auth";
 import SavedLegislations from "./SavedLegislations";
 import { useNavigate } from "react-router-dom";
 import Spinner from "./Spinner";
@@ -7,6 +7,7 @@ import Spinner from "./Spinner";
 interface User {
   name: string;
   title: string;
+  photoURL: string | null;
 }
 
 const ProfilePage = () => {
@@ -15,24 +16,41 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const currentUser = auth.currentUser;
+    const fetchUser = async () => {
+      const currentUser = auth.currentUser;
 
-    if (!currentUser) {
-      navigate("/signin");
-    } else {
-      setUser({
-        name: currentUser.displayName || "User",
-        title: "Legislation Enthusiast",
-      });
-    }
+      if (!currentUser) {
+        navigate("/signin");
+        return;
+      }
+
+      try {
+        await reload(currentUser);
+
+        setUser({
+          name: currentUser.displayName || "User", 
+          title: "Legislation Enthusiast",
+          photoURL: currentUser.photoURL,
+        });
+      } catch (error) {
+        console.error("Error reloading user data:", error);
+      }
+    };
+
+    fetchUser();
   }, [auth, navigate]);
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/signin");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
   if (!user) {
-    return (
-      <>
-        <Spinner />
-      </>
-    );
+    return <Spinner />;
   }
 
   return (
@@ -41,6 +59,13 @@ const ProfilePage = () => {
         <h1 id="PP-3" className="lg:text-2xl text-xl font-bold text-gray-800">
           Hello, {user.name}
         </h1>
+        {user.photoURL && (
+          <img
+            src={user.photoURL}
+            alt="User Profile"
+            className="w-16 h-16 rounded-full my-2"
+          />
+        )}
         <p id="PP-4" className="text-gray-600">
           {user.title}
         </p>
@@ -55,6 +80,8 @@ const ProfilePage = () => {
         </h2>
         <SavedLegislations uid={auth.currentUser?.uid} />
       </div>
+
+    
     </div>
   );
 };

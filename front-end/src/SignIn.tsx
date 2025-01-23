@@ -15,6 +15,7 @@ import "./css/LoginPage.css";
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
   const navigate = useNavigate();
 
   const handleEmailSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,6 +35,13 @@ const SignIn: React.FC = () => {
       navigate("/user-preferences");
     } catch (error) {
       console.error("Error signing in with email and password:", error);
+      if (error.code === "auth/wrong-password") {
+        setErrorMessage("Incorrect password. Please try again.");
+      } else if (error.code === "auth/user-not-found") {
+        setErrorMessage("No user found with this email address.");
+      } else {
+        setErrorMessage("There was an error signing in. Please try again.");
+      }
     }
   };
 
@@ -58,10 +66,6 @@ const SignIn: React.FC = () => {
           body: JSON.stringify({ idToken }),
         }
       );
-
-      //Make an API URL for when front end is hosted
-      //localhost should NOT be an finalized endpoint when it's hosted.
-      //For testing purposes this work.
 
       if (response.ok) {
         console.log("User authenticated successfully");
@@ -123,6 +127,9 @@ const SignIn: React.FC = () => {
                 <input type="checkbox" /> Remember
               </label>
             </div>
+            {errorMessage && (
+              <p className="error-message">{errorMessage}</p> 
+            )}
             <p>OR</p>
             <button onClick={handleGoogleSignIn}>Sign in with Google</button>
           </form>
