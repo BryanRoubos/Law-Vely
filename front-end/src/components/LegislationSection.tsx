@@ -22,7 +22,9 @@ interface LegislationResponse {
 }
 
 function LegislationSection() {
-  const [legislationData, setLegislationData] = useState<LegislationResponse>({});
+  const [legislationData, setLegislationData] = useState<LegislationResponse>(
+    {}
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
   const [searchParams] = useSearchParams();
@@ -79,7 +81,10 @@ function LegislationSection() {
 
   return (
     <div id="LS-1" className="flex-1 p-6 space-y-6">
-      <h1 id="LS-2" className="text-center font-bold lg:text-3xl text-2xl pt-6 text-black text-shadow-thin">
+      <h1
+        id="LS-2"
+        className="text-center font-bold lg:text-3xl text-2xl pt-6 text-black text-shadow-thin"
+      >
         Legislations for{" "}
         {categoryQueries.length > 0
           ? categoryQueries.join(", ")
