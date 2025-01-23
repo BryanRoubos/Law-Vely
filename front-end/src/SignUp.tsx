@@ -4,12 +4,13 @@ import { ref, set } from "firebase/database";
 import "./css/LoginPage.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const SignUp: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [signUpSuccessMessage, setSignUpSuccessMessage] = useState("");
   const [displayName, setDisplayName] = useState("");
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ const SignUp: React.FC = () => {
         password
       );
       const user = userCredential.user;
+      await updateProfile(user, { displayName });
 
       const userRef = ref(db, `users/${user.uid}`);
       await set(userRef, {
@@ -32,9 +34,14 @@ const SignUp: React.FC = () => {
         photoURL: "",
       });
 
+      setSignUpSuccessMessage("Account created successfully! You can now sign in.");
       console.log("User signed up successfully and saved in DB");
+
+      navigate("/signin");
+
     } catch (error) {
       console.error("Error signing up:", error);
+      setSignUpSuccessMessage("There was an error creating your account. Please try again.");
     }
   };
 
@@ -80,6 +87,9 @@ const SignUp: React.FC = () => {
             />
             <button type="submit">Sign Up</button>
           </form>
+          {signUpSuccessMessage && (
+            <p className="success-message">{signUpSuccessMessage}</p>
+          )}
           <p>
             Already have an account? <a href="/signin">Sign In</a>
           </p>
@@ -90,3 +100,5 @@ const SignUp: React.FC = () => {
 };
 
 export default SignUp;
+
+
