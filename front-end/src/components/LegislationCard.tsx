@@ -19,7 +19,7 @@ function LegislationCard({
     >
       <div className="text-center flex flex-col justify-between h-full">
         <h3
-          className="mb-2 text-lg md:text-lg font-bold text-blue-800 dark:text-blue-800 font-inter 
+          className="mb-2 text-lg font-bold text-blue-800 dark:text-blue-800 font-inter 
         tracking-wide"
         >
           {title}
