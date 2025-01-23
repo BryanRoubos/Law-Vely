@@ -15,6 +15,7 @@ const categories: string[] = [
   "Consumer",
   "Governance",
   "Technology",
+  "Animal Welfare",
 ];
 
 interface CategoriesListProps {

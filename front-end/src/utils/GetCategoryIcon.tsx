@@ -12,6 +12,7 @@ import {
   faShoppingCart,
   faLandmark,
   faMobileAlt,
+  faPaw,
 } from "@fortawesome/free-solid-svg-icons";
 
 const getCategoryIcon = (category: string) => {
@@ -44,6 +45,8 @@ const getCategoryIcon = (category: string) => {
       return <FontAwesomeIcon icon={faLandmark} className="text-purple-400" />;
     case "Technology":
       return <FontAwesomeIcon icon={faMobileAlt} className="text-green-400" />;
+    case "Animal Welfare":
+      return <FontAwesomeIcon icon={faPaw} className="text-yellow-100" />;
     default:
       return null;
   }
