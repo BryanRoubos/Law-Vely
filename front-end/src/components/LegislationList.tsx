@@ -17,7 +17,7 @@ interface LegislationListProps {
 }
 
 function LegislationList({ legislation }: LegislationListProps) {
-  const location = useLocation(); 
+  const location = useLocation();
 
   return (
     <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-2 lg:grid-cols-3">
@@ -25,8 +25,8 @@ function LegislationList({ legislation }: LegislationListProps) {
         <Link
           key={leg.id}
           to={{
-            pathname: `/legislations/${leg.id}`, 
-            search: location.search, 
+            pathname: `/legislations/${leg.id}`,
+            search: location.search,
           }}
           className="transition-transform duration-200 hover:scale-105"
         >
