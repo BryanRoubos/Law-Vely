@@ -19,7 +19,6 @@ interface LegislationNotesProps {
 function LegislationNotes({ legislationId, userUID }: LegislationNotesProps) {
   const [notes, setNotes] = useState<Note[]>([]);
   const [newNote, setNewNote] = useState("");
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
