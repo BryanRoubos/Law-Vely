@@ -24,27 +24,6 @@ function LegislationList({ legislation }: LegislationListProps) {
     if (!legislationKeys.includes("categories")) {
     }
   });
-
-  // return (
-  //   <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-1 lg:grid-cols-3">
-  //     {legislation.map((leg) => (
-  //       <Link
-  //         key={leg.id}
-  //         to={{
-  //           pathname: `/legislations/${leg.id}`,
-  //           search: location.search,
-  //         }}
-  //         className="transition-transform duration-200 hover:scale-105"
-  //       >
-  //         <LegislationCard
-  //           title={leg.title}
-  //           legislationDate={leg.legislationDate}
-  //           categories={leg.categories}
-  //         />
-  //       </Link>
-  //     ))}
-  //   </div>
-  // );
   return (
     <div className="grid grid-cols-1 gap-10 p-4 md:grid-cols-1 lg:grid-cols-3">
       {legislation.map((leg) => {
