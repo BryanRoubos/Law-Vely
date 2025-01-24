@@ -24,7 +24,7 @@
 
 ## 🌐 **Link to Hosted Version of Law-vely**
 
-🚀 **[Check out the Front-End Hosted Version Here!](PUT_FRONT_END_HOSTED_LINK_HERE)**  
+🚀 **[Check out the Front-End Hosted Version Here!](https://law-vely.netlify.app/)**  
 🛠️ **[Check out the Back-End Hosted Version Here!](https://law-vely.onrender.com/api/legislationsummaries)**
 
 ---
