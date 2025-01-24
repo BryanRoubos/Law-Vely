@@ -12,11 +12,13 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./css/LoginPage.css";
 
+
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(""); 
   const navigate = useNavigate();
+  
 
   const handleEmailSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,7 +35,7 @@ const SignIn: React.FC = () => {
       localStorage.setItem("userUID", user.uid);
 
       navigate("/user-preferences");
-    } catch (error) {
+    } catch (error : any) {
       console.error("Error signing in with email and password:", error);
       if (error.code === "auth/wrong-password") {
         setErrorMessage("Incorrect password. Please try again.");

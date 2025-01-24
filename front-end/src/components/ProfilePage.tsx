@@ -39,14 +39,6 @@ const ProfilePage = () => {
     fetchUser();
   }, [auth, navigate]);
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate("/signin");
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
-  };
 
   if (!user) {
     return <Spinner />;

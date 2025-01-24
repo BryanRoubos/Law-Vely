@@ -88,7 +88,7 @@ const Header: React.FC = () => {
           </Link>
         )}
   
-        <SignInButton isSignedIn={isSignedIn} />
+        <SignInButton />
       </div>
     </header>
   );

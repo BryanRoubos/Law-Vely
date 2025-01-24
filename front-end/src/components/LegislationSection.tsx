@@ -73,8 +73,8 @@ function LegislationSection() {
   }
 
   const legislationArray = Object.entries(legislationData).map(
-    ([id, legislation]) => ({
-      id,
+    ([legislationId, legislation]) => ({
+      legislationId,
       ...legislation,
     })
   );
