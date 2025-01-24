@@ -9,6 +9,7 @@ interface Legislation {
   title: string;
   categories: string[];
   url: string;
+  legislationDate: string;
 }
 
 interface PaginationProps {
