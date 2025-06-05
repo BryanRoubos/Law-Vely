@@ -11,7 +11,7 @@
 - Allows users to track and save legislations.
 - Users can add notes and filter legislation summaries.
 - Firebase database integration to store user preferences and legislation data.
-- Users can report issues via a contact for
+- Users can report issues via a contact form.
 
 ## Installation
 
